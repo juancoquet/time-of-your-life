@@ -13,7 +13,7 @@ class LandingPageTest(FunctionalTest):
         self.assertEqual(self.browser.title, 'Time of Your Life')
 
         # They are greeted by a brief explanation of what the web app does.
-        description = self.browser.find_element_by_id('site-description')
+        description = self.browser.find_element_by_id('site-description').text
         self.assertIn("bird's eye view of your life", description)
 
         # After reading the explanation, they see a prompt to create a new account to get started.
