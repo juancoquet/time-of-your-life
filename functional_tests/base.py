@@ -41,4 +41,4 @@ class FunctionalTest(StaticLiveServerTestCase):
             f.write(self.browser.page_source)
 
     def get_error_element(self):
-        return self.browser.find_element_by_css_selector('.has-error')
+        return self.browser.find_element_by_css_selector('.errorlist')
