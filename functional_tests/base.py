@@ -39,3 +39,6 @@ class FunctionalTest(StaticLiveServerTestCase):
         filename = f'{filepath}/source-{timestamp}.html'
         with open(filename, 'w') as f:
             f.write(self.browser.page_source)
+
+    def get_error_element(self):
+        return self.browser.find_element_by_css_selector('.has-error')

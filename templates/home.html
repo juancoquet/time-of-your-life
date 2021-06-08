@@ -12,7 +12,11 @@
             a Life Calendar — a grid of 4,680 boxes that each represent a week of your life, forming 90 rows that each
             represent a year. Weeks that you have already lived will be greyed out.
         </p>
-        <button id="new-acc-btn" type="button">Create account</button>
+        <form method="POST" action="/">
+            {% csrf_token %}
+            {{ dob_form.as_p }}
+            <button name="create_button" type="submit">Create</button>
+        </form>
     </div>
 </body>
 </html>
