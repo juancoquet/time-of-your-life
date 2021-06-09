@@ -30,3 +30,11 @@ class NewVisitorTest(FunctionalTest):
         date_input.send_keys('2999-12-31')
         create_button.click()
         self.assertEqual(self.get_error_element().text, FUTURE_DOB_ERROR)
+
+        # They enter a valid DOB, and are shown a grid of boxes representing their life calendar.
+        ## Getting elements again as page refreshed and old elements are now stale
+        date_input = self.browser.find_element_by_id('id_dob')
+        create_button = self.browser.find_element_by_name('create_button')
+        date_input.send_keys('1995-12-01')
+        create_button.click()
+        self.assertEqual(self.browser.find_element_by_tag_name('h2').text, 'Your Life Calendar')

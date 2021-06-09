@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Time of Your Life</title>
-</head>
-<body>
-    <h1>Time of Your Life</h1>
+{% extends 'base.html' %}
+
+{% block content %}
     <div id="site-description">
         <p>
             Time of Your Life helps you to see a bird's eye view of your life. Type your date of birth below to generate
@@ -14,9 +9,10 @@
         </p>
         <form method="POST" action="/">
             {% csrf_token %}
-            {{ dob_form.as_p }}
+            <label for="{{ dob_form.dob.id_for_label }}">Date of Birth:</label><br>
+            {{ dob_form.dob }}
             <button name="create_button" type="submit">Create</button>
+            {{ dob_form.dob.errors }}
         </form>
     </div>
-</body>
-</html>
+{% endblock content %}

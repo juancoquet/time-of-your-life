@@ -4,6 +4,7 @@ from datetime import datetime
 
 FUTURE_DOB_ERROR = "Date of birth cannot be in the future"
 
+
 class DateInput(forms.DateInput):
     input_type = 'date'
 
