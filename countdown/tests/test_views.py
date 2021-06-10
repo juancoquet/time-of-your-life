@@ -35,3 +35,11 @@ class GridViewTest(TestCase):
     def test_future_dob_url_redirects_home(self):
         response = self.client.get('/grid/2999-12-31')
         self.assertRedirects(response, '/')
+
+    def test_context_contains_90_element_list(self):
+        response = self.client.get('/grid/1995-12-01')
+        self.assertEqual(len(response.context['year_list']), 90)
+
+    def test_grid_contains_90_year_list_divs(self):
+        response = self.client.get('/grid/1995-12-01')
+        self.assertEqual(response.content.decode().count('<div class="year-row"></div>'), 90)

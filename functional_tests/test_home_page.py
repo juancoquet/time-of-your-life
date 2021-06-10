@@ -38,3 +38,4 @@ class NewVisitorTest(FunctionalTest):
         date_input.send_keys('1995-12-01')
         create_button.click()
         self.assertEqual(self.browser.find_element_by_tag_name('h2').text, 'Your Life Calendar')
+        self.assertEqual(len(self.browser.find_elements_by_css_selector('.year-row')), 90)

@@ -15,4 +15,4 @@ def home(request):
 def grid(request, dob):
     if not DOBForm(data={'dob': dob}).is_valid():
         return redirect('/')
-    return render(request, 'grid.html', {})
+    return render(request, 'grid.html', {'year_list': range(90)})

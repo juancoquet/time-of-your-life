@@ -2,4 +2,7 @@
 
 {% block content %}
     <h2>Your Life Calendar</h2>
+    {% for _ in year_list %}
+        <div class="year-row"></div>
+    {% endfor %}
 {% endblock %}
