@@ -40,6 +40,6 @@ class GridViewTest(TestCase):
         response = self.client.get('/grid/1995-12-01')
         self.assertEqual(len(response.context['year_list']), 90)
 
-    def test_grid_contains_90_year_list_divs(self):
+    def test_grid_contains_90_year_row_divs(self):
         response = self.client.get('/grid/1995-12-01')
-        self.assertEqual(response.content.decode().count('<div class="year-row"></div>'), 90)
+        self.assertEqual(response.content.decode().count('class="year-row"'), 90)

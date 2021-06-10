@@ -39,3 +39,12 @@ class NewVisitorTest(FunctionalTest):
         create_button.click()
         self.assertEqual(self.browser.find_element_by_tag_name('h2').text, 'Your Life Calendar')
         self.assertEqual(len(self.browser.find_elements_by_css_selector('.year-row')), 90)
+
+        # Upon closer inspection, they see that some boxes in the grid represent weeks that have already passed,
+        # some represent future weeks and one box represents the present week.
+        past_weeks = self.browser.find_elements_by_css_selector('.past')
+        future_weeks = self.browser.find_elements_by_css_selector('.future')
+        present_week = self.browser.find_elements_by_css_selector('.present')
+        self.assertGreater(len(past_weeks), 1)
+        self.assertGreater(len(future_weeks), 1)
+        self.assertEqual(len(present_week), 1)
