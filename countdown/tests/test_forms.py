@@ -53,6 +53,10 @@ class DOBFormTest(TestCase):
         self.assertEqual(dob.get_current_week_no(), 28)
         dob = DOBForm(data={'dob': '2004-02-29'})
         self.assertEqual(dob.get_current_week_no(), 15)
+        dob = DOBForm(data={'dob': '2000-6-09'})
+        self.assertEqual(dob.get_current_week_no(), 1)
+        dob = DOBForm(data={'dob': '2000-6-10'})
+        self.assertEqual(dob.get_current_week_no(), 52)
 
     def test_get_current_week_no_if_today_is_leap_day(self):
 
@@ -67,6 +71,10 @@ class DOBFormTest(TestCase):
         self.assertEqual(dob.get_current_week_no(), 13)
         dob = DOBForm(data={'dob': '1996-12-01'})
         self.assertEqual(dob.get_current_week_no(), 13)
+        dob = DOBForm(data={'dob': '2004-02-29'})
+        self.assertEqual(dob.get_current_week_no(), 1)
+        dob = DOBForm(data={'dob': '2000-03-1'})
+        self.assertEqual(dob.get_current_week_no(), 52)
 
 
 class HelperTest(TestCase):

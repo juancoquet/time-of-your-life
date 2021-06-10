@@ -21,6 +21,14 @@ def is_leap_year(year):
         return False
 
 
+def get_todays_date_on_birth_year(dob):
+    today = date.today()
+    try:
+        todays_date_on_birth_year = date(dob.year, today.month, today.day)
+    except ValueError:  # Today is leap day
+        todays_date_on_birth_year = date(dob.year, 3, 1)  # Turn into 1st March
+    return todays_date_on_birth_year
+
 
 #############
 ### Forms ###
@@ -44,35 +52,38 @@ class DOBForm(forms.Form):
 
     def get_current_year_of_life(self):
         self.full_clean()
-        today = date.today()
         dob_given = self.cleaned_data['dob']
         dob_given = date(dob_given.year, dob_given.month, dob_given.day)
-        try:
-            todays_date_on_birth_year = date(dob_given.year, today.month, today.day)
-        except ValueError:  # Today is leap day
-            todays_date_on_birth_year = date(dob_given.year, 3, 1)      # Turn into 1st March
+
+        todays_date_on_birth_year = get_todays_date_on_birth_year(dob_given)
+
+        today = date.today()
         if dob_given > todays_date_on_birth_year:
             current_year = today.year - dob_given.year
         else:
             current_year = (today.year - dob_given.year) + 1
+
         return current_year
 
     def get_current_week_no(self):
         self.full_clean()
-        today = date.today()
         dob_given = self.cleaned_data['dob']
         dob_given = date(dob_given.year, dob_given.month, dob_given.day)
 
-        try:
-            todays_date_on_birth_year = date(dob_given.year, today.month, today.day)
-        except ValueError:  # Today is leap day
-            todays_date_on_birth_year = date(dob_given.year, 3, 1)  # Turn into 1st March
+        todays_date_on_birth_year = get_todays_date_on_birth_year(dob_given)
 
         if dob_given > todays_date_on_birth_year:
+            today = date.today()
             try:
                 todays_date_on_birth_year = date(dob_given.year+1, today.month, today.day)
             except ValueError:  # Today is leap day
                 todays_date_on_birth_year = date(dob_given.year+1, 3, 1)  # Turn into 1st March
+
         days_since_bday = (todays_date_on_birth_year - dob_given).days
-        return math.ceil(days_since_bday / 7)
+        week_no = math.ceil(days_since_bday / 7)
+        if week_no == 53:
+            week_no = 52
+        if week_no == 0:
+            week_no = 1
+        return week_no
 
