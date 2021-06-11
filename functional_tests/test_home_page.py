@@ -1,6 +1,6 @@
 from .base import FunctionalTest
 
-from countdown.forms import FUTURE_DOB_ERROR
+from countdown.forms import FUTURE_DOB_ERROR, PAST_DOB_ERROR
 
 
 class NewVisitorTest(FunctionalTest):
@@ -31,6 +31,14 @@ class NewVisitorTest(FunctionalTest):
         create_button.click()
         self.assertEqual(self.get_error_element().text, FUTURE_DOB_ERROR)
 
+        # They enter a date more than 90 years ago and see an error telling them that the date of birth must be within
+        # the past 90 years
+        date_input = self.browser.find_element_by_id('id_dob')
+        create_button = self.browser.find_element_by_name('create_button')
+        date_input.send_keys('1901-12-31')
+        create_button.click()
+        self.assertEqual(self.get_error_element().text, PAST_DOB_ERROR)
+
         # They enter a valid DOB, and are shown a grid of boxes representing their life calendar.
         ## Getting elements again as page refreshed and old elements are now stale
         date_input = self.browser.find_element_by_id('id_dob')
@@ -42,12 +50,14 @@ class NewVisitorTest(FunctionalTest):
 
         # Upon closer inspection, they see that some boxes in the grid represent weeks that have already passed,
         # some represent future weeks and one box represents the present week.
-        past_weeks = self.browser.find_elements_by_css_selector('.past')
-        future_weeks = self.browser.find_elements_by_css_selector('.future')
-        present_week = self.browser.find_elements_by_css_selector('.present')
+        past_weeks = self.browser.find_elements_by_css_selector('.week.past')
+        future_weeks = self.browser.find_elements_by_css_selector('.week.future')
+        present_week = self.browser.find_elements_by_css_selector('.week.present')
         self.assertGreater(len(past_weeks), 1)
         self.assertGreater(len(future_weeks), 1)
         self.assertEqual(len(present_week), 1)
+
+
 
         # TODO: Test clicking header returns home
         # TODO: Test form on grid page to try another dob

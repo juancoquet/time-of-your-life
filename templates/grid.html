@@ -2,14 +2,33 @@
 
 {% block content %}
     <h2>Your Life Calendar</h2>
-    {% for num in years_passed %}
-        <div class="year-row past" id="year-{{ num }}"></div>
-    {% endfor %}
 
-    <div class="year-row present" id="year-{{ current_year }}"></div>
+    <table>
+        {% for yr_num in years_passed %}
+            <tr class="year-row past" id="year-{{ yr_num }}">
+                {% for week_no in full_year_weeks %}
+                    <td class="week past" id="{{ yr_num }}-{{ week_no }}">{{ week_no }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
 
-    {% for num in future_years %}
-        <div class="year-row future" id="year-{{ num }}"></div>
-    {% endfor %}
+        <tr class="year-row present" id="year-{{ current_year }}">
+            {% for week_no in weeks_passed_this_yr %}
+                <td class="week past" id="{{ current_year }}-{{ week_no }}">{{ week_no }}</td>
+            {% endfor %}
+            <td class="week present" id="{{ current_week }}">{{ current_week }}</td>
+            {% for week_no in weeks_left_this_yr %}
+                <td class="week future" id="{{ current_year }}-{{ week_no }}">{{ week_no }}</td>
+            {% endfor %}
+        </tr>
+
+        {% for yr_num in future_years %}
+            <tr class="year-row future" id="year-{{ yr_num }}">
+                {% for week_no in full_year_weeks %}
+                    <td class="week future" id="{{ yr_num }}-{{ week_no }}">{{ week_no }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
 
 {% endblock %}

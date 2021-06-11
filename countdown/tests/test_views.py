@@ -38,7 +38,9 @@ class GridViewTest(TestCase):
         response = self.client.get('/grid/2999-12-31')
         self.assertRedirects(response, '/')
 
-    # TODO: Test date greater than 90yrs ago redirects home
+    def test_dob_more_than_90_years_ago_redirects_home(self):
+        response = self.client.get('/grid/1901-01-01')
+        self.assertRedirects(response, '/')
 
     @patch('countdown.views.DOBForm.get_current_year_of_life')
     def test_context_contains_years_passed_list(self, mock_get_current_year):
@@ -61,6 +63,21 @@ class GridViewTest(TestCase):
         self.assertTrue(mock_get_current_year.called)
         self.assertEqual(len(response.context['future_years']), 64)
 
+    @patch('countdown.views.DOBForm.get_current_week_no')
+    def test_context_contains_past_weeks_of_this_year_list(self, mock_get_current_week_no):
+        mock_get_current_week_no.return_value = 15
+        response = self.client.get('/grid/1995-12-01')
+        self.assertTrue(mock_get_current_week_no.called)
+        self.assertEqual(len(response.context['weeks_passed_this_yr']), 14)
+
+    @patch('countdown.views.DOBForm.get_current_week_no')
+    def test_context_contains_future_weeks_of_this_year_list(self, mock_get_current_week_no):
+        mock_get_current_week_no.return_value = 15
+        response = self.client.get('/grid/1995-12-01')
+        self.assertTrue(mock_get_current_week_no.called)
+        self.assertEqual(len(response.context['weeks_left_this_yr']), 37)
+
     def test_grid_contains_90_year_row_divs(self):
         response = self.client.get('/grid/1995-12-01')
         self.assertEqual(response.content.decode().count('class="year-row'), 90)
+

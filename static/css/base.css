@@ -1,9 +1,17 @@
 h1 {
-    color: red;
+    color: blue;
 }
 
 .week {
-    /*background-color: cadetblue;*/
+    background-color: darkgray;
     height: 15px;
     width: 15px;
+}
+
+.week.past {
+    opacity: 0.3;
+}
+
+.week.present {
+    background-color: forestgreen;
 }

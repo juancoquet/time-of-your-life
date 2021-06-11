@@ -5,6 +5,8 @@ import math
 
 FUTURE_DOB_ERROR = "Date of birth cannot be in the future"
 
+PAST_DOB_ERROR = "Date of birth cannot be more that 90 years ago"
+
 ###############
 ### Helpers ###
 ###############
@@ -30,6 +32,15 @@ def get_todays_date_on_birth_year(dob):
     return todays_date_on_birth_year
 
 
+def get_today_minus_90_years():
+    today = date.today()
+    try:
+        minus_90 = datetime(today.year-90, today.month, today.day)
+    except ValueError:
+        minus_90 = datetime(today.year-90, 3, 1)
+    return minus_90
+
+
 #############
 ### Forms ###
 #############
@@ -47,6 +58,8 @@ class DOBForm(forms.Form):
         dob_given = datetime(dob_given.year, dob_given.month, dob_given.day)
         if dob_given >= datetime.today():
             raise forms.ValidationError(FUTURE_DOB_ERROR)
+        if dob_given < get_today_minus_90_years():
+            raise forms.ValidationError(PAST_DOB_ERROR)
         else:
             return dob_given
 
@@ -87,4 +100,9 @@ class DOBForm(forms.Form):
             week_no = 1
         return week_no
 
-    # TODO: Test does not accept date before 90 years ago
+    @property
+    def weeks_passed(self):
+        full_years_passed = self.get_current_year_of_life() - 1
+        full_weeks_passed_this_year = self.get_current_week_no() - 1
+        total_weeks_passed = (full_years_passed*52) + full_weeks_passed_this_year
+        return range(1, total_weeks_passed + 1)
