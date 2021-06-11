@@ -2,7 +2,14 @@
 
 {% block content %}
     <h2>Your Life Calendar</h2>
-    {% for _ in year_list %}
-        <div class="year-row" id="year-{{ forloop.counter }}"></div>
+    {% for num in years_passed %}
+        <div class="year-row past" id="year-{{ num }}"></div>
     {% endfor %}
+
+    <div class="year-row present" id="year-{{ current_year }}"></div>
+
+    {% for num in future_years %}
+        <div class="year-row future" id="year-{{ num }}"></div>
+    {% endfor %}
+
 {% endblock %}

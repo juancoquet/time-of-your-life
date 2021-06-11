@@ -48,3 +48,6 @@ class NewVisitorTest(FunctionalTest):
         self.assertGreater(len(past_weeks), 1)
         self.assertGreater(len(future_weeks), 1)
         self.assertEqual(len(present_week), 1)
+
+        # TODO: Test clicking header returns home
+        # TODO: Test form on grid page to try another dob

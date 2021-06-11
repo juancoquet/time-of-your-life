@@ -1,4 +1,6 @@
 from django.test import TestCase
+from unittest.mock import patch
+from unittest import skip
 
 from countdown.forms import DOBForm, FUTURE_DOB_ERROR
 
@@ -36,10 +38,29 @@ class GridViewTest(TestCase):
         response = self.client.get('/grid/2999-12-31')
         self.assertRedirects(response, '/')
 
-    def test_context_contains_90_element_list(self):
+    # TODO: Test date greater than 90yrs ago redirects home
+
+    @patch('countdown.views.DOBForm.get_current_year_of_life')
+    def test_context_contains_years_passed_list(self, mock_get_current_year):
+        mock_get_current_year.return_value = 26
         response = self.client.get('/grid/1995-12-01')
-        self.assertEqual(len(response.context['year_list']), 90)
+        self.assertTrue(mock_get_current_year.called)
+        self.assertEqual(len(response.context['years_passed']), 25)
+
+    @patch('countdown.views.DOBForm.get_current_year_of_life')
+    def test_context_contains_current_year(self, mock_get_current_year):
+        mock_get_current_year.return_value = 26
+        response = self.client.get('/grid/1995-12-01')
+        self.assertTrue(mock_get_current_year.called)
+        self.assertEqual(response.context['current_year'], 26)
+
+    @patch('countdown.views.DOBForm.get_current_year_of_life')
+    def test_context_contains_future_years_list(self, mock_get_current_year):
+        mock_get_current_year.return_value = 26
+        response = self.client.get('/grid/1995-12-01')
+        self.assertTrue(mock_get_current_year.called)
+        self.assertEqual(len(response.context['future_years']), 64)
 
     def test_grid_contains_90_year_row_divs(self):
         response = self.client.get('/grid/1995-12-01')
-        self.assertEqual(response.content.decode().count('class="year-row"'), 90)
+        self.assertEqual(response.content.decode().count('class="year-row'), 90)

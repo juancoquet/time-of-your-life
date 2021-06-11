@@ -15,4 +15,10 @@ def home(request):
 def grid(request, dob):
     if not DOBForm(data={'dob': dob}).is_valid():
         return redirect('/')
-    return render(request, 'grid.html', {'year_list': range(90)})
+    dob_form = DOBForm(data={'dob': dob})
+    current_year = dob_form.get_current_year_of_life()
+    return render(request, 'grid.html', {
+        'years_passed': range(1, current_year),
+        'current_year': current_year,
+        'future_years': range(current_year + 1, 91),
+    })
