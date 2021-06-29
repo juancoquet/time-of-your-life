@@ -1,3 +1,4 @@
 .DS_Store
 .idea/
 error_capture
+my_secrets.py
