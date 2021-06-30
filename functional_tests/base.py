@@ -2,15 +2,18 @@ from datetime import datetime
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 import os
 from selenium import webdriver
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.firefox.options import Options
 
 
 class FunctionalTest(StaticLiveServerTestCase):
+    host = 'web'
 
     def setUp(self):
         options = Options()
         options.headless = True
-        self.browser = webdriver.Firefox(options=options)
+        self.browser = webdriver.Remote(
+            'http://selenium:4444/wd/hub', desired_capabilities=DesiredCapabilities.FIREFOX)
         self.browser.get(self.live_server_url)
 
     def tearDown(self):
@@ -19,7 +22,8 @@ class FunctionalTest(StaticLiveServerTestCase):
                 self.browser.switch_to.window(handle)
                 filepath = self._create_error_capture_filepath(i)
                 timestamp = datetime.now()
-                self.browser.save_screenshot(f'{filepath}/screenshot-{timestamp}.png')
+                self.browser.save_screenshot(
+                    f'{filepath}/screenshot-{timestamp}.png')
                 self.capture_html(filepath, timestamp)
         self.browser.quit()
 

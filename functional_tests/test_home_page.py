@@ -40,19 +40,27 @@ class NewVisitorTest(FunctionalTest):
         self.assertEqual(self.get_error_element().text, PAST_DOB_ERROR)
 
         # They enter a valid DOB, and are shown a grid of boxes representing their life calendar.
-        ## Getting elements again as page refreshed and old elements are now stale
+        # Getting elements again as page refreshed and old elements are now stale
         date_input = self.browser.find_element_by_id('id_dob')
         create_button = self.browser.find_element_by_name('create_button')
         date_input.send_keys('1995-12-01')
         create_button.click()
-        self.assertEqual(self.browser.find_element_by_tag_name('h2').text, 'Your Life Calendar')
-        self.assertEqual(len(self.browser.find_elements_by_css_selector('.year-row')), 90)
+        self.assertEqual(
+            self.browser.find_element_by_tag_name('h2').text,
+            'Your Life Calendar'
+        )
+        self.assertEqual(
+            len(self.browser.find_elements_by_css_selector('.year-row')),
+            90
+        )
 
         # Upon closer inspection, they see that some boxes in the grid represent weeks that have already passed,
         # some represent future weeks and one box represents the present week.
         past_weeks = self.browser.find_elements_by_css_selector('.week.past')
-        future_weeks = self.browser.find_elements_by_css_selector('.week.future')
-        present_week = self.browser.find_elements_by_css_selector('.week.present')
+        future_weeks = self.browser.find_elements_by_css_selector(
+            '.week.future')
+        present_week = self.browser.find_elements_by_css_selector(
+            '.week.present')
         self.assertGreater(len(past_weeks), 1)
         self.assertGreater(len(future_weeks), 1)
         self.assertEqual(len(present_week), 1)
