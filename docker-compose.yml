@@ -10,12 +10,17 @@ services:
             - 8000:8000
         depends_on:
             - db
+            - selenium
     db:
         image: postgres:13
         volumes:
             - postgres_data:/var/lib/postgresql/data/
         environment:
             - 'POSTGRES_HOST_AUTH_METHOD=trust'
+    selenium:
+        image: selenium/standalone-firefox
+        ports: 
+            - 4444:4444
 
 volumes:
     postgres_data:
