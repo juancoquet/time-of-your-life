@@ -65,6 +65,39 @@ class NewVisitorTest(FunctionalTest):
         self.assertGreater(len(future_weeks), 1)
         self.assertEqual(len(present_week), 1)
 
+    def test_grid_page_invites_user_to_add_life_event(self):
+        # A new user visits the site and enters a valid DOB
+        date_input = self.browser.find_element_by_id('id_dob')
+        create_button = self.browser.find_element_by_name('create_button')
+        date_input.send_keys('1995-12-01')
+        create_button.click()
+
+        # They see a section of the website inviting them to add a life event.
+        add_event = self.browser.find_element_by_name('add_event')
+        # They insert an event name and a date into the form provided.
+        event_title_input = self.browser.find_element_by_id('id_event_title')
+        event_date_input = self.browser.find_element_by_id('id_event_date')
+        submit_button = self.browser.find_element_by_name('add_event_btn')
+        event_title_input.send_keys('My event')
+        event_date_input.send_keys('2010-03-31')
+        submit_button.click()
+
+        # The page refreshes and they see that their event is represented in the calendar as a highlighted box.
+        past_weeks = self.browser.find_elements_by_css_selector('.week.past')
+        future_weeks = self.browser.find_elements_by_css_selector(
+            '.week.future')
+        present_week = self.browser.find_elements_by_css_selector(
+            '.week.present')
+        event_week = self.browser.find_elements_by_css_selector('.week.event')
+        self.assertGreater(len(past_weeks), 1)
+        self.assertGreater(len(future_weeks), 1)
+        self.assertEqual(len(present_week), 1)
+        self.assertEqual(len(event_week), 1)
+
+        # TODO: test cannot add event date outside life calendar
+        # TODO: test can add multiple events
+        # TODO: test tooltip appears on event hover
+
         # After viewing their life calendar for a while, they click the page title and it takes them home.
         header = self.browser.find_element_by_link_text('Time of Your Life')
         header.click()
