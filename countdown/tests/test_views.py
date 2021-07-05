@@ -9,7 +9,8 @@ class HomePageTest(TestCase):
 
     def test_extends_base_html(self):
         response = self.client.get('/')
-        self.assertIn('<title>Time of Your Life</title>', response.content.decode())
+        self.assertIn('<title>Time of Your Life</title>',
+                      response.content.decode())
 
     def test_uses_home_page_template(self):
         response = self.client.get('/')
@@ -32,7 +33,8 @@ class GridViewTest(TestCase):
 
     def test_extends_base_html(self):
         response = self.client.get('/grid/1995-12-01')
-        self.assertIn('<title>Time of Your Life</title>', response.content.decode())
+        self.assertIn('<title>Time of Your Life</title>',
+                      response.content.decode())
 
     def test_future_dob_url_redirects_home(self):
         response = self.client.get('/grid/2999-12-31')
@@ -79,5 +81,9 @@ class GridViewTest(TestCase):
 
     def test_grid_contains_90_year_row_divs(self):
         response = self.client.get('/grid/1995-12-01')
-        self.assertEqual(response.content.decode().count('class="year-row'), 90)
+        self.assertEqual(
+            response.content.decode().count('class="year-row'), 90)
 
+    def test_contains_add_event_section(self):
+        response = self.client.get('/grid/1995-12-01')
+        self.assertContains(response, 'Add a life event')
