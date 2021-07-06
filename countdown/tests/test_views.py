@@ -113,4 +113,14 @@ class GridViewTest(TestCase):
         )
         self.assertTemplateUsed(response, 'grid.html')
 
+    def test_context_contains_event_year(self):
+        response = self.client.get('/grid/1995-12-01/test%20event=2005-05-31')
+        self.assertEqual(response.context['event_year'], 10)
+
+    def test_context_contains_event_week_number(self):
+        response = self.client.get('/grid/1995-12-01/test%20event=2005-05-31')
+        self.assertEqual(response.context['event_week'], 27)
+
+    # TODO: test edge cases for event year and week number
+
     # TODO: test event later than 90 years after dob raises
