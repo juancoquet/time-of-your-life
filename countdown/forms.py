@@ -50,10 +50,14 @@ def get_today_minus_90_years():
 
 class DateInput(forms.DateInput):
     input_type = 'date'
+# TODO: make datepicker work ubiquitously
 
 
 class DOBForm(forms.Form):
-    dob = forms.DateField(widget=DateInput, label='Date of Birth')
+    dob = forms.DateField(
+        label='Date of Birth',
+        widget=forms.DateInput(attrs={"class": "datepicker"})
+    )
 
     def clean_dob(self, *args, **kwargs):
         dob_given = self.cleaned_data['dob']
@@ -115,7 +119,9 @@ class DOBForm(forms.Form):
 
 class EventForm(forms.Form):
     event_title = forms.CharField(max_length='100')
-    event_date = forms.DateField(widget=DateInput)
+    event_date = forms.DateField(
+        widget=forms.DateInput(attrs={"class": "datepicker"})
+    )
 
     def clean_event_date(self, *args, **kwargs):
         date_given = self.cleaned_data['event_date']

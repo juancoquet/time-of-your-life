@@ -1,8 +1,9 @@
+from django.http import response
 from django.test import TestCase
 from unittest.mock import patch
 from unittest import skip
 
-from countdown.forms import DOBForm, FUTURE_DOB_ERROR
+from countdown.forms import DOBForm, EventForm, FUTURE_DOB_ERROR, EVENT_DATE_ERROR
 
 
 class HomePageTest(TestCase):
@@ -87,3 +88,29 @@ class GridViewTest(TestCase):
     def test_contains_add_event_section(self):
         response = self.client.get('/grid/1995-12-01')
         self.assertContains(response, 'Add a life event')
+
+    def test_context_contains_event_form(self):
+        response = self.client.get('/grid/1995-12-01')
+        self.assertIsInstance(response.context['event_form'], EventForm)
+
+    def test_invalid_event_form_raises(self):
+        response = self.client.post(
+            '/grid/1995-12-01',
+            data={
+                'event_name': 'test event',
+                'event_date': '1800-01-01'
+            }
+        )
+        self.assertContains(response, EVENT_DATE_ERROR)
+
+    def test_event_form_post_uses_grid_template(self):
+        response = self.client.post(
+            '/grid/1995-12-01',
+            data={
+                'event_name': 'test event',
+                'event_date': '2005-05-31'
+            }
+        )
+        self.assertTemplateUsed(response, 'grid.html')
+
+    # TODO: test event later than 90 years after dob raises

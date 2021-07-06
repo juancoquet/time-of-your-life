@@ -35,6 +35,7 @@ class NewVisitorTest(FunctionalTest):
         # the past 90 years
         date_input = self.browser.find_element_by_id('id_dob')
         create_button = self.browser.find_element_by_name('create_button')
+        date_input.clear()
         date_input.send_keys('1901-12-31')
         create_button.click()
         self.assertEqual(self.get_error_element().text, PAST_DOB_ERROR)
@@ -43,6 +44,7 @@ class NewVisitorTest(FunctionalTest):
         # Getting elements again as page refreshed and old elements are now stale
         date_input = self.browser.find_element_by_id('id_dob')
         create_button = self.browser.find_element_by_name('create_button')
+        date_input.clear()
         date_input.send_keys('1995-12-01')
         create_button.click()
         self.assertEqual(

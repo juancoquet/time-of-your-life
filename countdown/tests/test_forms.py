@@ -85,29 +85,13 @@ class DOBFormTest(TestCase):
 
 class EventFormTest(TestCase):
 
-    @staticmethod
-    def patch_datetoday_with_mock(year=2021, month=6, day=9):
-        """
-        For testing: makes date.today() return a date object on 2021-06-09 (y-m-d) by default, or provide custom values.
-        Couldn't use @patch decorator as the .today attribute can't be overwritten.
-
-        :return: datetime.date object on the given date when forms.date.today() is called.
-        """
-
-        class MockToday(datetime.date):
-            @classmethod
-            def today(cls):
-                return cls(year, month, day)
-
-        forms.date = MockToday
-
     def test_past_date_is_valid(self):
         form = EventForm(
             data={'event_title': 'test event', 'event_date': '2005-05-31'}
         )
         self.assertTrue(form.is_valid())
 
-    def test_psat_date_greater_than_90_years_ago_not_valid(self):
+    def test_past_date_greater_than_90_years_ago_not_valid(self):
         form = EventForm(
             data={'event_title': 'test event', 'event_date': '1909-12-31'}
         )

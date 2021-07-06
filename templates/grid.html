@@ -1,6 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+    <div name="add_event">
+        <h3>Add a life event</h3>
+        <form action="{% url 'grid' dob=date_of_birth %}" method="post">
+            {% csrf_token %}
+            <label for="event_form.event_title">Event name:</label>
+            {{ event_form.event_title }}<br>
+            <label for="event_form.event_date">Event date:</label>
+            {{ event_form.event_date }}<br>
+            <button name="add_event_btn" type="submit">Add event</button>
+            {{ event_form.event_date.errors }}
+        </form>
+    </div>
+
     <h2>Your Life Calendar</h2>
 
     <div class="grid">
@@ -31,8 +45,5 @@
         </table>
     </div>
 
-    <div name="add_event">
-        <h3>Add a life event</h3>
-    </div>
 
 {% endblock %}
