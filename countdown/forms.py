@@ -50,7 +50,6 @@ def get_today_minus_90_years():
 
 class DateInput(forms.DateInput):
     input_type = 'date'
-# TODO: make datepicker work ubiquitously
 
 
 class DOBForm(forms.Form):

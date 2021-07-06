@@ -93,12 +93,22 @@ class GridViewTest(TestCase):
         response = self.client.get('/grid/1995-12-01')
         self.assertIsInstance(response.context['event_form'], EventForm)
 
-    def test_invalid_event_form_raises(self):
+    def test_event_date_before_dob_raises(self):
         response = self.client.post(
             '/grid/1995-12-01',
             data={
                 'event_name': 'test event',
                 'event_date': '1800-01-01'
+            }
+        )
+        self.assertContains(response, EVENT_DATE_ERROR)
+
+    def test_event_date_after_90_year_mark_raises(self):
+        response = self.client.post(
+            '/grid/1995-12-01',
+            data={
+                'event_name': 'test event',
+                'event_date': '2085-12-02'
             }
         )
         self.assertContains(response, EVENT_DATE_ERROR)
@@ -118,9 +128,15 @@ class GridViewTest(TestCase):
         self.assertEqual(response.context['event_year'], 10)
 
     def test_context_contains_event_week_number(self):
-        response = self.client.get('/grid/1995-12-01/test%20event=2005-05-31')
-        self.assertEqual(response.context['event_week'], 27)
+        response = self.client.get('/grid/1999-12-01/test%20event=2005-05-31')
+        self.assertEqual(response.context['event_week'], 26)
 
-    # TODO: test edge cases for event year and week number
+    def test_context_contains_event_week_number_leap_day_event(self):
+        response = self.client.get('/grid/1995-12-01/test%20event=2004-02-29')
+        self.assertEqual(response.context['event_week'], 13)
 
-    # TODO: test event later than 90 years after dob raises
+    def test_context_contains_event_week_number_leap_dob(self):
+        response = self.client.get('/grid/1996-02-29/test%20event=2005-05-31')
+        self.assertEqual(response.context['event_week'], 14)
+
+    # TODO: test cannot add event date outside life calendar

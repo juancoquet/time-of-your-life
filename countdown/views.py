@@ -1,6 +1,6 @@
 import math
 
-from datetime import date
+from datetime import date, datetime
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
@@ -32,20 +32,31 @@ def get_event_week_number(event_date, dob):
             dob.year, event_date.month, event_date.day)
     except ValueError:  # Event day is leap day
         event_date_on_birth_year = date(dob.year, 3, 1)  # Turn into 1st March
-    if dob.date() < event_date_on_birth_year:
+    if event_date_on_birth_year < dob.date():
         event_date_on_birth_year = date(
             event_date_on_birth_year.year+1,
             event_date_on_birth_year.month,
             event_date_on_birth_year.day
         )
 
-    days_passed = (dob.date() - event_date_on_birth_year).days
+    days_passed = (event_date_on_birth_year - dob.date()).days
     week_no = math.ceil(days_passed / 7)
     if week_no == 53:
         week_no = 52
     if week_no == 0:
         week_no = 1
     return week_no
+
+
+def event_is_within_90_yrs_of_dob(event_date, dob):
+    try:
+        dob_plus_90 = datetime(dob.year+90, dob.month, dob.day)
+    except ValueError:  # dob is leap day
+        dob_plus_90 = datetime(dob.year+90, 3, 1)  # Turn into 1st March
+    if event_date > dob_plus_90 or event_date < dob:
+        return False
+    else:
+        return True
 
 
 #############
@@ -80,10 +91,16 @@ def grid(request, dob, event_name=None, event_date=None):
         event = EventForm(
             data={'event_title': event_name, 'event_date': event_date})
         event.is_valid()
-        event_year_of_life = get_event_year_of_life(
-            event.cleaned_data['event_date'], dob_form.cleaned_data['dob'])
-        event_week_no = get_event_week_number(
-            event.cleaned_data['event_date'], dob_form.cleaned_data['dob'])
+
+        event_date = event.cleaned_data['event_date']
+        dob = dob_form.cleaned_data['dob']
+
+        if event_is_within_90_yrs_of_dob(event_date, dob):
+            event_year_of_life = get_event_year_of_life(event_date, dob)
+            event_week_no = get_event_week_number(event_date, dob)
+        else:
+            # raise EVENT_DATE_ERROR
+            pass
     else:
         event_year_of_life = None
         event_week_no = None
