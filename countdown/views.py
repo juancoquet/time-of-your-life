@@ -119,4 +119,6 @@ def grid(request, dob, event_name=None, event_date=None):
         'date_of_birth': dob,
         'event_year': event_year_of_life,
         'event_week': event_week_no,
+        'event_name': event_name,
+        'event_date': event_date,
     })

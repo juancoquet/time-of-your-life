@@ -6,10 +6,12 @@ h1 {
     background-color: darkgray;
     height: 15px;
     width: 15px;
+    text-align: center;
 }
 
 .week.past {
-    opacity: 0.3;
+    background-color: rgba(169, 169, 169, 0.452);
+    color: rgb(112, 112, 112);
 }
 
 .week.present {
@@ -18,4 +20,57 @@ h1 {
 
 .week.event {
     background-color: rgb(221, 4, 4);
+    position: relative;
+    color: black;
+}
+
+.week.event:hover {
+    transform: scale(120%);
+    transition: 200ms;
+    opacity: 100%;
+}
+
+.week.event::before,
+.week.event::after {
+    --scale: 0;
+    --arrow-size: 10px;
+    --tooltip-colour: rgb(81, 136, 255);
+
+    position: absolute;
+    top: -.25rem;
+    left: 50%;
+    transform: translateX(var(--translate-x)) translateY(var(--translate-y, 0)) scale(var(--scale));
+    transition: 200ms transform;
+    transform-origin: top left;
+}
+
+.week.event::before {
+    --translate-y: calc(65% + var(--arrow-size));
+    --translate-x: -25%;
+
+    content: attr(data-tooltip);
+    color: black;
+    padding: .5rem;
+    border-radius: .3rem;
+    text-align: center;
+    width: max-content;
+    background: var(--tooltip-colour);
+}
+
+.week.event:hover::before,
+.week.event:hover::after {
+    --scale: 1;
+
+    opacity: 100%;
+
+}
+
+.week.event::after {
+    --translate-y: calc(1.8 * var(--arrow-size));
+    --translate-x: -50%;
+
+    content: '';
+    border: var(--arrow-size) solid transparent;
+    border-bottom-color: var(--tooltip-colour);
+    transform-origin: bottom right;
 }
