@@ -66,7 +66,7 @@ class DOBForm(forms.Form):
         if dob_given < get_today_minus_90_years():
             raise forms.ValidationError(PAST_DOB_ERROR)
         else:
-            return dob_given
+            return dob_given.date()
 
     def get_current_year_of_life(self):
         self.full_clean()
@@ -130,4 +130,4 @@ class EventForm(forms.Form):
         if date_given < get_today_minus_90_years():
             raise forms.ValidationError(EVENT_DATE_ERROR)
         else:
-            return date_given
+            return date_given.date()

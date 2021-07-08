@@ -4,7 +4,7 @@ from datetime import date, datetime
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .forms import DOBForm, EventForm
+from .forms import DOBForm, EVENT_DATE_ERROR, EventForm
 
 
 ###############
@@ -18,7 +18,7 @@ def get_event_year_of_life(event_date, dob):
     except ValueError:  # Event day is leap day
         event_date_on_birth_year = date(dob.year, 3, 1)  # Turn into 1st March
 
-    if event_date_on_birth_year < dob.date():
+    if event_date_on_birth_year < dob:
         event_year_of_life = event_date.year - dob.year
     else:
         event_year_of_life = (event_date.year - dob.year) + 1
@@ -32,14 +32,14 @@ def get_event_week_number(event_date, dob):
             dob.year, event_date.month, event_date.day)
     except ValueError:  # Event day is leap day
         event_date_on_birth_year = date(dob.year, 3, 1)  # Turn into 1st March
-    if event_date_on_birth_year < dob.date():
+    if event_date_on_birth_year < dob:
         event_date_on_birth_year = date(
             event_date_on_birth_year.year+1,
             event_date_on_birth_year.month,
             event_date_on_birth_year.day
         )
 
-    days_passed = (event_date_on_birth_year - dob.date()).days
+    days_passed = (event_date_on_birth_year - dob).days
     week_no = math.ceil(days_passed / 7)
     if week_no == 53:
         week_no = 52
@@ -50,9 +50,9 @@ def get_event_week_number(event_date, dob):
 
 def event_is_within_90_yrs_of_dob(event_date, dob):
     try:
-        dob_plus_90 = datetime(dob.year+90, dob.month, dob.day)
+        dob_plus_90 = date(dob.year+90, dob.month, dob.day)
     except ValueError:  # dob is leap day
-        dob_plus_90 = datetime(dob.year+90, 3, 1)  # Turn into 1st March
+        dob_plus_90 = date(dob.year+90, 3, 1)  # Turn into 1st March
     if event_date > dob_plus_90 or event_date < dob:
         return False
     else:
@@ -68,7 +68,7 @@ def home(request):
     dob_form = DOBForm(request.POST or None)
     if request.method == 'POST':
         if dob_form.is_valid():
-            dob = dob_form.cleaned_data['dob'].date()
+            dob = dob_form.cleaned_data['dob']
             return redirect(f'grid/{dob}')
     return render(request, 'home.html', {'dob_form': dob_form})
 
@@ -81,7 +81,7 @@ def grid(request, dob, event_name=None, event_date=None):
     if request.method == 'POST':
         if event_form.is_valid():
             event_name = event_form.cleaned_data['event_title']
-            event_date = event_form.cleaned_data['event_date'].date()
+            event_date = event_form.cleaned_data['event_date']
             return redirect(reverse('event', args=[dob, event_name, event_date]))
 
     dob_form = DOBForm(data={'dob': dob})
@@ -90,7 +90,8 @@ def grid(request, dob, event_name=None, event_date=None):
     if event_name and event_date:
         event = EventForm(
             data={'event_title': event_name, 'event_date': event_date})
-        event.is_valid()
+        if not event.is_valid():
+            return redirect(reverse('grid', args=[dob]))
 
         event_date = event.cleaned_data['event_date']
         dob = dob_form.cleaned_data['dob']
@@ -99,8 +100,9 @@ def grid(request, dob, event_name=None, event_date=None):
             event_year_of_life = get_event_year_of_life(event_date, dob)
             event_week_no = get_event_week_number(event_date, dob)
         else:
-            # raise EVENT_DATE_ERROR
-            pass
+            event_form.errors['event_date'] = EVENT_DATE_ERROR
+            event_year_of_life = None
+            event_week_no = None
     else:
         event_year_of_life = None
         event_week_no = None

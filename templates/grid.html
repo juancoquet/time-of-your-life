@@ -10,7 +10,7 @@
             {{ event_form.event_title }}<br>
             <label for="event_form.event_date">Event date:</label>
             {{ event_form.event_date }}<br>
-            <button name="add_event_btn" type="submit">Add event</button>
+            <button name="add_event_btn" type="submit">Add event</button><br>
             {{ event_form.event_date.errors }}
         </form>
     </div>
@@ -22,23 +22,43 @@
             {% for yr_num in years_passed %}
                 <tr class="year-row past" id="year-{{ yr_num }}">
                     {% for week_no in full_year_weeks %}
-                        <td class="week past" id="{{ yr_num }}-{{ week_no }}">{{ week_no }}</td>
+                        {% if yr_num == event_year and week_no == event_week %}
+                            <td class="week past event" id="{{ yr_num }}-{{ week_no }}">{{ week_no }}</td>
+                        {% else %}
+                            <td class="week past" id="{{ yr_num }}-{{ week_no }}">{{ week_no }}</td>
+                        {% endif %}
                     {% endfor %}
                 </tr>
             {% endfor %}
+
             <tr class="year-row present" id="year-{{ current_year }}">
                 {% for week_no in weeks_passed_this_yr %}
-                    <td class="week past" id="{{ current_year }}-{{ week_no }}">{{ week_no }}</td>
+                    {% if current_year == event_year and week_no == event_week %}
+                        <td class="week past event" id="{{ current_year }}-{{ week_no }}">{{ week_no }}</td>
+                    {% else %}
+                        <td class="week past" id="{{ current_year }}-{{ week_no }}">{{ week_no }}</td>
+                    {% endif %}
                 {% endfor %}
+
                 <td class="week present" id="{{ current_week }}">{{ current_week }}</td>
+
                 {% for week_no in weeks_left_this_yr %}
-                    <td class="week future" id="{{ current_year }}-{{ week_no }}">{{ week_no }}</td>
+                    {% if current_year == event_year and week_no == event_week %}
+                        <td class="week future event" id="{{ current_year }}-{{ week_no }}">{{ week_no }}</td>
+                    {% else %}
+                        <td class="week future" id="{{ current_year }}-{{ week_no }}">{{ week_no }}</td>
+                    {% endif %}
                 {% endfor %}
             </tr>
+
             {% for yr_num in future_years %}
                 <tr class="year-row future" id="year-{{ yr_num }}">
                     {% for week_no in full_year_weeks %}
-                        <td class="week future" id="{{ yr_num }}-{{ week_no }}">{{ week_no }}</td>
+                        {% if yr_num == event_year and week_no == event_week %}
+                            <td class="week future event" id="{{ yr_num }}-{{ week_no }}">{{ week_no }}</td>
+                        {% else %}
+                            <td class="week future" id="{{ yr_num }}-{{ week_no }}">{{ week_no }}</td>
+                        {% endif %}
                     {% endfor %}
                 </tr>
             {% endfor %}

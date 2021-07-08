@@ -75,7 +75,7 @@ class NewVisitorTest(FunctionalTest):
         create_button.click()
 
         # They see a section of the website inviting them to add a life event.
-        add_event = self.browser.find_element_by_name('add_event')
+        self.browser.find_element_by_name('add_event')
         # They insert an event name and a date into the form provided.
         event_title_input = self.browser.find_element_by_id('id_event_title')
         event_date_input = self.browser.find_element_by_id('id_event_date')

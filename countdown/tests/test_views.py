@@ -3,6 +3,8 @@ from django.test import TestCase
 from unittest.mock import patch
 from unittest import skip
 
+from django.urls.base import reverse
+
 from countdown.forms import DOBForm, EventForm, FUTURE_DOB_ERROR, EVENT_DATE_ERROR
 
 
@@ -94,23 +96,11 @@ class GridViewTest(TestCase):
         self.assertIsInstance(response.context['event_form'], EventForm)
 
     def test_event_date_before_dob_raises(self):
-        response = self.client.post(
-            '/grid/1995-12-01',
-            data={
-                'event_name': 'test event',
-                'event_date': '1800-01-01'
-            }
-        )
+        response = self.client.get('/grid/1995-12-01/test%20event=1995-11-30')
         self.assertContains(response, EVENT_DATE_ERROR)
 
     def test_event_date_after_90_year_mark_raises(self):
-        response = self.client.post(
-            '/grid/1995-12-01',
-            data={
-                'event_name': 'test event',
-                'event_date': '2085-12-02'
-            }
-        )
+        response = self.client.get('/grid/1995-12-01/test%20event=2085-12-02')
         self.assertContains(response, EVENT_DATE_ERROR)
 
     def test_event_form_post_uses_grid_template(self):
@@ -139,4 +129,6 @@ class GridViewTest(TestCase):
         response = self.client.get('/grid/1996-02-29/test%20event=2005-05-31')
         self.assertEqual(response.context['event_week'], 14)
 
-    # TODO: test cannot add event date outside life calendar
+    def test_faulty_event_date_redirects_to_grid(self):
+        response = self.client.get('/grid/1995-12-01/event=not-a-date')
+        self.assertRedirects(response, reverse('grid', args=['1995-12-01']))

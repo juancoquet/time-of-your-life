@@ -15,3 +15,7 @@ h1 {
 .week.present {
     background-color: forestgreen;
 }
+
+.week.event {
+    background-color: rgb(221, 4, 4);
+}
