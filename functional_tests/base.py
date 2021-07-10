@@ -46,3 +46,18 @@ class FunctionalTest(StaticLiveServerTestCase):
 
     def get_error_element(self):
         return self.browser.find_element_by_css_selector('.errorlist')
+
+    def add_dob(self, dob):
+        date_input = self.browser.find_element_by_id('id_dob')
+        create_button = self.browser.find_element_by_name('create_button')
+        date_input.clear()
+        date_input.send_keys(dob)
+        create_button.click()
+
+    def add_life_event(self, event_name, event_date):
+        event_title_input = self.browser.find_element_by_id('id_event_title')
+        event_date_input = self.browser.find_element_by_id('id_event_date')
+        submit_button = self.browser.find_element_by_name('add_event_btn')
+        event_title_input.send_keys(event_name)
+        event_date_input.send_keys(event_date)
+        submit_button.click()
