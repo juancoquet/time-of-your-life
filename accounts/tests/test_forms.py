@@ -1,7 +1,10 @@
 from datetime import date
 from django.test import TestCase
+from django.contrib.auth import get_user_model
 
 from accounts.forms import CustomUserCreationForm, CustomUserChangeForm, FUTURE_DOB_ERROR, PAST_DOB_ERROR
+
+User = get_user_model()
 
 
 class CreationFormTest(TestCase):
@@ -43,3 +46,16 @@ class CreationFormTest(TestCase):
         )
         form.full_clean()
         self.assertEqual(form.errors['dob'], [PAST_DOB_ERROR])
+
+    def test_successful_form_creates_new_user(self):
+        form = CustomUserCreationForm(
+            data={
+                'username': 'juan',
+                'email': 'test@email.com',
+                'password1': 'testpass123',
+                'password2': 'testpass123',
+                'dob': '1995-12-01'
+            }
+        )
+        form.save()
+        self.assertEqual(User.objects.all().count(), 1)

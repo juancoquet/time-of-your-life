@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Sign up</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    <p class="form_field">
+      <label for="form.username">Username</label>
+      {{ form.username }}
+    </p>
+    <p class="form_field">
+      <label for="form.email">Email address</label>
+      {{ form.email }}
+    </p>
+    <p class="form_field">
+      <label for="form.first_name">Name</label>
+      {{ form.first_name }}
+    </p>
+    <p class="form_field">
+      <label for="form.dob">Date of birth</label>
+      {{ form.dob }}
+    </p>
+    <p class="form_field">
+      <label for="form.password1">Password</label>
+      {{ form.password1 }}
+    </p>
+    <p class="form_field">
+      <label for="form.password2">Confirm password</label>
+      {{ form.password2 }}
+    </p>
+
+    <button type="submit">Sign up</button>
+
+    <p>
+      {{ form.errors }}
+    </p>
+  </form>
+{% endblock content %}
