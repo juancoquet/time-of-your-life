@@ -1,4 +1,8 @@
 {% load static %}
+{% comment %} TODO: add login button </button> {% endcomment %}
+{% comment %} TODO: add sign up button {% endcomment %}
+{% comment %} TODO: add log out button {% endcomment %}
+{% comment %} TODO: add user greeting if logged in {% endcomment %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,10 +20,21 @@
 
 </head>
 <body>
-    <h1><a href="/">Time of Your Life</a></h1>
+    <nav>
+        <a href="/">Time of Your Life</a>
+        {% if not user.is_authenticated %}
+            <a href="{% url 'account_signup' %}" id="id_signup">Sign up</a>
+            <a href="{% url 'account_login' %}" id='id_login_link'>Log in</a>
+        {% else %}
+            <a id='id_logout' href="{% url 'account_logout' %}">Log out</a>
+            <span id="id_logged_in">Logged in as {{ user.username }}</span>
+        {% endif %}
+        <a href="/admin/"><button>Admin</button></a>
+    </nav>
 
     {% block content %}
     {% endblock content %}
+
 
     <script>
         $(function () {

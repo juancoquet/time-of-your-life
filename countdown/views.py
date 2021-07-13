@@ -1,6 +1,7 @@
 import math
 
 from datetime import date, datetime
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
@@ -121,4 +122,12 @@ def grid(request, dob, event_name=None, event_date=None):
         'event_week': event_week_no,
         'event_name': event_name,
         'event_date': event_date,
+    })
+
+
+@login_required(redirect_field_name='account_login')
+def dashboard(request):
+    user = request.user
+    return render(request, 'dashboard.html', {
+        'current_year': user.current_year,
     })

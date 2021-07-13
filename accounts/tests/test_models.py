@@ -1,6 +1,9 @@
+import datetime
 from django.contrib.auth import get_user_model
 from django.db.utils import IntegrityError
 from django.test import TestCase
+
+from accounts import models
 
 User = get_user_model()
 
@@ -8,6 +11,25 @@ User = get_user_model()
 class CustomUserTest(TestCase):
 
     ### Helpers ###
+
+    @staticmethod
+    def patch_datetoday_with_mock(year=2021, month=6, day=9):
+        """
+        For testing: makes date.today() return a date object on 2021-06-09 (y-m-d) by default, or provide custom values.
+        Couldn't use @patch decorator as the .today attribute can't be overwritten.
+
+        :return: datetime.date object on the given date when forms.date.today() is called.
+        """
+
+        class MockToday(datetime.date):
+            @classmethod
+            def today(cls):
+                return cls(year, month, day)
+
+        models.date = MockToday
+
+    def tearDown(self):
+        models.date = datetime.date
 
     def create_valid_user(self):
         user = User.objects.create(
@@ -66,6 +88,18 @@ class CustomUserTest(TestCase):
             User.objects.create(
                 username=None,
                 dob='1995-12-01',
-                email='test_email.com',
+                email='test@email.com',
                 password='testpass123'
             )
+
+    def test_current_year_property(self):
+        self.patch_datetoday_with_mock()
+        self.create_valid_user()
+        user = User.objects.first()
+        self.assertEqual(user.current_year, 26)
+
+    def test_current_year_property_on_leap_day(self):
+        self.patch_datetoday_with_mock(2004, 2, 29)
+        self.create_valid_user()
+        user = User.objects.first()
+        self.assertEqual(user.current_year, 9)

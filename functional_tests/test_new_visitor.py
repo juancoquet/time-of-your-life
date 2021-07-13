@@ -88,8 +88,6 @@ class NewVisitorTest(FunctionalTest):
         self.assertEqual(len(present_week), 1)
         self.assertEqual(len(event_week), 1)
 
-        # TODO: test can add multiple events
-
         # After viewing their life calendar for a while, they click the page title and it takes them home.
         header = self.browser.find_element_by_link_text('Time of Your Life')
         header.click()

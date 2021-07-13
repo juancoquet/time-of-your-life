@@ -1,10 +1,14 @@
+from django.http import response
 from django.test import TestCase
+from django.contrib.auth import get_user_model
 from unittest.mock import patch
 from unittest import skip
 
 from django.urls.base import reverse
 
 from countdown.forms import DOBForm, EventForm, FUTURE_DOB_ERROR, EVENT_DATE_ERROR
+
+User = get_user_model()
 
 
 class HomePageTest(TestCase):
@@ -131,3 +135,28 @@ class GridViewTest(TestCase):
     def test_faulty_event_date_redirects_to_grid(self):
         response = self.client.get('/grid/1995-12-01/event=not-a-date')
         self.assertRedirects(response, reverse('grid', args=['1995-12-01']))
+
+
+class DashboardViewTest(TestCase):
+
+    def setUp(self) -> None:
+        user = User.objects.create(
+            username='testuser',
+            email='test@user.com',
+            dob='1995-12-01',
+            password='testpass123'
+        )
+        self.client.force_login(user)
+        self.response = self.client.get('/grid/dashboard/')
+
+    def test_uses_dashboard_template(self):
+        self.assertTemplateUsed('dashboard')
+
+    def test_context_contains_current_year(self):
+        self.assertIsInstance(self.response.context['current_year'], int)
+
+    def test_login_required(self):
+        self.client.logout()
+        response = self.client.get('/grid/dashboard/')
+        self.assertRedirects(
+            response, '/accounts/login/?account_login=/grid/dashboard/')

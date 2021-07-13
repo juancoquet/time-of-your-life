@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <div name="add_event">
+    <div class="add_event" name="add_event">
         <h3>Add a life event</h3>
         <form action="{% url 'grid' dob=date_of_birth %}" method="post">
             {% csrf_token %}
