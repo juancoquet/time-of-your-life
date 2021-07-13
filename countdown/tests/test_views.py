@@ -34,6 +34,18 @@ class HomePageTest(TestCase):
         response = self.client.post('/', data={'dob': '2999-12-31'})
         self.assertContains(response, FUTURE_DOB_ERROR)
 
+    def test_logged_in_user_redirects_to_dashboard(self):
+        User.objects.create(
+            username='testuser',
+            email='test@email.com',
+            dob='1995-12-01',
+            password='testpass123'
+        )
+        user = User.objects.first()
+        self.client.force_login(user)
+        response = self.client.get('/')
+        self.assertRedirects(response, reverse('dashboard'))
+
 
 class GridViewTest(TestCase):
 
@@ -152,11 +164,33 @@ class DashboardViewTest(TestCase):
     def test_uses_dashboard_template(self):
         self.assertTemplateUsed('dashboard')
 
-    def test_context_contains_current_year(self):
-        self.assertIsInstance(self.response.context['current_year'], int)
-
     def test_login_required(self):
         self.client.logout()
         response = self.client.get('/grid/dashboard/')
         self.assertRedirects(
             response, '/accounts/login/?account_login=/grid/dashboard/')
+
+    def test_context_contains_current_year(self):
+        self.assertIsInstance(self.response.context['current_year'], int)
+
+    def test_context_contains_years_passed_iterable(self):
+        self.assertGreater(len(self.response.context['years_passed']), 1)
+
+    def test_context_contains_future_years_iterable(self):
+        self.assertGreater(len(self.response.context['future_years']), 1)
+
+    def test_total_years_in_context_equals_90(self):
+        years_passed = len(self.response.context['years_passed'])
+        future_years = len(self.response.context['future_years'])
+        total_years = years_passed + future_years + 1
+        self.assertEqual(total_years, 90)
+
+    def test_context_contains_current_week(self):
+        self.assertIsInstance(self.response.context['current_week'], int)
+
+    def test_context_contains_weeks_passed_this_yr_iter(self):
+        self.assertGreater(
+            len(self.response.context['weeks_passed_this_yr']), 1)
+
+    def test_context_contains_weeks_left_this_yr_iter(self):
+        self.assertGreater(len(self.response.context['weeks_left_this_yr']), 1)

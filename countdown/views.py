@@ -66,6 +66,9 @@ def event_is_within_90_yrs_of_dob(event_date, dob):
 
 
 def home(request):
+    if request.user.is_authenticated:
+        return redirect(reverse('dashboard'))
+
     dob_form = DOBForm(request.POST or None)
     if request.method == 'POST':
         if dob_form.is_valid():
@@ -129,5 +132,11 @@ def grid(request, dob, event_name=None, event_date=None):
 def dashboard(request):
     user = request.user
     return render(request, 'dashboard.html', {
+        'years_passed': user.years_passed,
         'current_year': user.current_year,
+        'future_years': user.future_years,
+        'full_year_weeks': range(1, 53),
+        'weeks_passed_this_yr': user.weeks_passed_this_yr,
+        'current_week': user.current_week,
+        'weeks_left_this_yr': user.weeks_left_this_yr,
     })

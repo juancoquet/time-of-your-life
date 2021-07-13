@@ -78,6 +78,8 @@ class NewUserTest(FunctionalTest):
         self.assertGreater(len(past_weeks), 1)
         self.assertGreater(len(future_weeks), 1)
         self.assertEqual(len(present_week), 1)
+        all_weeks = self.browser.find_elements_by_css_selector('.week')
+        self.assertEqual(len(all_weeks), 52*90)
 
         self.browser.find_element_by_name('add_event')
 

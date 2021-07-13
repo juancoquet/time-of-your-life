@@ -83,10 +83,12 @@ class NewVisitorTest(FunctionalTest):
         present_week = self.browser.find_elements_by_css_selector(
             '.week.present')
         event_week = self.browser.find_elements_by_css_selector('.week.event')
+        all_weeks = self.browser.find_elements_by_css_selector('.week')
         self.assertGreater(len(past_weeks), 1)
         self.assertGreater(len(future_weeks), 1)
         self.assertEqual(len(present_week), 1)
         self.assertEqual(len(event_week), 1)
+        self.assertEqual(len(all_weeks), 52*90)
 
         # After viewing their life calendar for a while, they click the page title and it takes them home.
         header = self.browser.find_element_by_link_text('Time of Your Life')

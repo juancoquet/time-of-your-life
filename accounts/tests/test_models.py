@@ -103,3 +103,33 @@ class CustomUserTest(TestCase):
         self.create_valid_user()
         user = User.objects.first()
         self.assertEqual(user.current_year, 9)
+
+    def test_years_passed_property(self):
+        self.patch_datetoday_with_mock()
+        self.create_valid_user()
+        user = User.objects.first()
+        self.assertEqual(len(user.years_passed), 25)
+
+    def test_future_years_property(self):
+        self.patch_datetoday_with_mock()
+        self.create_valid_user()
+        user = User.objects.first()
+        self.assertEqual(len(user.future_years), 64)
+
+    def test_current_week_property(self):
+        self.patch_datetoday_with_mock()
+        self.create_valid_user()
+        user = User.objects.first()
+        self.assertEqual(user.current_week, 28)
+
+    def test_weeks_passed_this_year(self):
+        self.patch_datetoday_with_mock()
+        self.create_valid_user()
+        user = User.objects.first()
+        self.assertEqual(len(user.weeks_passed_this_yr), 27)
+
+    def test_weeks_left_this_year(self):
+        self.patch_datetoday_with_mock()
+        self.create_valid_user()
+        user = User.objects.first()
+        self.assertEqual(len(user.weeks_left_this_yr), 24)
