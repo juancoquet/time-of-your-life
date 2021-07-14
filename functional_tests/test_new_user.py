@@ -83,4 +83,26 @@ class NewUserTest(FunctionalTest):
 
         self.browser.find_element_by_name('add_event')
 
+        # They use the event form to add a life event. The page refreshes, and the event
+        # is shown on the calendar.
+        event_name_input = self.browser.find_element_by_id('id_event_name')
+        event_date_input = self.browser.find_element_by_id('id_event_date')
+        submit_button = self.browser.find_element_by_css_selector(
+            '.btn-submit')
+
+        past_weeks = self.browser.find_elements_by_css_selector('.week.past')
+        future_weeks = self.browser.find_elements_by_css_selector(
+            '.week.future')
+        present_week = self.browser.find_elements_by_css_selector(
+            '.week.present')
+        event_week = self.browser.find_elements_by_css_selector('.week.event')
+        self.assertGreater(len(past_weeks), 1)
+        self.assertGreater(len(future_weeks), 1)
+        self.assertEqual(len(present_week), 1)
+        self.assertEqual(len(event_week), 1)
+        all_weeks = self.browser.find_elements_by_css_selector('.week')
+        self.assertEqual(len(all_weeks), 52*90)
+
+        # TODO: Test add multiple events
+
         # TODO: Test home redirects to dashboard
