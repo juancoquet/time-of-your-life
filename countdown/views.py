@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .forms import DOBForm, EVENT_DATE_ERROR, EventForm
+from .forms import DOBForm, EVENT_DATE_ERROR, EventForm, UserEventForm
 from .view_helpers import event_is_within_90_yrs_of_dob, get_event_year_of_life, get_event_week_number
 
 
@@ -80,4 +80,5 @@ def dashboard(request):
         'weeks_passed_this_yr': user.weeks_passed_this_yr,
         'current_week': user.current_week,
         'weeks_left_this_yr': user.weeks_left_this_yr,
+        'user_event_form': UserEventForm(),
     })

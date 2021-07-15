@@ -1,9 +1,13 @@
 import datetime
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from unittest.mock import patch
 
 from countdown import forms
-from countdown.forms import DOBForm, EventForm, FUTURE_DOB_ERROR, PAST_DOB_ERROR, is_leap_year
+from countdown.forms import (DOBForm, EventForm, UserEventForm,
+                             FUTURE_DOB_ERROR, PAST_DOB_ERROR, is_leap_year)
+
+User = get_user_model()
 
 
 class DOBFormTest(TestCase):
@@ -108,3 +112,23 @@ class HelperTest(TestCase):
         self.assertFalse(is_leap_year(1917))
         self.assertFalse(is_leap_year(2025))
         self.assertFalse(is_leap_year(2100))
+
+
+class UserEventFormTest(TestCase):
+
+    def test_valid_form(self):
+        User.objects.create(
+            username='testuser',
+            dob='1995-12-01',
+            email='test@user.com',
+            password='testpass123'
+        )
+        user = User.objects.first()
+        form = UserEventForm(
+            data={
+                'event_name': 'test event',
+                'event_date': '2005-06-28',
+                'owner': user
+            }
+        )
+        self.assertTrue(form.is_valid())

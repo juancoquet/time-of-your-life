@@ -1,6 +1,8 @@
-from django import forms
 from datetime import datetime, date
+from django import forms
 import math
+
+from .models import UserEvent
 
 
 FUTURE_DOB_ERROR = "Date of birth cannot be in the future"
@@ -131,3 +133,10 @@ class EventForm(forms.Form):
             raise forms.ValidationError(EVENT_DATE_ERROR)
         else:
             return date_given.date()
+
+
+class UserEventForm(forms.ModelForm):
+
+    class Meta:
+        model = UserEvent
+        fields = ['event_name', 'event_date', 'owner']

@@ -1,12 +1,12 @@
-from django.http import response
-from django.test import TestCase
-from django.contrib.auth import get_user_model
-from unittest.mock import patch
 from unittest import skip
+from unittest.mock import patch
 
+from django.contrib.auth import get_user_model
+from django.test import TestCase
 from django.urls.base import reverse
 
-from countdown.forms import DOBForm, EventForm, FUTURE_DOB_ERROR, EVENT_DATE_ERROR
+from countdown.forms import (DOBForm, EventForm, UserEventForm,
+                             FUTURE_DOB_ERROR, EVENT_DATE_ERROR)
 
 User = get_user_model()
 
@@ -194,3 +194,9 @@ class DashboardViewTest(TestCase):
 
     def test_context_contains_weeks_left_this_yr_iter(self):
         self.assertGreater(len(self.response.context['weeks_left_this_yr']), 1)
+
+    def test_context_contains_user_event_form(self):
+        self.assertIsInstance(
+            self.response.context['user_event_form'],
+            UserEventForm
+        )
