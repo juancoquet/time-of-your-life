@@ -1,6 +1,9 @@
+from django.core.exceptions import ValidationError
+from countdown.forms import UserEventForm
 from django.contrib.auth import get_user_model
 from django.db.utils import IntegrityError
 from django.test import TestCase
+from unittest import skip
 
 from countdown.models import UserEvent
 
@@ -72,3 +75,32 @@ class UserEventModelTest(TestCase):
         event = UserEvent.objects.first()
         self.assertEqual(event.owner, correct_user)
         self.assertNotEqual(event.owner, wrong_user)
+
+    def test_event_date_before_user_dob_invalid2(self):
+        user = self.create_user()
+        event = UserEvent(
+            event_name='test event',
+            event_date='1940-06-29',
+            owner=user
+        )
+        self.assertFalse(event.is_valid())
+
+    def test_cannot_save_event_before_dob(self):
+        user = self.create_user()
+        event = UserEvent(
+            event_name='test event',
+            event_date='1940-06-29',
+            owner=user
+        )
+        with self.assertRaises(ValidationError):
+            event.save_event()
+
+    def test_canot_save_event_more_than_90_years_after_dob(self):
+        user = self.create_user()
+        event = UserEvent(
+            event_name='test event',
+            event_date='2100-06-29',
+            owner=user
+        )
+        with self.assertRaises(ValidationError):
+            event.save_event()

@@ -139,4 +139,7 @@ class UserEventForm(forms.ModelForm):
 
     class Meta:
         model = UserEvent
-        fields = ['event_name', 'event_date', 'owner']
+        fields = ['event_name', 'event_date']
+
+    def show_event_date_error(self):
+        self.errors['event_date'] = EVENT_DATE_ERROR

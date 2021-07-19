@@ -6,6 +6,7 @@ from unittest.mock import patch
 from countdown import forms
 from countdown.forms import (DOBForm, EventForm, UserEventForm,
                              FUTURE_DOB_ERROR, PAST_DOB_ERROR, is_leap_year)
+from countdown.models import UserEvent
 
 User = get_user_model()
 
@@ -117,18 +118,10 @@ class HelperTest(TestCase):
 class UserEventFormTest(TestCase):
 
     def test_valid_form(self):
-        User.objects.create(
-            username='testuser',
-            dob='1995-12-01',
-            email='test@user.com',
-            password='testpass123'
-        )
-        user = User.objects.first()
         form = UserEventForm(
             data={
                 'event_name': 'test event',
                 'event_date': '2005-06-28',
-                'owner': user
             }
         )
         self.assertTrue(form.is_valid())

@@ -2,11 +2,14 @@ from unittest import skip
 from unittest.mock import patch
 
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+from django.http import response
 from django.test import TestCase
 from django.urls.base import reverse
 
 from countdown.forms import (DOBForm, EventForm, UserEventForm,
                              FUTURE_DOB_ERROR, EVENT_DATE_ERROR)
+from countdown.models import UserEvent
 
 User = get_user_model()
 
@@ -200,3 +203,30 @@ class DashboardViewTest(TestCase):
             self.response.context['user_event_form'],
             UserEventForm
         )
+
+    def test_valid_post_creates_new_event_object(self):
+        response = self.client.post('/grid/dashboard/',
+                                    data={
+                                        'event_name': 'test event',
+                                        'event_date': '2004-05-29'
+                                    }
+                                    )
+        self.assertEqual(len(UserEvent.objects.all()), 1)
+
+    def test_invalid_post_doesnt_create_new_event_object(self):
+        response = self.client.post('/grid/dashboard/',
+                                    data={
+                                        'event_name': 'test event',
+                                        'event_date': '1940-05-29'
+                                    }
+                                    )
+        self.assertEqual(len(UserEvent.objects.all()), 0)
+
+    def test_error_shown_on_invalid_event_date_post(self):
+        response = self.client.post('/grid/dashboard/',
+                                    data={
+                                        'event_name': 'test event',
+                                        'event_date': '2100-05-29'
+                                    }
+                                    )
+        self.assertContains(response, EVENT_DATE_ERROR)

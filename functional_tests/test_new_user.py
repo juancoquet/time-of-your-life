@@ -87,8 +87,8 @@ class NewUserTest(FunctionalTest):
         # is shown on the calendar.
         event_name_input = self.browser.find_element_by_id('id_event_name')
         event_date_input = self.browser.find_element_by_id('id_event_date')
-        submit_button = self.browser.find_element_by_css_selector(
-            '.btn-submit')
+        submit_button = self.browser.find_element_by_name(
+            'add_event_btn')
 
         past_weeks = self.browser.find_elements_by_css_selector('.week.past')
         future_weeks = self.browser.find_elements_by_css_selector(

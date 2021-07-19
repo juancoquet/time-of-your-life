@@ -4,7 +4,16 @@
   <h2>Your Life Calendar</h2>
 
     <div name="add_event">
-
+        <h3>Add a life event</h3>
+        <form action="{% url 'dashboard' %}" method="post">
+            {% csrf_token %}
+            <label for="user_event_form.event_name">Event name:</label>
+            {{ user_event_form.event_name }}<br>
+            <label for="user_event_form.event_date">Event date:</label>
+            {{ user_event_form.event_date }}<br>
+            <button name="add_event_btn" type="submit">Add event</button><br>
+            {{ user_event_form.event_date.errors }}
+        </form>
     </div>
 
     <div class="grid">

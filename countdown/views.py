@@ -1,3 +1,5 @@
+from django.core.exceptions import ValidationError
+from countdown.models import UserEvent
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -71,7 +73,18 @@ def grid(request, dob, event_name=None, event_date=None):
 
 @login_required(redirect_field_name='account_login')
 def dashboard(request):
+    event_form = UserEventForm(request.POST or None)
     user = request.user
+
+    if request.method == 'POST':
+        if event_form.is_valid():
+            event = event_form.save(commit=False)
+            event.owner = user
+            try:
+                event.save_event()
+            except ValidationError:
+                event_form.show_event_date_error()
+
     return render(request, 'dashboard.html', {
         'years_passed': user.years_passed,
         'current_year': user.current_year,
@@ -80,5 +93,5 @@ def dashboard(request):
         'weeks_passed_this_yr': user.weeks_passed_this_yr,
         'current_week': user.current_week,
         'weeks_left_this_yr': user.weeks_left_this_yr,
-        'user_event_form': UserEventForm(),
+        'user_event_form': event_form,
     })
