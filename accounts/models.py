@@ -78,3 +78,6 @@ class CustomUser(AbstractUser):
     @property
     def weeks_left_this_yr(self):
         return range(self.current_week + 1, 53)
+
+    # TODO: Create week class which contains yr/no in a coordinate-like system
+    # TODO: Create calendar @property to generate weeks iter
