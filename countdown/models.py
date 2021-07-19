@@ -11,7 +11,8 @@ EVENT_DATE_ERROR = "Event dates must be within a 90-year window starting on your
 class UserEvent(models.Model):
     event_name = models.CharField(max_length=100, blank=False, null=False)
     event_date = models.DateField(blank=False, null=False)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(
+        User, related_name='events', on_delete=models.CASCADE)
 
     ###############
     ### Methods ###

@@ -230,3 +230,22 @@ class DashboardViewTest(TestCase):
                                     }
                                     )
         self.assertContains(response, EVENT_DATE_ERROR)
+
+    def test_valid_post_creates_event_for_correct_owner(self):
+        User.objects.create(
+            username='wronguser',
+            dob='1995-12-01',
+            password='testpass123',
+            email='wronguser@email.com'
+        )
+        correct_user = User.objects.get(username='testuser')
+        wrong_user = User.objects.get(username='wronguser')
+        response = self.client.post('/grid/dashboard/',
+                                    data={
+                                        'event_name': 'test event',
+                                        'event_date': '2005-05-29'
+                                    }
+                                    )
+        event = UserEvent.objects.first()
+        self.assertEqual(event.owner, correct_user)
+        self.assertNotEqual(event.owner, wrong_user)
