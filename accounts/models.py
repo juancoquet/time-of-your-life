@@ -93,11 +93,11 @@ class CustomUser(AbstractUser):
             weeks = {}
             for week in range(1, 53):
                 if (year, week) < self.current_year_and_week:
-                    weeks[f'{year}, {week}'] = f'<td class="week past" id="({year},{week})">{week}</td>'
+                    weeks[f'({year}, {week})'] = f'<td class="week past" id="({year},{week})">{week}</td>'
                 elif (year, week) > self.current_year_and_week:
-                    weeks[f'{year}, {week}'] = f'<td class="week future" id="({year},{week})">{week}</td>'
+                    weeks[f'({year}, {week})'] = f'<td class="week future" id="({year},{week})">{week}</td>'
                 else:
-                    weeks[f'{year}, {week}'] = f'<td class="week present" id="({year},{week})">{week}</td>'
+                    weeks[f'({year}, {week})'] = f'<td class="week present" id="({year},{week})">{week}</td>'
             for event in self.events.all():
                 if week_element := weeks.get(str(event.index)):
                     up_to_class, classes, id_onwards = week_element.split(

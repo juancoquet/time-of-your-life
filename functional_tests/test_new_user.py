@@ -90,6 +90,10 @@ class NewUserTest(FunctionalTest):
         submit_button = self.browser.find_element_by_name(
             'add_event_btn')
 
+        event_name_input.send_keys('test event')
+        event_date_input.send_keys('1998-04-12')
+        submit_button.click()
+
         past_weeks = self.browser.find_elements_by_css_selector('.week.past')
         future_weeks = self.browser.find_elements_by_css_selector(
             '.week.future')

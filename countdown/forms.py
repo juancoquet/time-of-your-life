@@ -140,6 +140,9 @@ class UserEventForm(forms.ModelForm):
     class Meta:
         model = UserEvent
         fields = ['event_name', 'event_date']
+        widgets = {
+            'event_date': forms.DateInput(attrs={"class": "datepicker"}),
+        }
 
     def show_event_date_error(self):
         self.errors['event_date'] = EVENT_DATE_ERROR

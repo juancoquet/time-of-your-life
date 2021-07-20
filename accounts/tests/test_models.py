@@ -133,3 +133,5 @@ class CustomUserTest(TestCase):
         self.create_valid_user()
         user = User.objects.first()
         self.assertEqual(len(user.weeks_left_this_yr), 24)
+
+    # TODO: Test calendar property
