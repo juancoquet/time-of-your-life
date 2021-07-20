@@ -94,4 +94,5 @@ def dashboard(request):
         'current_week': user.current_week,
         'weeks_left_this_yr': user.weeks_left_this_yr,
         'user_event_form': event_form,
+        'calendar': user.calendar
     })

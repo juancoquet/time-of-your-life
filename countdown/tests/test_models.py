@@ -104,3 +104,24 @@ class UserEventModelTest(TestCase):
         )
         with self.assertRaises(ValidationError):
             event.save_event()
+
+    def test_index_returns_correct_yr_wk_tuple(self):
+        user = self.create_user()
+        event = UserEvent(
+            event_name='test event',
+            event_date='2005-01-29',
+            owner=user
+        )
+        self.assertEqual(event.index, (10, 9))
+        event = UserEvent(
+            event_name='test event',
+            event_date='1995-12-01',
+            owner=user
+        )
+        self.assertEqual(event.index, (1, 1))
+        event = UserEvent(
+            event_name='test event',
+            event_date='2004-02-29',
+            owner=user
+        )
+        self.assertEqual(event.index, (9, 13))

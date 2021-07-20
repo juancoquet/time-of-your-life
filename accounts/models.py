@@ -79,5 +79,35 @@ class CustomUser(AbstractUser):
     def weeks_left_this_yr(self):
         return range(self.current_week + 1, 53)
 
-    # TODO: Create week class which contains yr/no in a coordinate-like system
+    @property
+    def current_year_and_week(self):
+        return (self.current_year, self.current_week)
+
     # TODO: Create calendar @property to generate weeks iter
+
+    @property
+    def calendar(self):
+        html = '<table>'
+        for year in range(1, 91):
+            html += f'<tr class="year" id="year-{year}">'
+            weeks = {}
+            for week in range(1, 53):
+                if (year, week) < self.current_year_and_week:
+                    weeks[f'{year}, {week}'] = f'<td class="week past" id="({year},{week})">{week}</td>'
+                elif (year, week) > self.current_year_and_week:
+                    weeks[f'{year}, {week}'] = f'<td class="week future" id="({year},{week})">{week}</td>'
+                else:
+                    weeks[f'{year}, {week}'] = f'<td class="week present" id="({year},{week})">{week}</td>'
+            for event in self.events.all():
+                if week_element := weeks.get(str(event.index)):
+                    up_to_class, classes, id_onwards = week_element.split(
+                        '"', 2)
+                    classes += " event"
+                    tootltip = f'data-tooltip="{event.event_name} — {event.event_date}"'
+                    new_element = f'{up_to_class}"{classes}" {tootltip} {id_onwards}'
+                    weeks[str(event.index)] = new_element
+            for key, value in weeks.items():
+                html += value
+            html += '</tr>'
+        html += '</table>'
+        return html

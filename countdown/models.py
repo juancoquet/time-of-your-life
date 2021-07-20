@@ -2,6 +2,7 @@ from datetime import date
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
+from math import ceil
 
 User = get_user_model()
 
@@ -50,3 +51,36 @@ class UserEvent(models.Model):
             self.save()
         else:
             raise(ValidationError(EVENT_DATE_ERROR))
+
+    @property
+    def index(self):
+        """Gets the year and week number for the event object in relation to the owner's
+        date of birth.
+
+        Returns:
+            tuple: (year_number, week_number)
+        """
+        self.my_clean()
+        try:
+            event_date_on_birth_yr = date(self.owner.dob.year,
+                                          self.event_date.month,
+                                          self.event_date.day)
+        except ValueError:
+            event_date_on_birth_yr = date(self.owner.dob.year, 3, 1)
+        if self.owner.dob > event_date_on_birth_yr:
+            year_no = self.event_date.year - self.owner.dob.year
+            event_date_on_birth_yr = date(
+                event_date_on_birth_yr.year+1,
+                event_date_on_birth_yr.month,
+                event_date_on_birth_yr.day
+            )
+        else:
+            year_no = (self.event_date.year - self.owner.dob.year) + 1
+
+        days_since_bday = (event_date_on_birth_yr - self.owner.dob).days
+        week_no = ceil(days_since_bday / 7)
+        if week_no == 53:
+            week_no = 52
+        if week_no == 0:
+            week_no = 1
+        return (year_no, week_no)
