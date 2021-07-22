@@ -23,7 +23,17 @@
                 <tr class="year-row past" id="year-{{ yr_num }}">
                     {% for week_no in full_year_weeks %}
                         {% if yr_num == event_year and week_no == event_week %}
-                            <td class="week past event" id="{{ yr_num }}-{{ week_no }}" data-tooltip="{{ event_name }} — {{ event_date }}">{{ week_no }}</td>
+                            <td class="week past event" id="{{ yr_num }}-{{ week_no }}" data-tooltip="{{ event_name }} — {{ event_date }}">
+                                {{ week_no }}
+                                <div class="all-tooltips">
+                                    <div class="tooltip">
+                                        <div class="tooltip-content">
+                                            <div class="arrow"></div>
+                                            <div class="content"><h3>{{ event_name }}</h3><p>{{ event_date }}</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                         {% else %}
                             <td class="week past" id="{{ yr_num }}-{{ week_no }}">{{ week_no }}</td>
                         {% endif %}
