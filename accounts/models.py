@@ -99,14 +99,19 @@ class CustomUser(AbstractUser):
                 else:
                     weeks[f'({year}, {week})'] = f'<td class="week present" id="({year},{week})">{week}</td>'
             for event in self.events.all():
+                event_date = event.event_date.strftime('%b %w, %Y')
                 if week_element := weeks.get(str(event.index)):
                     up_to_class, classes, id_onwards = week_element.split(
                         '"', 2)
                     classes += " event"
-                    tootltip = f'data-tooltip="{event.event_name} — {event.event_date}"'
-                    new_element = f'{up_to_class}"{classes}" {tootltip} {id_onwards}'
+                    with_classes = f'{up_to_class}"{classes}" {id_onwards}'
+                    wihtout_closing_tag, closing_tag = with_classes.split('</')
+                    new_element = f'{wihtout_closing_tag}<div class="all-tooltips"><div class="tooltip">\
+                        <div class="tooltip-content"><div class="arrow"></div><div class="content">\
+                        <h3>{event.event_name}</h3><p>{event_date}</p><p class="edit">Edit</p>\
+                        </div></div></div></div>'
                     weeks[str(event.index)] = new_element
-            for key, value in weeks.items():
+            for _, value in weeks.items():
                 html += value
             html += '</tr>'
         html += '</table>'

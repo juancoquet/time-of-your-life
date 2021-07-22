@@ -31,6 +31,7 @@ h1 {
     color: black;
     position: relative;
     cursor: pointer;
+    transition: 300ms;
 }
 
 .all-tooltips {
@@ -53,10 +54,16 @@ h1 {
     /* max-width: 150px; */
     /* pointer-events: none; */
     z-index: 2;
-    transform: translate(calc(-50% + 7px), 32%) scale(0%);
+    transform: translate(calc(-50% + 7px), 28px) scale(0%);
     transition: 300ms transform;
     transform-origin: top;
     cursor: auto;
+}
+
+.edit {
+    color: grey;
+    font-size: 10px;
+    margin: 0px;
 }
 
 .tooltip-content .arrow {
@@ -68,14 +75,16 @@ h1 {
     transform: translate(-50%, -100%);
 }
 
-.week.event:hover .tooltip-content {
-    transform: translate(calc(-50% + 7px), 32%) scale(80%);
+.week.event:hover .tooltip-content,
+.week.event:active .tooltip-content {
+    transform: translate(calc(-50% + 7px), 28px) scale(80%);
     transition: 300ms transform;
     transform-origin: top;
 }
 
 .week.event:hover {
     transform: scale(125%);
+    transition: 300ms;
 }
 
 .neumorphism {
