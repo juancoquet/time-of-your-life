@@ -83,8 +83,6 @@ class CustomUser(AbstractUser):
     def current_year_and_week(self):
         return (self.current_year, self.current_week)
 
-    # TODO: Create calendar @property to generate weeks iter
-
     @property
     def calendar(self):
         html = '<table>'
@@ -98,8 +96,9 @@ class CustomUser(AbstractUser):
                     weeks[f'({year}, {week})'] = f'<td class="week future" id="({year},{week})">{week}</td>'
                 else:
                     weeks[f'({year}, {week})'] = f'<td class="week present" id="({year},{week})">{week}</td>'
+
             for event in self.events.all():
-                event_date = event.event_date.strftime('%b %w, %Y')
+                event_date = event.event_date.strftime('%b %d, %Y')
                 if week_element := weeks.get(str(event.index)):
                     up_to_class, classes, id_onwards = week_element.split(
                         '"', 2)
@@ -111,6 +110,7 @@ class CustomUser(AbstractUser):
                         <h3>{event.event_name}</h3><p>{event_date}</p><p class="edit">Edit</p>\
                         </div></div></div></div>'
                     weeks[str(event.index)] = new_element
+
             for _, value in weeks.items():
                 html += value
             html += '</tr>'

@@ -2,7 +2,9 @@ from datetime import date
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.urls import reverse
 from math import ceil
+import uuid
 
 User = get_user_model()
 
@@ -10,6 +12,11 @@ EVENT_DATE_ERROR = "Event dates must be within a 90-year window starting on your
 
 
 class UserEvent(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
     event_name = models.CharField(max_length=100, blank=False, null=False)
     event_date = models.DateField(blank=False, null=False)
     owner = models.ForeignKey(
@@ -84,3 +91,7 @@ class UserEvent(models.Model):
         if week_no == 0:
             week_no = 1
         return (year_no, week_no)
+
+    # TODO: Add get absolute url
+    def get_absolute_url(self):
+        return reverse("event_update", kwargs={"pk": self.pk})

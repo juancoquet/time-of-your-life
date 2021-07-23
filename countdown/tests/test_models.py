@@ -125,3 +125,17 @@ class UserEventModelTest(TestCase):
             owner=user
         )
         self.assertEqual(event.index, (9, 13))
+
+    def test_get_absolute_url(self):
+        user = self.create_user()
+        event = UserEvent(
+            event_name='test event',
+            event_date='2005-01-29',
+            owner=user
+        )
+        event.save_event()
+        uuid = event.id
+        self.assertEqual(
+            event.get_absolute_url(),
+            f'/grid/dashboard/edit/{uuid}/'
+        )

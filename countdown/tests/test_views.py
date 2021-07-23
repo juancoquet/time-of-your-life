@@ -249,3 +249,8 @@ class DashboardViewTest(TestCase):
         event = UserEvent.objects.first()
         self.assertEqual(event.owner, correct_user)
         self.assertNotEqual(event.owner, wrong_user)
+
+
+class EventUpdateViewTest(TestCase):
+    # TODO: Test event udpate
+    pass

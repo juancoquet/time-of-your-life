@@ -1,9 +1,10 @@
 from django.core.exceptions import ValidationError
-from countdown.models import UserEvent
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.views.generic.edit import UpdateView
 
+from countdown.models import UserEvent
 from .forms import DOBForm, EVENT_DATE_ERROR, EventForm, UserEventForm
 from .view_helpers import event_is_within_90_yrs_of_dob, get_event_year_of_life, get_event_week_number
 
@@ -96,3 +97,7 @@ def dashboard(request):
         'user_event_form': event_form,
         'calendar': user.calendar
     })
+
+
+class EventUpdateView(UpdateView):
+    pass

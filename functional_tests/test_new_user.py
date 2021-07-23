@@ -107,6 +107,23 @@ class NewUserTest(FunctionalTest):
         all_weeks = self.browser.find_elements_by_css_selector('.week')
         self.assertEqual(len(all_weeks), 52*90)
 
+        # TODO: Test Edit button and update view.
+        # They hover over the new highlighted event, which reveals a tooltip with information.
+        event = self.browser.find_element_by_css_selector('.week.event')
+        self.actions.move_to_element(event).perform()
+        self.browser.find_element_by_css_selector('.tooltip')
+
+        # They click the visible edit button inside the tooltip and it takes them to a page
+        # where they can update the event information.
+        edit = self.browser.find_element_by_css_selector('.edit')
+        self.actions.move_to_element(
+            event).move_to_element(edit).click().perform()
+
+        update = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('Edit', update)
+        event_name_input = self.browser.find_element_by_id('id_event_name')
+        event_date_input = self.browser.find_element_by_id('id_event_date')
+
         # TODO: Test add multiple events
 
         # TODO: Test home redirects to dashboard

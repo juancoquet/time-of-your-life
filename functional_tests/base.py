@@ -2,6 +2,7 @@ from datetime import datetime
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 import os
 from selenium import webdriver
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.firefox.options import Options
 
@@ -15,6 +16,7 @@ class FunctionalTest(StaticLiveServerTestCase):
         self.browser = webdriver.Remote(
             'http://selenium:4444/wd/hub', desired_capabilities=DesiredCapabilities.FIREFOX)
         self.browser.get(self.live_server_url)
+        self.actions = ActionChains(self.browser)
 
     def tearDown(self):
         if self._test_has_failed():
