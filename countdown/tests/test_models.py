@@ -137,5 +137,5 @@ class UserEventModelTest(TestCase):
         uuid = event.id
         self.assertEqual(
             event.get_absolute_url(),
-            f'/grid/dashboard/edit/{uuid}/'
+            f'/grid/edit/{uuid}/'
         )
