@@ -87,37 +87,46 @@ class CustomUser(AbstractUser):
     def calendar(self):
         # TODO: Handle multiple events in single week
         html = '<table>'
+        events = {}
+        for event in self.events.all():
+            if not events.get(str(event.index)):
+                events[str(event.index)] = [event]
+            else:
+                events[str(event.index)].append(event)
+
         for year in range(1, 91):
             html += f'<tr class="year" id="year-{year}">'
-            weeks = {}
+            weeks_in_yr = {}
             for week in range(1, 53):
                 if (year, week) < self.current_year_and_week:
-                    weeks[f'({year}, {week})'] = f'<td class="week past" id="({year},{week})">{week}</td>'
+                    weeks_in_yr[f'({year}, {week})'] = f'<td class="week past" id="({year},{week})">{week}</td>'
                 elif (year, week) > self.current_year_and_week:
-                    weeks[f'({year}, {week})'] = f'<td class="week future" id="({year},{week})">{week}</td>'
+                    weeks_in_yr[f'({year}, {week})'] = f'<td class="week future" id="({year},{week})">{week}</td>'
                 else:
-                    weeks[f'({year}, {week})'] = f'<td class="week present" id="({year},{week})">{week}</td>'
+                    weeks_in_yr[f'({year}, {week})'] = f'<td class="week present" id="({year},{week})">{week}</td>'
 
-            for event in self.events.all():
-                event_date = event.event_date.strftime('%b %d, %Y')
-                event_url = event.get_edit_url()
-                event_details = f'<h3>{event.event_name}</h3><p>{event_date}</p>\
-                        <a href="{event_url}"><p class="edit">Edit</p></a>'
-                if week_element := weeks.get(str(event.index)):
+            for wk_index, event_iter in events.items():
+                if week_element := weeks_in_yr.get(wk_index):
                     up_to_class, classes, id_onwards = week_element.split(
                         '"', 2)
                     classes += " event"
                     with_classes = f'{up_to_class}"{classes}" {id_onwards}'
-                    wihtout_closing_tag, closing_tag = with_classes.split('</')
-                    new_element = f'{wihtout_closing_tag}<div class="all-tooltips"><div class="tooltip">\
-                        <div class="tooltip-content"><div class="arrow"></div><div class="content">\
-                        \
-                        {event_details}\
-                        \
-                        </div></div></div></div>'
-                    weeks[str(event.index)] = new_element
+                    wihtout_closing_tag, _ = with_classes.split('</')
+                    before_event_details = f'{wihtout_closing_tag}<div class="all-tooltips"><div class="tooltip">\
+                        <div class="tooltip-content"><div class="arrow"></div><div class="content">'
+                    event_details = ''
+                    after_event_details = '</div></div></div></div>'
 
-            for _, value in weeks.items():
+                    for event in event_iter:
+                        event_date = event.event_date.strftime('%b %d, %Y')
+                        event_url = event.get_edit_url()
+                        event_details += f'<div class="event_details"><h3>{event.event_name}</h3><p>{event_date}</p>\
+                                <p class="edit"><a href="{event_url}">Edit</a></p></div>'
+
+                    new_element = before_event_details + event_details + after_event_details
+                    weeks_in_yr[str(event.index)] = new_element
+
+            for _, value in weeks_in_yr.items():
                 html += value
             html += '</tr>'
         html += '</table>'

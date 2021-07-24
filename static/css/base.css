@@ -47,7 +47,7 @@ h1 {
     position: absolute;
     background-color: white;
     box-shadow: 0px 0px 30px #00000040;
-    padding: 10px;
+    padding: 10px 30px 10px 30px;
     border-radius: 8px;
     text-align: center;
     width: max-content;
