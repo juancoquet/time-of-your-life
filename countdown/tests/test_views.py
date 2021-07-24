@@ -252,7 +252,7 @@ class DashboardViewTest(TestCase):
 
 
 class EventUpdateViewTest(TestCase):
-    # TODO: Test event udpate
+
     def setUp(self):
         User.objects.create(
             username='testuser',
@@ -270,11 +270,65 @@ class EventUpdateViewTest(TestCase):
         self.client.force_login(self.user)
 
     def test_change_event_name(self):
-        response = self.client.post(
+        self.client.post(
             self.event.get_edit_url(),
             data={
+                'event_name': 'changed event',
                 'event_date': '2009-05-29'
             }
         )
-        print(response.content.decode('utf8'))
+        self.event = UserEvent.objects.first()
+        self.assertEqual(self.event.event_name, 'changed event')
         self.assertEqual(self.event.event_date.year, 2009)
+
+    def test_edit_doesnt_create_new_event(self):
+        self.assertEqual(len(UserEvent.objects.all()), 1)
+        self.client.post(
+            self.event.get_edit_url(),
+            data={
+                'event_name': 'changed event',
+                'event_date': '2009-05-29'
+            }
+        )
+        self.assertEqual(len(UserEvent.objects.all()), 1)
+
+    def test_invalid_date_shows_error(self):
+        response = self.client.post(
+            self.event.get_edit_url(),
+            data={
+                'event_name': 'changed event',
+                'event_date': '2109-05-29'
+            }
+        )
+        self.assertContains(response, EVENT_DATE_ERROR)
+
+    def test_non_date_shows_error(self):
+        response = self.client.post(
+            self.event.get_edit_url(),
+            data={
+                'event_name': 'changed event',
+                'event_date': 'abcdefg'
+            }
+        )
+        self.assertContains(response, 'Enter a valid date')
+
+    def test_only_event_owner_can_edit(self):
+        wrong_user = User.objects.create(
+            username='wronguser',
+            email='wrong@user.com',
+            dob='2000-01-01',
+            password='testpass123'
+        )
+        self.client.force_login(wrong_user)
+        response = self.client.get(self.event.get_edit_url())
+        self.assertEqual(response.status_code, 403)
+
+    def test_valid_post_redirects(self):
+        response = self.client.post(
+            self.event.get_edit_url(),
+            data={
+                'event_name': 'changed event',
+                'event_date': '2009-05-29'
+            }
+        )
+        self.assertEqual(response.status_code, 302)

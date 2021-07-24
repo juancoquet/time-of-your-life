@@ -85,6 +85,7 @@ class CustomUser(AbstractUser):
 
     @property
     def calendar(self):
+        # TODO: Handle multiple events in single week
         html = '<table>'
         for year in range(1, 91):
             html += f'<tr class="year" id="year-{year}">'
@@ -100,6 +101,8 @@ class CustomUser(AbstractUser):
             for event in self.events.all():
                 event_date = event.event_date.strftime('%b %d, %Y')
                 event_url = event.get_edit_url()
+                event_details = f'<h3>{event.event_name}</h3><p>{event_date}</p>\
+                        <a href="{event_url}"><p class="edit">Edit</p></a>'
                 if week_element := weeks.get(str(event.index)):
                     up_to_class, classes, id_onwards = week_element.split(
                         '"', 2)
@@ -108,8 +111,9 @@ class CustomUser(AbstractUser):
                     wihtout_closing_tag, closing_tag = with_classes.split('</')
                     new_element = f'{wihtout_closing_tag}<div class="all-tooltips"><div class="tooltip">\
                         <div class="tooltip-content"><div class="arrow"></div><div class="content">\
-                        <h3>{event.event_name}</h3><p>{event_date}</p>\
-                        <a href="{event_url}"><p class="edit">Edit</p></a>\
+                        \
+                        {event_details}\
+                        \
                         </div></div></div></div>'
                     weeks[str(event.index)] = new_element
 

@@ -1,5 +1,6 @@
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
+from time import sleep
 
 from .base import FunctionalTest
 from countdown.forms import FUTURE_DOB_ERROR, PAST_DOB_ERROR
@@ -107,7 +108,6 @@ class NewUserTest(FunctionalTest):
         all_weeks = self.browser.find_elements_by_css_selector('.week')
         self.assertEqual(len(all_weeks), 52*90)
 
-        # TODO: Test Edit button and update view.
         # They hover over the new highlighted event, which reveals a tooltip with information.
         event = self.browser.find_element_by_css_selector('.week.event')
         self.actions.move_to_element(event).perform()
@@ -119,6 +119,7 @@ class NewUserTest(FunctionalTest):
         self.actions.move_to_element(
             event).move_to_element(edit).click().perform()
 
+        sleep(2)
         update = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Edit', update)
         event_name_input = self.browser.find_element_by_id('id_event_name')

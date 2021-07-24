@@ -1,4 +1,4 @@
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
@@ -75,6 +75,7 @@ def grid(request, dob, event_name=None, event_date=None):
 
 @login_required(redirect_field_name='account_login')
 def dashboard(request):
+    # TODO: Handle multiple events same week
     event_form = UserEventForm(request.POST or None)
     user = request.user
 
@@ -105,17 +106,25 @@ class EventUpdateView(LoginRequiredMixin, UpdateView):
     form_class = UserEventForm
     login_url = 'account_login'
     template_name = 'edit_event.html'
-    success_url = 'grid/dashboard/'
+    success_url = '/'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.owner != self.request.user:
+            raise PermissionDenied
+        return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        """
-        Handle POST requests: instantiate a form instance with the passed
-        POST variables and then check if it's valid.
-        """
+        self.object = self.get_object()
         form = self.get_form()
-        event = form.save(commit=False)
-        print(event.user)
-        # if form.is_valid():
-        #     return self.form_valid(form)
-        # else:
-        #     return self.form_invalid(form)
+        event = self.get_object()
+        if not form.is_valid():
+            return self.form_invalid(form)
+        event.event_name = form.cleaned_data['event_name']
+        event.event_date = form.cleaned_data['event_date']
+        if event.is_valid():
+            event.save_event()
+            return redirect('/')
+        else:
+            form.show_event_date_error()
+            return self.form_invalid(form)

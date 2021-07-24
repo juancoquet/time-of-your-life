@@ -1,9 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <h2>Edit event</h2>
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Update</button>
+    <p class="form_field">
+      <label for="event_name">Event name:</label>
+      {{ form.event_name }}
+    </p>
+    <p class="form_field">
+      <label for="event_date">Event date:</label>
+      {{ form.event_date }}
+    </p>
+    <p class="errors">{{ form.errors.event_name }}</p>
+    <p class="errors">{{ form.errors.event_date }}</p>
+    <button class="btn button-submit" type="submit">Update</button><a href="{% url 'dashboard' %}"><button class="btn button-cancel">Cancel</button></a>
   </form>
 {% endblock content %}
