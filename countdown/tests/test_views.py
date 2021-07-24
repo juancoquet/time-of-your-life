@@ -253,4 +253,28 @@ class DashboardViewTest(TestCase):
 
 class EventUpdateViewTest(TestCase):
     # TODO: Test event udpate
-    pass
+    def setUp(self):
+        User.objects.create(
+            username='testuser',
+            dob='1995-12-01',
+            password='testpass123',
+            email='test@user.com'
+        )
+        self.user = User.objects.first()
+        UserEvent.objects.create(
+            event_name='test event',
+            event_date='2005-05-29',
+            owner=self.user
+        )
+        self.event = UserEvent.objects.first()
+        self.client.force_login(self.user)
+
+    def test_change_event_name(self):
+        response = self.client.post(
+            self.event.get_edit_url(),
+            data={
+                'event_date': '2009-05-29'
+            }
+        )
+        print(response.content.decode('utf8'))
+        self.assertEqual(self.event.event_date.year, 2009)

@@ -92,6 +92,5 @@ class UserEvent(models.Model):
             week_no = 1
         return (year_no, week_no)
 
-    # TODO: Add get absolute url
-    def get_absolute_url(self):
+    def get_edit_url(self):
         return reverse("event_update", kwargs={"pk": self.pk})

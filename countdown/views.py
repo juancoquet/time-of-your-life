@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic.edit import UpdateView
@@ -99,5 +100,22 @@ def dashboard(request):
     })
 
 
-class EventUpdateView(UpdateView):
-    pass
+class EventUpdateView(LoginRequiredMixin, UpdateView):
+    model = UserEvent
+    form_class = UserEventForm
+    login_url = 'account_login'
+    template_name = 'edit_event.html'
+    success_url = 'grid/dashboard/'
+
+    def post(self, request, *args, **kwargs):
+        """
+        Handle POST requests: instantiate a form instance with the passed
+        POST variables and then check if it's valid.
+        """
+        form = self.get_form()
+        event = form.save(commit=False)
+        print(event.user)
+        # if form.is_valid():
+        #     return self.form_valid(form)
+        # else:
+        #     return self.form_invalid(form)

@@ -126,7 +126,7 @@ class UserEventModelTest(TestCase):
         )
         self.assertEqual(event.index, (9, 13))
 
-    def test_get_absolute_url(self):
+    def test_get_edit_url(self):
         user = self.create_user()
         event = UserEvent(
             event_name='test event',
@@ -136,6 +136,6 @@ class UserEventModelTest(TestCase):
         event.save_event()
         uuid = event.id
         self.assertEqual(
-            event.get_absolute_url(),
+            event.get_edit_url(),
             f'/grid/edit/{uuid}/'
         )
