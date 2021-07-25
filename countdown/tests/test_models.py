@@ -153,3 +153,17 @@ class UserEventModelTest(TestCase):
             event.get_delete_url(),
             f'/grid/delete/{uuid}/'
         )
+
+    def test_cant_create_non_unique_object(self):
+        user = self.create_user()
+        UserEvent.objects.create(
+            event_name='test event',
+            event_date='2005-06-28',
+            owner=user
+        )
+        with self.assertRaises(IntegrityError):
+            UserEvent.objects.create(
+                event_name='test event',
+                event_date='2005-06-28',
+                owner=user
+            )

@@ -22,6 +22,9 @@ class UserEvent(models.Model):
     owner = models.ForeignKey(
         User, related_name='events', on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ('event_name', 'event_date', 'owner')
+
     # TODO: Make events name&date&owner unique required
 
     ###############
