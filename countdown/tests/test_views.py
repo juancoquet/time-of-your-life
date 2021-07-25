@@ -3,12 +3,13 @@ from unittest.mock import patch
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+from django.db.utils import IntegrityError
 from django.http import response
 from django.test import TestCase
 from django.urls.base import reverse
 
 from countdown.forms import (DOBForm, EventForm, UserEventForm,
-                             FUTURE_DOB_ERROR, EVENT_DATE_ERROR)
+                             FUTURE_DOB_ERROR, EVENT_DATE_ERROR, DUPLICATE_EVENT_ERROR)
 from countdown.models import UserEvent
 
 User = get_user_model()
@@ -155,13 +156,14 @@ class GridViewTest(TestCase):
 class DashboardViewTest(TestCase):
 
     def setUp(self) -> None:
-        user = User.objects.create(
+        User.objects.create(
             username='testuser',
             email='test@user.com',
             dob='1995-12-01',
             password='testpass123'
         )
-        self.client.force_login(user)
+        self.user = User.objects.first()
+        self.client.force_login(self.user)
         self.response = self.client.get('/grid/dashboard/')
 
     def test_uses_dashboard_template(self):

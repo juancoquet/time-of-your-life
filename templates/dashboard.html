@@ -7,13 +7,17 @@
         <h3>Add a life event</h3>
         <form action="{% url 'dashboard' %}" method="post">
             {% csrf_token %}
-            <label for="user_event_form.event_name">Event name:</label>
-            {{ user_event_form.event_name }}<br>
-            <label for="user_event_form.event_date">Event date:</label>
-            {{ user_event_form.event_date }}<br>
-            <button name="add_event_btn" type="submit">Add event</button><br>
-            {{ user_event_form.event_name.errors }}
-            {{ user_event_form.event_date.errors }}
+            <p class="form_field">
+                <label for="user_event_form.event_name">Event name:</label>
+                {{ user_event_form.event_name }}
+            </p>
+            <p class="form_field">
+                <label for="user_event_form.event_date">Event date:</label>
+                {{ user_event_form.event_date }}
+            </p>
+            <button name="add_event_btn" type="submit">Add event</button>
+            <p class="error">{{ user_event_form.event_name.errors }}</p>
+            <p class="error">{{ user_event_form.event_date.errors }}</p>
         </form>
     </div>
 

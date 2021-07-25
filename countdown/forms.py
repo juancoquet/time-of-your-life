@@ -11,6 +11,8 @@ PAST_DOB_ERROR = "Date of birth cannot be more that 90 years ago"
 
 EVENT_DATE_ERROR = "Event dates must be within a 90-year window starting on your date of birth"
 
+DUPLICATE_EVENT_ERROR = "This event already exists"
+
 ###############
 ### Helpers ###
 ###############
@@ -146,3 +148,6 @@ class UserEventForm(forms.ModelForm):
 
     def show_event_date_error(self):
         self.errors['event_date'] = EVENT_DATE_ERROR
+
+    def show_unique_restraint_error(self):
+        self.errors['event_name'] = DUPLICATE_EVENT_ERROR

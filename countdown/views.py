@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.utils import IntegrityError
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic.edit import DeleteView, UpdateView
@@ -86,6 +87,8 @@ def dashboard(request):
                 event.save_event()
             except ValidationError:
                 event_form.show_event_date_error()
+            except IntegrityError:
+                event_form.show_unique_restraint_error()
 
     return render(request, 'dashboard.html', {
         'years_passed': user.years_passed,

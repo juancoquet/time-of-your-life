@@ -3,7 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from time import sleep
 
 from .base import FunctionalTest
-from countdown.forms import FUTURE_DOB_ERROR, PAST_DOB_ERROR
+from countdown.forms import FUTURE_DOB_ERROR, PAST_DOB_ERROR, DUPLICATE_EVENT_ERROR
 
 
 class NewUserTest(FunctionalTest):
@@ -108,6 +108,14 @@ class NewUserTest(FunctionalTest):
         all_weeks = self.browser.find_elements_by_css_selector('.week')
         self.assertEqual(len(all_weeks), 52*90)
 
+        # They try to add a duplicate event, but they see an error.
+        submit_button = self.browser.find_element_by_name(
+            'add_event_btn')
+        submit_button.click()
+
+        dupe_error = self.browser.find_element_by_css_selector('.error').text
+        self.assertEqual(dupe_error, DUPLICATE_EVENT_ERROR)
+
         # They hover over the new highlighted event, which reveals a tooltip with information.
         event = self.browser.find_element_by_css_selector('.week.event')
         self.actions.move_to_element(event).perform()
@@ -119,7 +127,7 @@ class NewUserTest(FunctionalTest):
         self.actions.move_to_element(
             event).move_to_element(edit).click().perform()
 
-        sleep(3)
+        sleep(4)
         update = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Edit', update)
         event_name_input = self.browser.find_element_by_id('id_event_name')
@@ -186,7 +194,7 @@ class NewUserTest(FunctionalTest):
             event).move_to_element(delete).click().perform()
 
         # They are taken to a new page, asking them to confirm the deletion.
-        sleep(3)
+        sleep(4)
         heading = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Delete', heading)
 
