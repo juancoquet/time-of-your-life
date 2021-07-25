@@ -139,3 +139,17 @@ class UserEventModelTest(TestCase):
             event.get_edit_url(),
             f'/grid/edit/{uuid}/'
         )
+
+    def test_get_delete_url(self):
+        user = self.create_user()
+        event = UserEvent(
+            event_name='test event',
+            event_date='2005-01-29',
+            owner=user
+        )
+        event.save_event()
+        uuid = event.id
+        self.assertEqual(
+            event.get_delete_url(),
+            f'/grid/delete/{uuid}/'
+        )

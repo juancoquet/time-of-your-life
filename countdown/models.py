@@ -94,3 +94,6 @@ class UserEvent(models.Model):
 
     def get_edit_url(self):
         return reverse("event_update", kwargs={"pk": self.pk})
+
+    def get_delete_url(self):
+        return reverse("event_delete", kwargs={"pk": self.pk})

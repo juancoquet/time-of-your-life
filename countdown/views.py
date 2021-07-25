@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import DeleteView, UpdateView
 
 from countdown.models import UserEvent
 from .forms import DOBForm, EVENT_DATE_ERROR, EventForm, UserEventForm
@@ -128,3 +128,16 @@ class EventUpdateView(LoginRequiredMixin, UpdateView):
         else:
             form.show_event_date_error()
             return self.form_invalid(form)
+
+
+class EventDeleteView(LoginRequiredMixin, DeleteView):
+    model = UserEvent
+    success_url = '/'
+    template_name = 'delete_event.html'
+    context_object_name = 'event'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.owner != self.request.user:
+            raise PermissionDenied
+        return super().get(request, *args, **kwargs)

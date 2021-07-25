@@ -125,6 +125,50 @@ class NewUserTest(FunctionalTest):
         event_name_input = self.browser.find_element_by_id('id_event_name')
         event_date_input = self.browser.find_element_by_id('id_event_date')
 
-        # TODO: Test add multiple events
+        # They edit the event info, and are taken back to the calendar page.
+        event_name_input.clear()
+        event_name_input.send_keys('edited event')
+        event_date_input.clear()
+        event_date_input.send_keys('2004-03-29')
+        self.browser.find_element_by_css_selector('.button-submit').click()
+
+        heading = self.browser.find_element_by_tag_name('h2').text
+        self.assertEqual(heading, 'Your Life Calendar')
+
+        # They decide to add another event, in the future this time.
+        event_name_input = self.browser.find_element_by_id('id_event_name')
+        event_date_input = self.browser.find_element_by_id('id_event_date')
+        submit_button = self.browser.find_element_by_name(
+            'add_event_btn')
+
+        event_name_input.send_keys('test event')
+        event_date_input.send_keys('2078-05-29')
+        submit_button.click()
+
+        # The page refreshes and they can now see two highlighted events.
+        events = self.browser.find_elements_by_css_selector('.event')
+        self.assertEqual(len(events), 2)
+
+        # TODO: Test delete
+        # They decide to delete the old event by hovering over the highlighted week
+        # and selecting the 'delete' option.
+        event_week = self.browser.find_element_by_css_selector('.week.event')
+        delete = self.browser.find_elements_by_css_selector('.delete')
+        self.actions.move_to_element(
+            event_week).move_to_element(delete).click().perform()
+
+        # They are taken to a new page, asking them to confirm the deltion.
+        self.sleep(2)
+        heading = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('Delete', heading)
+
+        # They click the delete button to confirm, and are taken back to the dashboard.
+        self.browser.find_element_by_css_selector('.btn.button-delete').click()
+        heading = self.browser.find_element_by_tag_name('h2').text
+        self.assertEqual('Your Life Calendar', heading)
+
+        # The deleted event no longer appears.
+        events = self.browser.find_elements_by_css_selector('.week.event')
+        self.assertEqual(len(events), 1)
 
         # TODO: Test home redirects to dashboard

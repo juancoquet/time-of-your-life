@@ -2,19 +2,6 @@ import math
 from datetime import date
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from functools import wraps
-import time
-
-
-def timethis(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        start = time.perf_counter()
-        r = func(*args, **kwargs)
-        end = time.perf_counter()
-        print('Runtime:', end - start)
-        return r
-    return wrapper
 
 
 class CustomUser(AbstractUser):
@@ -97,7 +84,6 @@ class CustomUser(AbstractUser):
         return (self.current_year, self.current_week)
 
     @property
-    @timethis
     def calendar(self):
         html = '<table>'
         events = {}
@@ -133,8 +119,10 @@ class CustomUser(AbstractUser):
                     for event in event_iter:
                         event_date = event.event_date.strftime('%b %d, %Y')
                         event_url = event.get_edit_url()
+                        event_delete_url = event.get_delete_url()
                         event_details += f'<div class="event_details"><h3>{event.event_name}</h3><p>{event_date}</p>\
-                                <p class="edit"><a href="{event_url}">Edit</a></p></div>'
+                                <p><span class="edit"><a href="{event_url}">Edit</a></span>\
+                                <span class="delete"><a href="{event_delete_url}">Delete</a></span></p></div>'
 
                     new_element = before_event_details + event_details + after_event_details
                     weeks_in_yr[str(event.index)] = new_element

@@ -332,3 +332,34 @@ class EventUpdateViewTest(TestCase):
             }
         )
         self.assertEqual(response.status_code, 302)
+
+
+class EventDeleteViewTest(TestCase):
+
+    def setUp(self):
+        User.objects.create(
+            username='testuser',
+            dob='1995-12-01',
+            password='testpass123',
+            email='test@user.com'
+        )
+        self.user = User.objects.first()
+        UserEvent.objects.create(
+            event_name='test event',
+            event_date='2005-05-29',
+            owner=self.user
+        )
+        self.event = UserEvent.objects.first()
+        self.client.force_login(self.user)
+
+    def test_only_event_owner_can_delete(self):
+        User.objects.create(
+            username='wronguser',
+            dob='2001-01-19',
+            password='testpass123',
+            email='wrong@user.com'
+        )
+        wrong_user = User.objects.get(username='wronguser')
+        self.client.force_login(wrong_user)
+        response = self.client.get(self.event.get_delete_url())
+        self.assertEqual(response.status_code, 403)
