@@ -75,7 +75,6 @@ def grid(request, dob, event_name=None, event_date=None):
 
 @login_required(redirect_field_name='account_login')
 def dashboard(request):
-    # TODO: Handle multiple events same week
     event_form = UserEventForm(request.POST or None)
     user = request.user
 

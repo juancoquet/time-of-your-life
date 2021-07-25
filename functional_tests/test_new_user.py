@@ -149,8 +149,6 @@ class NewUserTest(FunctionalTest):
         events = self.browser.find_elements_by_css_selector('.event')
         self.assertEqual(len(events), 2)
 
-        # TODO: Test home redirects to dashboard
-
     def test_delete_event(self):
         ### Set up ####
         self.browser.find_element_by_id('id_signup').click()

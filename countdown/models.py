@@ -22,6 +22,8 @@ class UserEvent(models.Model):
     owner = models.ForeignKey(
         User, related_name='events', on_delete=models.CASCADE)
 
+    # TODO: Make events name&date&owner unique required
+
     ###############
     ### Methods ###
     ###############
