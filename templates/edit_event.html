@@ -14,6 +14,7 @@
     </p>
     <p class="errors">{{ form.errors.event_name }}</p>
     <p class="errors">{{ form.errors.event_date }}</p>
-    <button class="btn button-submit" type="submit">Update</button><a href="{% url 'dashboard' %}"><button class="btn button-cancel">Cancel</button></a>
+    <button class="btn button-submit" type="submit">Update</button>
+    <a href="{% url 'dashboard' %}"><button type="button" class="btn button-cancel">Cancel</button></a>
   </form>
 {% endblock content %}

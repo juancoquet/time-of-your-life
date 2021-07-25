@@ -25,8 +25,6 @@ class UserEvent(models.Model):
     class Meta:
         unique_together = ('event_name', 'event_date', 'owner')
 
-    # TODO: Make events name&date&owner unique required
-
     ###############
     ### Methods ###
     ###############
