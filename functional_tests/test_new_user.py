@@ -119,7 +119,7 @@ class NewUserTest(FunctionalTest):
         self.actions.move_to_element(
             event).move_to_element(edit).click().perform()
 
-        sleep(2)
+        sleep(3)
         update = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Edit', update)
         event_name_input = self.browser.find_element_by_id('id_event_name')
@@ -149,26 +149,55 @@ class NewUserTest(FunctionalTest):
         events = self.browser.find_elements_by_css_selector('.event')
         self.assertEqual(len(events), 2)
 
-        # TODO: Test delete
-        # They decide to delete the old event by hovering over the highlighted week
-        # and selecting the 'delete' option.
-        event_week = self.browser.find_element_by_css_selector('.week.event')
-        delete = self.browser.find_elements_by_css_selector('.delete')
-        self.actions.move_to_element(
-            event_week).move_to_element(delete).click().perform()
+        # TODO: Test home redirects to dashboard
 
-        # They are taken to a new page, asking them to confirm the deltion.
-        self.sleep(2)
+    def test_delete_event(self):
+        ### Set up ####
+        self.browser.find_element_by_id('id_signup').click()
+        self.fill_signup_form(
+            username='testuser',
+            email='test@user.com',
+            dob='1995-12-01',
+            password='testpass123'
+        )
+        username_input = self.browser.find_element_by_id('id_login')
+        password_input = self.browser.find_element_by_id('id_password')
+        username_input.send_keys('test@user.com')
+        password_input.send_keys('testpass123')
+        self.browser.find_element_by_css_selector('.btn-login').click()
+        event_name_input = self.browser.find_element_by_id('id_event_name')
+        event_date_input = self.browser.find_element_by_id('id_event_date')
+        submit_button = self.browser.find_element_by_name(
+            'add_event_btn')
+
+        event_name_input.send_keys('test event')
+        event_date_input.send_keys('1998-04-12')
+        submit_button.click()
+
+        ############
+        ### Test ###
+        ############
+
+        # The user decides to delete the event by hovering over the highlighted week
+        # and selecting the 'delete' option.
+        event = self.browser.find_element_by_css_selector('.week.event')
+        self.actions.move_to_element(event).perform()
+
+        delete = self.browser.find_element_by_css_selector('.delete')
+        self.actions.move_to_element(
+            event).move_to_element(delete).click().perform()
+
+        # They are taken to a new page, asking them to confirm the deletion.
+        sleep(3)
         heading = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Delete', heading)
 
         # They click the delete button to confirm, and are taken back to the dashboard.
-        self.browser.find_element_by_css_selector('.btn.button-delete').click()
+        self.browser.find_element_by_css_selector(
+            '.btn.button-delete').click()
         heading = self.browser.find_element_by_tag_name('h2').text
         self.assertEqual('Your Life Calendar', heading)
 
         # The deleted event no longer appears.
         events = self.browser.find_elements_by_css_selector('.week.event')
-        self.assertEqual(len(events), 1)
-
-        # TODO: Test home redirects to dashboard
+        self.assertEqual(len(events), 0)

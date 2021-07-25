@@ -363,3 +363,34 @@ class EventDeleteViewTest(TestCase):
         self.client.force_login(wrong_user)
         response = self.client.get(self.event.get_delete_url())
         self.assertEqual(response.status_code, 403)
+
+    def test_page_uses_correct_event(self):
+        UserEvent.objects.create(
+            event_name='wrong event',
+            event_date='1999-05-29',
+            owner=self.user
+        )
+        wrong_event = UserEvent.objects.all()[1]
+        response = self.client.get(self.event.get_delete_url())
+        self.assertEqual(response.context['event'], self.event)
+        self.assertNotEqual(response.context['event'], wrong_event)
+
+    def test_post_deletes_event(self):
+        self.client.post(self.event.get_delete_url())
+        self.assertEqual(len(UserEvent.objects.all()), 0)
+
+    def test_post_deletes_correct_event(self):
+        UserEvent.objects.create(
+            event_name='delete event',
+            event_date='1999-05-29',
+            owner=self.user
+        )
+        self.assertEqual(len(UserEvent.objects.all()), 2)
+        delete_event = UserEvent.objects.all()[1]
+
+        self.client.post(delete_event.get_delete_url())
+        self.assertEqual(len(UserEvent.objects.all()), 1)
+
+        remaining_event = UserEvent.objects.first()
+        self.assertEqual(remaining_event, self.event)
+        self.assertNotEqual(remaining_event, delete_event)

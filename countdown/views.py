@@ -135,6 +135,7 @@ class EventDeleteView(LoginRequiredMixin, DeleteView):
     success_url = '/'
     template_name = 'delete_event.html'
     context_object_name = 'event'
+    login_url = 'account_login'
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
