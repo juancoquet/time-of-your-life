@@ -2,9 +2,15 @@ import math
 from datetime import date
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+import uuid
 
 
 class CustomUser(AbstractUser):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
     username = models.CharField(
         max_length=50, blank=False, null=False, unique=True)
     dob = models.DateField(blank=False)
