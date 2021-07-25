@@ -2,6 +2,19 @@ import math
 from datetime import date
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from functools import wraps
+import time
+
+
+def timethis(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.perf_counter()
+        r = func(*args, **kwargs)
+        end = time.perf_counter()
+        print('Runtime:', end - start)
+        return r
+    return wrapper
 
 
 class CustomUser(AbstractUser):
@@ -84,8 +97,8 @@ class CustomUser(AbstractUser):
         return (self.current_year, self.current_week)
 
     @property
+    @timethis
     def calendar(self):
-        # TODO: Handle multiple events in single week
         html = '<table>'
         events = {}
         for event in self.events.all():

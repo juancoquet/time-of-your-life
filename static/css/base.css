@@ -30,7 +30,6 @@ h1 {
     position: relative;
     color: black;
     position: relative;
-    cursor: pointer;
     transition: 300ms;
 }
 
@@ -78,7 +77,7 @@ h1 {
 .week.event:hover .tooltip-content,
 .week.event:active .tooltip-content {
     transform: translate(calc(-50% + 7px), 28px) scale(80%);
-    transition: 300ms transform;
+    transition: 75ms transform;
     transform-origin: top;
 }
 
