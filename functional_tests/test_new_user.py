@@ -159,18 +159,8 @@ class NewUserTest(FunctionalTest):
 
     def test_delete_event(self):
         ### Set up ####
-        self.browser.find_element_by_id('id_signup').click()
-        self.fill_signup_form(
-            username='testuser',
-            email='test@user.com',
-            dob='1995-12-01',
-            password='testpass123'
-        )
-        username_input = self.browser.find_element_by_id('id_login')
-        password_input = self.browser.find_element_by_id('id_password')
-        username_input.send_keys('test@user.com')
-        password_input.send_keys('testpass123')
-        self.browser.find_element_by_css_selector('.btn-login').click()
+        self.create_user_and_sign_in()
+
         event_name_input = self.browser.find_element_by_id('id_event_name')
         event_date_input = self.browser.find_element_by_id('id_event_date')
         submit_button = self.browser.find_element_by_name(

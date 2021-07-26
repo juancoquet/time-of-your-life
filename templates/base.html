@@ -21,13 +21,13 @@
 </head>
 <body>
     <nav>
-        <a href="/">Time of Your Life</a>
+        <a id="home" href="/">Time of Your Life</a>
         {% if not user.is_authenticated %}
             <a href="{% url 'account_signup' %}" id="id_signup">Sign up</a>
             <a href="{% url 'account_login' %}" id='id_login_link'>Log in</a>
         {% else %}
             <a id='id_logout' href="{% url 'account_logout' %}">Log out</a>
-            <span id="id_logged_in">Logged in as {{ user.username }}</span>
+            <span class="profile" id="id_logged_in">{{ user.username }}</span>
         {% endif %}
         <a href="/admin/"><button>Admin</button></a>
     </nav>

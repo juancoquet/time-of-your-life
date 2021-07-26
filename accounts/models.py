@@ -7,12 +7,16 @@ import uuid
 
 class CustomUser(AbstractUser):
     id = models.UUIDField(
-        primary_key=True,
         default=uuid.uuid4,
         editable=False
     )
     username = models.CharField(
-        max_length=50, blank=False, null=False, unique=True)
+        primary_key=True,
+        max_length=50,
+        blank=False,
+        null=False,
+        unique=True
+    )
     dob = models.DateField(blank=False)
     email = models.EmailField(
         max_length=255,
@@ -20,8 +24,8 @@ class CustomUser(AbstractUser):
         blank=False,
         null=False
     )
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['dob', 'username']
+
+    REQUIRED_FIELDS = ['dob', 'email']
 
     ###############
     ### Mehtods ###

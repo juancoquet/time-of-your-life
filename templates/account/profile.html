@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>My information</h2>
+  <form method="post">
+    {% csrf_token %}
+    <p class="form-field"><label for="id_email">Email </label>{{ form.email }}</p>
+    <p class="form-field"><label for="id_dob">Date of Birth </label>{{ form.dob }}</p>
+    <p class="form-field"><label for="id_name">Name </label>{{ form.first_name }}</p>
+    <button type="submit" class="btn button-submit">Submit</button>
+    <p class="errors">{{ form.errors.email }}</p>
+    <p class="errors">{{ form.errors.dob }}</p>
+    <p class="errors">{{ form.errors.name }}</p>
+    {{ form.errors }}
+  </form>
+  <h3>Change password</h3>
+  <p>Please click <a href="{% url 'account_change_password' %}">here</a> to change your password.</p>
+{% endblock content %}

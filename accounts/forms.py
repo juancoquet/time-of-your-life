@@ -28,7 +28,8 @@ class CustomUserChangeForm(UserChangeForm):
 
     class Meta:
         model = get_user_model()
-        fields = ('username', 'email', 'first_name', 'dob',)
+        fields = ('email', 'first_name', 'dob',)
+        widgets = {'dob': DateInput(attrs={"class": "datepicker"})}
 
     def clean_dob(self, *args, **kwargs):
         dob_given = self.cleaned_data['dob']
