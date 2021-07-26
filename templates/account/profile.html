@@ -11,7 +11,9 @@
     <p class="errors">{{ form.errors.email }}</p>
     <p class="errors">{{ form.errors.dob }}</p>
     <p class="errors">{{ form.errors.name }}</p>
-    {{ form.errors }}
+    {% for message in messages %}
+      <p class="message">{{ message }}</p>
+    {% endfor %}
   </form>
   <h3>Change password</h3>
   <p>Please click <a href="{% url 'account_change_password' %}">here</a> to change your password.</p>

@@ -1,8 +1,10 @@
+from countdown.models import UserEvent
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
+from unittest.case import skip
 
-from accounts.forms import CustomUserChangeForm, FUTURE_DOB_ERROR, PAST_DOB_ERROR
+from accounts.forms import CustomUserChangeForm, FUTURE_DOB_ERROR, PAST_DOB_ERROR, EVENT_OUT_OF_RANGE_ERROR
 
 User = get_user_model()
 
@@ -170,3 +172,19 @@ class ProfileViewTest(TestCase):
             reverse('account_change_password'),
             self.response.content.decode()
         )
+
+    def test_dob_change_cant_leave_event_out_of_range(self):
+        UserEvent.objects.create(
+            event_name='test event',
+            event_date='2005-04-29',
+            owner=self.user
+        )
+        response = self.client.post(
+            reverse('profile', kwargs={'pk': self.user.username}),
+            data={
+                'email': 'test@user.com',
+                'dob': '2006-12-01',
+                'name': 'test'
+            }
+        )
+        self.assertIn(EVENT_OUT_OF_RANGE_ERROR, response.content.decode())

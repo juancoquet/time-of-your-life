@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.http import request
 from django.urls import reverse_lazy, reverse
@@ -31,4 +32,12 @@ class ProfileView(LoginRequiredMixin, generic.UpdateView):
     def get_success_url(self) -> str:
         return reverse('profile', kwargs={'pk': self.request.user.username})
 
-    # TODO: Catch event out of bounds on post
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        user_events = self.object.events.all()
+        for event in user_events:
+            if not event.is_valid():
+                form.show_event_out_of_range_error()
+                return super().form_invalid(form)
+        messages.success(self.request, "Success!")
+        return super().form_valid(form)
