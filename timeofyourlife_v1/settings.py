@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 
 LOGIN_REDIRECT_URL = 'dashboard'
 ACCOUNT_LOGOUT_REDIRECT = 'home'
+ACCOUNT_LOGOUT_ON_GET = True
 SITE_ID = 1
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',

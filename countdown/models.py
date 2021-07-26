@@ -25,6 +25,9 @@ class UserEvent(models.Model):
     class Meta:
         unique_together = ('event_name', 'event_date', 'owner')
 
+    def __str__(self):
+        return self.event_name
+
     ###############
     ### Methods ###
     ###############

@@ -2,6 +2,9 @@ from django.contrib import admin
 
 from .models import UserEvent
 
-# TODO: Add list fields
 
-admin.site.register(UserEvent)
+class UserEventAdmin(admin.ModelAdmin):
+    list_display = ('event_name', 'owner', 'event_date',)
+
+
+admin.site.register(UserEvent, UserEventAdmin)
