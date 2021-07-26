@@ -27,7 +27,7 @@
             <a href="{% url 'account_login' %}" id='id_login_link'>Log in</a>
         {% else %}
             <a id='id_logout' href="{% url 'account_logout' %}">Log out</a>
-            <span class="profile" id="id_logged_in">{{ user.username }}</span>
+            <span class="profile" id="id_logged_in"><a href="{% url 'profile' pk=user.username %}">{{ user.username }}</a></span>
         {% endif %}
         <a href="/admin/"><button>Admin</button></a>
     </nav>

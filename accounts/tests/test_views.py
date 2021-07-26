@@ -184,7 +184,21 @@ class ProfileViewTest(TestCase):
             data={
                 'email': 'test@user.com',
                 'dob': '2006-12-01',
-                'name': 'test'
+                'first_name': 'test'
             }
         )
         self.assertIn(EVENT_OUT_OF_RANGE_ERROR, response.content.decode())
+
+    def test_successful_post_upates_user_in_db(self):
+        self.client.post(
+            reverse('profile', kwargs={'pk': self.user.username}),
+            data={
+                'email': 'new@email.com',
+                'dob': '1996-12-01',
+                'first_name': 'new name'
+            }
+        )
+        user = User.objects.get(username='testuser')
+        self.assertEqual(user.email, 'new@email.com')
+        self.assertEqual(user.dob.year, 1996)
+        self.assertEqual(user.first_name, 'new name')

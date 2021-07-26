@@ -39,5 +39,5 @@ class ProfileView(LoginRequiredMixin, generic.UpdateView):
             if not event.is_valid():
                 form.show_event_out_of_range_error()
                 return super().form_invalid(form)
-        messages.success(self.request, "Success!")
+        messages.success(self.request, "Success!", extra_tags='custom')
         return super().form_valid(form)

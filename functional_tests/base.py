@@ -93,6 +93,6 @@ class FunctionalTest(StaticLiveServerTestCase):
         )
         username_input = self.browser.find_element_by_id('id_login')
         password_input = self.browser.find_element_by_id('id_password')
-        username_input.send_keys('test@user.com')
+        username_input.send_keys('testuser')
         password_input.send_keys('testpass123')
         self.browser.find_element_by_css_selector('.btn-login').click()

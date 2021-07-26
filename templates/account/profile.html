@@ -12,7 +12,9 @@
     <p class="errors">{{ form.errors.dob }}</p>
     <p class="errors">{{ form.errors.name }}</p>
     {% for message in messages %}
-      <p class="message">{{ message }}</p>
+      {% if 'custom' in message.tags %}
+        <p class="message">{{ message }}</p>
+      {% endif %}
     {% endfor %}
   </form>
   <h3>Change password</h3>

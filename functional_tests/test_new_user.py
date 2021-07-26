@@ -50,7 +50,7 @@ class NewUserTest(FunctionalTest):
         # They enter their email and password and are redirected to their profile page.
         username_input = self.browser.find_element_by_id('id_login')
         password_input = self.browser.find_element_by_id('id_password')
-        username_input.send_keys('test@user.com')
+        username_input.send_keys('testuser')
         password_input.send_keys('testpass123')
         self.browser.find_element_by_css_selector('.btn-login').click()
 
@@ -59,7 +59,7 @@ class NewUserTest(FunctionalTest):
         # Once logged in, they see the nav bar has changed.
         # The can see that they are logged in.
         logged_in_as = self.browser.find_element_by_id('id_logged_in').text
-        self.assertEqual(logged_in_as, 'Logged in as testuser')
+        self.assertEqual(logged_in_as, 'testuser')
 
         # They also see that the Sign up and Log In elements have disappeared.
         with self.assertRaises(NoSuchElementException):
@@ -123,11 +123,12 @@ class NewUserTest(FunctionalTest):
 
         # They click the visible edit button inside the tooltip and it takes them to a page
         # where they can update the event information.
+        sleep(1)
         edit = self.browser.find_element_by_css_selector('.edit')
         self.actions.move_to_element(
             event).move_to_element(edit).click().perform()
 
-        sleep(4)
+        sleep(1)
         update = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Edit', update)
         event_name_input = self.browser.find_element_by_id('id_event_name')
@@ -179,12 +180,13 @@ class NewUserTest(FunctionalTest):
         event = self.browser.find_element_by_css_selector('.week.event')
         self.actions.move_to_element(event).perform()
 
+        sleep(1)
         delete = self.browser.find_element_by_css_selector('.delete')
         self.actions.move_to_element(
             event).move_to_element(delete).click().perform()
 
         # They are taken to a new page, asking them to confirm the deletion.
-        sleep(4)
+        sleep(1)
         heading = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Delete', heading)
 

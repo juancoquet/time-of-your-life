@@ -84,8 +84,8 @@ class CustomUserTest(TestCase):
             )
 
     def test_username_is_required(self):
-        with self.assertRaises(IntegrityError):
-            User.objects.create(
+        with self.assertRaises(ValueError):
+            User.objects.create_user(
                 username=None,
                 dob='1995-12-01',
                 email='test@email.com',
