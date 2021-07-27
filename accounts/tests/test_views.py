@@ -1,3 +1,4 @@
+from django.urls.base import resolve
 from countdown.models import UserEvent
 from django.contrib.auth import get_user_model
 from django.test import TestCase
