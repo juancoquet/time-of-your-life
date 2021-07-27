@@ -2,6 +2,7 @@ from datetime import datetime
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 import os
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.firefox.options import Options
@@ -57,14 +58,20 @@ class FunctionalTest(StaticLiveServerTestCase):
         create_button.click()
 
     def add_life_event(self, event_name, event_date):
-        event_title_input = self.browser.find_element_by_id('id_event_title')
+        try:
+            event_title_input = self.browser.find_element_by_id(
+                'id_event_title')
+            event_title_input.send_keys(event_name)
+        except NoSuchElementException:
+            event_title_input = self.browser.find_element_by_id(
+                'id_event_name')
+            event_title_input.send_keys(event_name)
         event_date_input = self.browser.find_element_by_id('id_event_date')
-        submit_button = self.browser.find_element_by_name('add_event_btn')
-        event_title_input.send_keys(event_name)
         event_date_input.send_keys(event_date)
+        submit_button = self.browser.find_element_by_name('add_event_btn')
         submit_button.click()
 
-    def fill_signup_form(self, username, email, dob, password):
+    def submit_signup_form(self, username, email, dob, password):
         username_input = self.browser.find_element_by_id('id_username')
         email_input = self.browser.find_element_by_id('id_email')
         dob_input = self.browser.find_element_by_id('id_dob')
@@ -85,7 +92,7 @@ class FunctionalTest(StaticLiveServerTestCase):
 
     def create_user_and_sign_in(self):
         self.browser.find_element_by_id('id_signup').click()
-        self.fill_signup_form(
+        self.submit_signup_form(
             username='testuser',
             email='test@user.com',
             dob='1995-12-01',
@@ -96,3 +103,18 @@ class FunctionalTest(StaticLiveServerTestCase):
         username_input.send_keys('testuser')
         password_input.send_keys('testpass123')
         self.browser.find_element_by_css_selector('.btn-login').click()
+
+    def submit_user_update_form(self, email, dob, name):
+        email_field = self.browser.find_element_by_id('id_email')
+        email_field.clear()
+        email_field.send_keys(email)
+
+        dob_field = self.browser.find_element_by_id('id_dob')
+        dob_field.clear()
+        dob_field.send_keys(dob)
+
+        name_field = self.browser.find_element_by_id('id_first_name')
+        name_field.clear()
+        name_field.send_keys(name)
+
+        self.browser.find_element_by_css_selector('.btn.button-submit').click()

@@ -8,9 +8,9 @@
     <p class="form-field"><label for="id_dob">Date of Birth </label>{{ form.dob }}</p>
     <p class="form-field"><label for="id_name">Name </label>{{ form.first_name }}</p>
     <button type="submit" class="btn button-submit">Submit</button>
-    <p class="errors">{{ form.errors.email }}</p>
-    <p class="errors">{{ form.errors.dob }}</p>
-    <p class="errors">{{ form.errors.name }}</p>
+    <p id="errors_email" class="errors">{{ form.errors.email }}</p>
+    <p id="errors_dob" class="errors">{{ form.errors.dob }}</p>
+    <p id="errors_first_name" class="errors">{{ form.errors.first_name }}</p>
     {% for message in messages %}
       {% if 'custom' in message.tags %}
         <p class="message">{{ message }}</p>

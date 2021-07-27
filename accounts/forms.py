@@ -7,8 +7,8 @@ from datetime import date
 from countdown.forms import FUTURE_DOB_ERROR, PAST_DOB_ERROR, FUTURE_DOB_ERROR, get_today_minus_90_years
 
 
-EVENT_OUT_OF_RANGE_ERROR = "Your new date of birth would cause some of your events to \
-    be out of range."
+EVENT_OUT_OF_RANGE_ERROR = "Your new date of birth would cause some of your life events" \
+    "to be out of range."
 
 
 class CustomUserCreationForm(UserCreationForm):

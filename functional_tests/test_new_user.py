@@ -21,7 +21,7 @@ class NewUserTest(FunctionalTest):
 
         # They see a form with the fields username, email, date of birth and password.
         # They try to sign up with a date of birth in the future, but they are shown an error.
-        self.fill_signup_form(
+        self.submit_signup_form(
             username='testuser',
             email='test@user.com',
             dob='2100-12-01',
@@ -30,7 +30,7 @@ class NewUserTest(FunctionalTest):
         self.assertIn(FUTURE_DOB_ERROR, self.browser.page_source)
 
         # They try to sign up with a date of birth too far in the past, and once again see an error.
-        self.fill_signup_form(
+        self.submit_signup_form(
             username='testuser',
             email='test@user.com',
             dob='1901-12-01',
@@ -39,7 +39,7 @@ class NewUserTest(FunctionalTest):
         self.assertIn(PAST_DOB_ERROR, self.browser.page_source)
 
         # They enter valid details, and are redirected to the login page.
-        self.fill_signup_form(
+        self.submit_signup_form(
             username='testuser',
             email='test@user.com',
             dob='1995-12-01',
@@ -157,6 +157,11 @@ class NewUserTest(FunctionalTest):
         # The page refreshes and they can now see two highlighted events.
         events = self.browser.find_elements_by_css_selector('.event')
         self.assertEqual(len(events), 2)
+
+        # They decide they've seen enough, and log out of their account.
+        self.browser.find_element_by_id('id_logout').click()
+        with self.assertRaises(NoSuchElementException):
+            self.browser.find_element_by_id('id_logged_in')
 
     def test_delete_event(self):
         ### Set up ####
