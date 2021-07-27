@@ -22,10 +22,10 @@ from countdown import views as countdown_views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # Custom signup view
-    path('accounts/', include('accounts.urls')),
     # djagno-allauth
     path('accounts/', include('allauth.urls')),
+    # Custom signup view
+    path('accounts/', include('accounts.urls')),
 
     # Local apps
     path('grid/', include('countdown.urls')),

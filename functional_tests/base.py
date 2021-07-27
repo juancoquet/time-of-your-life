@@ -98,11 +98,6 @@ class FunctionalTest(StaticLiveServerTestCase):
             dob='1995-12-01',
             password='testpass123'
         )
-        username_input = self.browser.find_element_by_id('id_login')
-        password_input = self.browser.find_element_by_id('id_password')
-        username_input.send_keys('testuser')
-        password_input.send_keys('testpass123')
-        self.browser.find_element_by_css_selector('.btn-login').click()
 
     def submit_user_update_form(self, email, dob, name):
         email_field = self.browser.find_element_by_id('id_email')

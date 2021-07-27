@@ -38,22 +38,13 @@ class NewUserTest(FunctionalTest):
         )
         self.assertIn(PAST_DOB_ERROR, self.browser.page_source)
 
-        # They enter valid details, and are redirected to the login page.
+        # They enter valid details, and are logged in to their new account.
         self.submit_signup_form(
             username='testuser',
             email='test@user.com',
             dob='1995-12-01',
             password='testpass123'
         )
-        self.assertIn('accounts/login/', self.browser.current_url)
-
-        # They enter their email and password and are redirected to their profile page.
-        username_input = self.browser.find_element_by_id('id_login')
-        password_input = self.browser.find_element_by_id('id_password')
-        username_input.send_keys('testuser')
-        password_input.send_keys('testpass123')
-        self.browser.find_element_by_css_selector('.btn-login').click()
-
         self.assertIn('grid/dashboard/', self.browser.current_url)
 
         # Once logged in, they see the nav bar has changed.
@@ -70,7 +61,7 @@ class NewUserTest(FunctionalTest):
         # They see an option to log out
         self.browser.find_element_by_id('id_logout')
 
-        # On their profile page, they see their life calendar and a form to add life events.
+        # On their dashboard page, they see their life calendar and a form to add life events.
         past_weeks = self.browser.find_elements_by_css_selector('.week.past')
         future_weeks = self.browser.find_elements_by_css_selector(
             '.week.future')
@@ -123,12 +114,12 @@ class NewUserTest(FunctionalTest):
 
         # They click the visible edit button inside the tooltip and it takes them to a page
         # where they can update the event information.
-        sleep(1)
+        sleep(2)
         edit = self.browser.find_element_by_css_selector('.edit')
         self.actions.move_to_element(
             event).move_to_element(edit).click().perform()
 
-        sleep(1)
+        sleep(2)
         update = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Edit', update)
         event_name_input = self.browser.find_element_by_id('id_event_name')
@@ -185,13 +176,13 @@ class NewUserTest(FunctionalTest):
         event = self.browser.find_element_by_css_selector('.week.event')
         self.actions.move_to_element(event).perform()
 
-        sleep(1)
+        sleep(2)
         delete = self.browser.find_element_by_css_selector('.delete')
         self.actions.move_to_element(
             event).move_to_element(delete).click().perform()
 
         # They are taken to a new page, asking them to confirm the deletion.
-        sleep(1)
+        sleep(2)
         heading = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Delete', heading)
 
