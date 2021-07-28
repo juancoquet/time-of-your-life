@@ -12,7 +12,13 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
-from .my_secrets import DJANGO_SECRET_KEY
+from .my_secrets import (
+    DJANGO_SECRET_KEY,
+    MY_EMAIL_HOST,
+    MY_EMAIL_HOST_USER,
+    MY_EMAIL_HOST_PASSWORD,
+    MY_EMAIL_PORT,
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -56,7 +62,12 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = MY_EMAIL_HOST
+EMAIL_HOST_USER = MY_EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = MY_EMAIL_HOST_PASSWORD
+EMAIL_PORT = MY_EMAIL_PORT
 
 ACCOUNT_FORMS = {'signup': 'accounts.forms.CustomUserCreationForm'}
 
@@ -156,3 +167,5 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+DEFAULT_FROM_EMAIL = 'Time of Your Life <noreply@timeofyourlife.io>'
