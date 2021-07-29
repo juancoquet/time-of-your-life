@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'allauth.account',
 
     'accounts',
+    'contact',
 ]
 
 LOGIN_REDIRECT_URL = 'dashboard'

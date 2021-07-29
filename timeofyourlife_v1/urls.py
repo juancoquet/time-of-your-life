@@ -30,4 +30,5 @@ urlpatterns = [
     # Local apps
     path('grid/', include('countdown.urls')),
     path('', countdown_views.home, name='home'),
+    path('contact/', include('contact.urls')),
 ]

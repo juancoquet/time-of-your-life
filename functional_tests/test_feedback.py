@@ -5,6 +5,7 @@ class FeedbackTest(FunctionalTest):
 
     def test_feedback_authenticated(self):
         # A logged in user decides to leave feedback.
+        self.browser.get(self.live_server_url)
         self.create_user_and_sign_in()
 
         # They click the feedback link in the navbar.
