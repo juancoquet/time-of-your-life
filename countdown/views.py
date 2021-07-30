@@ -22,7 +22,7 @@ def home(request):
             return redirect(f'grid/{dob}')
     return render(request, 'home.html', {'dob_form': dob_form})
 
-# TODO: event does not override today week (css change)
+# TODO: event does not override today week (html change)
 
 
 def grid(request, dob, event_name=None, event_date=None):

@@ -60,7 +60,21 @@
                     {% endif %}
                 {% endfor %}
 
-                <td class="week present" id="{{ current_week }}">{{ current_week }}</td>
+                {% if current_year == event_year and current_week == event_week %}
+                    <td class="week present event" id="{{ current_week }}">
+                        {{ current_week }}
+                        <div class="all-tooltips">
+                            <div class="tooltip">
+                                <div class="tooltip-content">
+                                    <div class="arrow"></div>
+                                    <div class="content"><h3>{{ event_name }}</h3><p>{{ event_date }}</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                {% else %}
+                    <td class="week present" id="{{ current_week }}">{{ current_week }}</td>
+                {% endif %}
 
                 {% for week_no in weeks_left_this_yr %}
                     {% if current_year == event_year and week_no == event_week %}

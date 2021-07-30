@@ -7,6 +7,11 @@ h1 {
     color: hsl(210, 100%, 12%);
 }
 
+#home {
+    font-family: 'Patua One', cursive;
+    font-size: 24px;
+}
+
 .week {
     border-radius: 10%;
     background: darkgray;
@@ -32,6 +37,7 @@ h1 {
     color: black;
     position: relative;
     transition: 300ms;
+    z-index: 1;
 }
 
 .all-tooltips {
@@ -40,6 +46,7 @@ h1 {
     height: 100%;
     left: 0;
     top: 0;
+    z-index: 2;
 }
 
 .tooltip-content {
