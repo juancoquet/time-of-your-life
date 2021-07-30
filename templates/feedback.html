@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Time of Your Life is a work in progress</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" id="id_submit" class="btn-submit">Submit</button>
+  </form>
+{% endblock content %}

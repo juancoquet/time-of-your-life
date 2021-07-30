@@ -13,7 +13,7 @@ class FeedbackTest(FunctionalTest):
 
         # They are taken to the feedback page.
         heading = self.browser.find_element_by_tag_name('h2').text
-        self.assertEqual(heading, 'Leave feedback')
+        self.assertEqual(heading, 'Time of Your Life is a work in progress')
 
         # They see a subject box, a message box and an email box.
         subject = self.browser.find_element_by_id('id_subject')
@@ -38,7 +38,7 @@ class FeedbackTest(FunctionalTest):
 
         # They are taken to the feedback page.
         heading = self.browser.find_element_by_tag_name('h2').text
-        self.assertEqual(heading, 'Leave feedback')
+        self.assertEqual(heading, 'Time of Your Life is a work in progress')
 
         # They see a subject box, a message box and an email box.
         subject = self.browser.find_element_by_id('id_subject')

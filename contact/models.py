@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import truncatechars
 import smtplib
 from email.message import EmailMessage
 
@@ -17,6 +18,13 @@ class Feedback(models.Model):
         blank=True,
         null=True
     )
+
+    class Meta:
+        verbose_name_plural = 'Feedback'
+
+    @property
+    def short_msg(self):
+        return truncatechars(self.message, 100)
 
     def send_notification(self):
         msg = EmailMessage()
