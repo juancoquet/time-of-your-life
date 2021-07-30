@@ -1,7 +1,10 @@
 from django.urls.base import reverse_lazy
 from django.views.generic import CreateView
+from django.contrib import messages
 
 from .forms import FeedbackForm
+
+FEEDBACK_MESSAGE = "Thanks for your feedback!"
 
 
 class FeedbackView(CreateView):
@@ -13,4 +16,6 @@ class FeedbackView(CreateView):
         self.object = form.save(commit=False)
         if self.request.user.is_authenticated:
             self.object.user = self.request.user
+        messages.success(
+            self.request, FEEDBACK_MESSAGE, extra_tags='custom')
         return super().form_valid(form)

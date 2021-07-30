@@ -4,7 +4,7 @@ from .models import Feedback
 
 
 class FeedbackAdmin(admin.ModelAdmin):
-    list_display = ['subject', 'short_msg', 'email', 'user']
+    list_display = ['short_msg', 'subject', 'email', 'user']
 
 
 admin.site.register(Feedback, FeedbackAdmin)

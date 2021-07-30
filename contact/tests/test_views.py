@@ -77,14 +77,3 @@ class FeedbackViewTest(TestCase):
         self.assertEqual(feedback.subject, 'my subject')
         self.assertEqual(feedback.message, 'my feedback message')
         self.assertEqual(feedback.email, 'my@email.com')
-
-    # TODO: Test required/not required fields
-
-    def test_message_required(self, mock_notification):
-        self.client.post(
-            reverse('feedback'),
-            data={
-                'subject': 'my subject',
-                'email': 'my@email.com'
-            }
-        )

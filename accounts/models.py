@@ -145,4 +145,4 @@ class CustomUser(AbstractUser):
 
         # FIXME!!! Using calendar propery allows html to be passed in due to the 'safe' template tag required
         # Maybe don't allow special characters to event name field? Do this for non logged in user also, no specials.
-        # maybe better to try to escape (or rather unescape) selected portions.
+        # maybe better to try to escape (or rather unescape) selected portions. See about using autoescaspe template tags.

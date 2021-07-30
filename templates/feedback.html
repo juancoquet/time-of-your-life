@@ -7,4 +7,9 @@
     {{ form.as_p }}
     <button type="submit" id="id_submit" class="btn-submit">Submit</button>
   </form>
+  {% for message in messages %}
+      {% if 'custom' in message.tags %}
+        <p class="message">{{ message }}</p>
+      {% endif %}
+    {% endfor %}
 {% endblock content %}

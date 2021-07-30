@@ -14,7 +14,7 @@ class Feedback(models.Model):
     user = models.ForeignKey(
         CustomUser,
         related_name='feedback',
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         blank=True,
         null=True
     )

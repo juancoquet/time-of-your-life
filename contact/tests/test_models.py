@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.db import IntegrityError
 from django.test import TestCase
 from unittest.mock import patch
 
@@ -33,6 +34,14 @@ class FeedbackModelTest(TestCase):
             email=None
         )
         self.assertEqual(len(Feedback.objects.all()), 1)
+
+    def test_message_required(self, mock_notification):
+        with self.assertRaises(IntegrityError):
+            Feedback.objects.create(
+                subject='Test feedback',
+                message=None,
+                email='test@email.com'
+            )
 
     def test_authenticated_user_saves_to_object(self, mock_notification):
         User.objects.create_user(

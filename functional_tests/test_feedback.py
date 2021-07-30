@@ -1,9 +1,13 @@
+from unittest.mock import patch
+
 from .base import FunctionalTest
+from contact.views import FEEDBACK_MESSAGE
 
 
+@patch('contact.models.Feedback.send_notification')
 class FeedbackTest(FunctionalTest):
 
-    def test_feedback_authenticated(self):
+    def test_feedback_authenticated(self, mock_notification):
         # A logged in user decides to leave feedback.
         self.browser.get(self.live_server_url)
         self.create_user_and_sign_in()
@@ -30,9 +34,9 @@ class FeedbackTest(FunctionalTest):
 
         # They see a message thanking them for their feedback.
         message = self.browser.find_element_by_css_selector('.message').text
-        self.assertEqual(message, 'Thanks for your feedback!')
+        self.assertEqual(message, FEEDBACK_MESSAGE)
 
-    def test_feedback_not_authenticated(self):
+    def test_feedback_not_authenticated(self, mock_notification):
         # A visitor clicks the feedback link in the navbar.
         self.browser.find_element_by_id('feedback').click()
 
