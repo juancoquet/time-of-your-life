@@ -25,6 +25,7 @@ h1 {
     background-color: forestgreen;
 }
 
+/* FIXME: Event week overlaps tooltip */
 .week.event {
     background-color: rgb(221, 4, 4);
     position: relative;

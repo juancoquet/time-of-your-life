@@ -2,6 +2,7 @@ import math
 from datetime import date
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.html import escape
 import uuid
 
 
@@ -127,10 +128,11 @@ class CustomUser(AbstractUser):
                     after_event_details = '</div></div></div></div>'
 
                     for event in event_iter:
+                        event_name = escape(event.event_name)
                         event_date = event.event_date.strftime('%b %d, %Y')
                         event_url = event.get_edit_url()
                         event_delete_url = event.get_delete_url()
-                        event_details += f'<div class="event_details"><h3>{event.event_name}</h3><p>{event_date}</p>\
+                        event_details += f'<div class="event_details"><h3>{event_name}</h3><p>{event_date}</p>\
                                 <p><span class="edit"><a href="{event_url}">Edit</a></span>\
                                 <span class="delete"><a href="{event_delete_url}">Delete</a></span></p></div>'
 
@@ -142,7 +144,3 @@ class CustomUser(AbstractUser):
             html += '</tr>'
         html += '</table>'
         return html
-
-        # FIXME!!! Using calendar propery allows html to be passed in due to the 'safe' template tag required
-        # Maybe don't allow special characters to event name field? Do this for non logged in user also, no specials.
-        # maybe better to try to escape (or rather unescape) selected portions. See about using autoescaspe template tags.
