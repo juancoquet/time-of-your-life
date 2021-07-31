@@ -23,6 +23,7 @@
     <nav>
         <a id="home" href="/">Time of Your Life</a>
         <a id='feedback' href="{% url 'feedback' %}">Feedback</a>
+        <a id='contact' href="{% url 'contact' %}">Contact</a>
         {% if not user.is_authenticated %}
             <a href="{% url 'account_signup' %}" id="id_signup">Sign up</a>
             <a href="{% url 'account_login' %}" id='id_login_link'>Log in</a>
