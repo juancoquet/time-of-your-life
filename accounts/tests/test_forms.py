@@ -2,7 +2,7 @@ from datetime import date
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
-from accounts.forms import CustomUserCreationForm, CustomUserChangeForm, FUTURE_DOB_ERROR, PAST_DOB_ERROR
+from accounts.forms import CustomUserCreationForm, CustomUserChangeForm, FUTURE_DOB_ERROR, PAST_DOB_ERROR, VALID_DATE_ERROR
 
 User = get_user_model()
 
@@ -69,3 +69,34 @@ class CreationFormTest(TestCase):
         form.save()
         self.assertEqual(User.objects.all().count(), 1)
         self.assertEqual(User.objects.first().dob, date(1995, 12, 1))
+
+    def test_invalid_date(self):
+        form = CustomUserCreationForm(
+            data={
+                'username': 'juan',
+                'email': 'test@email.com',
+                'password1': 'testpass123',
+                'password2': 'testpass123',
+                'day': '31',
+                'month': '02',
+                'year': '1995'
+            }
+        )
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['year'], [VALID_DATE_ERROR])
+
+    def test_leap_day_allowed(self):
+        form = CustomUserCreationForm(
+            data={
+                'username': 'juan',
+                'email': 'test@email.com',
+                'password1': 'testpass123',
+                'password2': 'testpass123',
+                'day': '29',
+                'month': '02',
+                'year': '2004'
+            }
+        )
+        self.assertTrue(form.is_valid())
+        form.save()
+        self.assertEqual(User.objects.first().dob, date(2004, 2, 29))

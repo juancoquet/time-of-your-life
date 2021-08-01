@@ -10,6 +10,8 @@ from countdown.forms import FUTURE_DOB_ERROR, PAST_DOB_ERROR, FUTURE_DOB_ERROR, 
 EVENT_OUT_OF_RANGE_ERROR = "Your new date of birth would cause some of your life events" \
     "to be out of range."
 
+VALID_DATE_ERROR = "Please enter a valid date."
+
 
 class CustomUserCreationForm(UserCreationForm):
 
@@ -22,7 +24,10 @@ class CustomUserCreationForm(UserCreationForm):
         day_given = self.cleaned_data['day']
         month_given = self.cleaned_data['month']
         year_given = self.cleaned_data['year']
-        dob_given = date(year_given, month_given, day_given)
+        try:
+            dob_given = date(year_given, month_given, day_given)
+        except ValueError:
+            raise ValidationError(VALID_DATE_ERROR)
         if dob_given >= timezone.now().date():
             raise ValidationError(FUTURE_DOB_ERROR)
         if dob_given < get_today_minus_90_years().date():
