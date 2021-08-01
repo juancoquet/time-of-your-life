@@ -1,6 +1,7 @@
 import math
 from datetime import date
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.html import escape
 import uuid
@@ -17,6 +18,24 @@ class CustomUser(AbstractUser):
         blank=False,
         null=False,
         unique=True
+    )
+    day = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(1),
+            MaxValueValidator(31)
+        ]
+    )
+    month = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(1),
+            MaxValueValidator(12)
+        ]
+    )
+    year = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(1000),
+            MaxValueValidator(2999)
+        ]
     )
     dob = models.DateField(blank=False)
     email = models.EmailField(

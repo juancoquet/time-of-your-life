@@ -15,25 +15,37 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = get_user_model()
-        fields = ('username', 'email', 'first_name', 'dob',)
-        widgets = {'dob': DateInput(attrs={"class": "datepicker"})}
+        fields = ('username', 'email', 'first_name', 'day', 'month', 'year',)
 
-    def clean_dob(self, *args, **kwargs):
-        dob_given = self.cleaned_data['dob']
+    # TODO: Handle leaps?
+    def clean_year(self, *args, **kwargs):
+        day_given = self.cleaned_data['day']
+        month_given = self.cleaned_data['month']
+        year_given = self.cleaned_data['year']
+        dob_given = date(year_given, month_given, day_given)
         if dob_given >= timezone.now().date():
             raise ValidationError(FUTURE_DOB_ERROR)
         if dob_given < get_today_minus_90_years().date():
             raise ValidationError(PAST_DOB_ERROR)
         else:
-            return dob_given
+            return year_given
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        day_given = self.cleaned_data['day']
+        month_given = self.cleaned_data['month']
+        year_given = self.cleaned_data['year']
+        user.dob = date(year_given, month_given, day_given)
+        if commit:
+            user.save()
+        return user
 
 
 class CustomUserChangeForm(UserChangeForm):
 
     class Meta:
         model = get_user_model()
-        fields = ('email', 'first_name', 'dob',)
-        widgets = {'dob': DateInput(attrs={"class": "datepicker"})}
+        fields = ('email', 'first_name', 'day', 'month', 'year',)
 
     def clean_dob(self, *args, **kwargs):
         dob_given = self.cleaned_data['dob']

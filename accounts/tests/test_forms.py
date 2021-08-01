@@ -16,9 +16,12 @@ class CreationFormTest(TestCase):
                 'email': 'test@email.com',
                 'password1': 'testpass123',
                 'password2': 'testpass123',
-                'dob': '1995-12-01'
+                'day': '01',
+                'month': '12',
+                'year': '1995'
             }
         )
+        print(form.errors)
         self.assertTrue(form.is_valid())
 
     def test_cannot_have_future_dob(self):
@@ -28,11 +31,13 @@ class CreationFormTest(TestCase):
                 'email': 'test@email.com',
                 'password1': 'testpass123',
                 'password2': 'testpass23',
-                'dob': '2100-12-01'
+                'day': '01',
+                'month': '12',
+                'year': '2100'
             }
         )
         form.full_clean()
-        self.assertEqual(form.errors['dob'], [FUTURE_DOB_ERROR])
+        self.assertEqual(form.errors['year'], [FUTURE_DOB_ERROR])
 
     def test_dob_more_than_90_years_ago_is_not_valid(self):
         form = CustomUserCreationForm(
@@ -41,11 +46,13 @@ class CreationFormTest(TestCase):
                 'email': 'test@email.com',
                 'password1': 'testpass123',
                 'password2': 'testpass23',
-                'dob': '1900-12-01'
+                'day': '01',
+                'month': '12',
+                'year': '1905'
             }
         )
         form.full_clean()
-        self.assertEqual(form.errors['dob'], [PAST_DOB_ERROR])
+        self.assertEqual(form.errors['year'], [PAST_DOB_ERROR])
 
     def test_successful_form_creates_new_user(self):
         form = CustomUserCreationForm(
@@ -54,8 +61,11 @@ class CreationFormTest(TestCase):
                 'email': 'test@email.com',
                 'password1': 'testpass123',
                 'password2': 'testpass123',
-                'dob': '1995-12-01'
+                'day': '01',
+                'month': '12',
+                'year': '1995'
             }
         )
         form.save()
         self.assertEqual(User.objects.all().count(), 1)
+        self.assertEqual(User.objects.first().dob, date(1995, 12, 1))
