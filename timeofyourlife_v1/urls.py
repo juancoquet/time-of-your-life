@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 from countdown import views as countdown_views
+from .views import about
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,4 +32,5 @@ urlpatterns = [
     path('grid/', include('countdown.urls')),
     path('', countdown_views.home, name='home'),
     path('contact/', include('contact.urls')),
+    path('about/', about, name='about'),
 ]

@@ -94,3 +94,11 @@ class NewVisitorTest(FunctionalTest):
         header = self.browser.find_element_by_link_text('Time of Your Life')
         header.click()
         self.assertEqual(self.browser.current_url, self.live_server_url + '/')
+
+    def test_about_page(self):
+        # The user wants to find out more about the website, they click the 'about' section.
+        self.browser.find_element_by_id('about').click()
+
+        # They are taken to the About page, where they can read more information.
+        heading = self.browser.find_element_by_tag_name('h1').text
+        self.assertEqual(heading, 'About')
