@@ -34,6 +34,9 @@ class CustomUserTest(TestCase):
     def create_valid_user(self):
         user = User.objects.create(
             username='juan',
+            day='01',
+            month='12',
+            year='1995',
             dob='1995-12-01',
             email='test@email.com',
             password='testpass123'
@@ -51,6 +54,9 @@ class CustomUserTest(TestCase):
         with self.assertRaises(IntegrityError):
             User.objects.create(
                 username='juan',
+                day='12',
+                month='03',
+                year='2001',
                 dob='1980-12-01',
                 email='another@email.com',
                 password='testpass123'
@@ -60,7 +66,10 @@ class CustomUserTest(TestCase):
         self.create_valid_user()
         with self.assertRaises(IntegrityError):
             User.objects.create(
-                username='unique',
+                username='otheruser',
+                day='12',
+                month='03',
+                year='2001',
                 dob='1980-12-01',
                 email='test@email.com',
                 password='testpass123'
@@ -70,6 +79,42 @@ class CustomUserTest(TestCase):
         with self.assertRaises(IntegrityError):
             User.objects.create(
                 username='juan',
+                day='01',
+                month='12',
+                year='1995',
+                email='test@email.com',
+                password='testpass123'
+            )
+
+    def test_day_is_required(self):
+        with self.assertRaises(IntegrityError):
+            User.objects.create(
+                username='juan',
+                month='12',
+                year='1995',
+                dob='1995-12-01',
+                email='test@email.com',
+                password='testpass123'
+            )
+
+    def test_month_is_required(self):
+        with self.assertRaises(IntegrityError):
+            User.objects.create(
+                username='juan',
+                day='01',
+                year='1995',
+                dob='1995-12-01',
+                email='test@email.com',
+                password='testpass123'
+            )
+
+    def test_year_is_required(self):
+        with self.assertRaises(IntegrityError):
+            User.objects.create(
+                username='juan',
+                day='01',
+                month='12',
+                dob='1995-12-01',
                 email='test@email.com',
                 password='testpass123'
             )
@@ -78,6 +123,9 @@ class CustomUserTest(TestCase):
         with self.assertRaises(IntegrityError):
             User.objects.create(
                 username='juan',
+                day='01',
+                month='12',
+                year='1995',
                 dob='1995-12-01',
                 email=None,
                 password='testpass123'
@@ -87,6 +135,9 @@ class CustomUserTest(TestCase):
         with self.assertRaises(ValueError):
             User.objects.create_user(
                 username=None,
+                day='01',
+                month='12',
+                year='1995',
                 dob='1995-12-01',
                 email='test@email.com',
                 password='testpass123'

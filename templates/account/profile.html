@@ -5,11 +5,11 @@
   <form method="post">
     {% csrf_token %}
     <p class="form-field"><label for="id_email">Email </label>{{ form.email }}</p>
-    <p class="form-field"><label for="id_dob">Date of Birth </label>{{ form.dob }}</p>
+    <p class="form-field"><label for="id_day">Date of Birth </label>{{ form.day }}{{ form.month }}{{ form.year }}</p>
     <p class="form-field"><label for="id_name">Name </label>{{ form.first_name }}</p>
     <button type="submit" class="btn button-submit">Submit</button>
     <p id="errors_email" class="errors">{{ form.errors.email }}</p>
-    <p id="errors_dob" class="errors">{{ form.errors.dob }}</p>
+    <p id="errors_year" class="errors">{{ form.errors.year }}</p>
     <p id="errors_first_name" class="errors">{{ form.errors.first_name }}</p>
     {% for message in messages %}
       {% if 'custom' in message.tags %}

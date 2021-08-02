@@ -77,7 +77,7 @@ class CreationFormTest(TestCase):
                 'email': 'test@email.com',
                 'password1': 'testpass123',
                 'password2': 'testpass123',
-                'day': '31',
+                'day': '29',
                 'month': '02',
                 'year': '1995'
             }
@@ -100,3 +100,18 @@ class CreationFormTest(TestCase):
         self.assertTrue(form.is_valid())
         form.save()
         self.assertEqual(User.objects.first().dob, date(2004, 2, 29))
+
+
+class UserChangeFormTest(TestCase):
+
+    def test_valid_change_form(self):
+        form = CustomUserChangeForm(
+            data={
+                'email': 'new@email.com',
+                'first_name': 'test',
+                'day': '07',
+                'month': '01',
+                'year': '2007'
+            }
+        )
+        self.assertTrue(form.is_valid())

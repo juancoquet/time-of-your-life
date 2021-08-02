@@ -1,3 +1,4 @@
+from datetime import date
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -34,6 +35,10 @@ class ProfileView(LoginRequiredMixin, generic.UpdateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
+        day_given = form.cleaned_data['day']
+        month_given = form.cleaned_data['month']
+        year_given = form.cleaned_data['year']
+        self.object.dob = date(year_given, month_given, day_given)
         user_events = self.object.events.all()
         for event in user_events:
             if not event.is_valid():

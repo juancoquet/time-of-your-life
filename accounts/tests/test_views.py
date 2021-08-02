@@ -1,3 +1,4 @@
+from datetime import date
 from django.urls.base import resolve
 from countdown.models import UserEvent
 from django.contrib.auth import get_user_model
@@ -27,7 +28,9 @@ class SignupViewTest(TestCase):
                                     data={
                                         'email': 'test@email.com',
                                         'name': 'juan',
-                                        'dob': '1995-12-01',
+                                        'day': '01',
+                                        'month': '12',
+                                        'year': '1995',
                                         'password1': 'testpass123',
                                         'password2': 'testpass123'
                                     }
@@ -37,21 +40,53 @@ class SignupViewTest(TestCase):
     def test_email_required(self):
         response = self.client.post('/accounts/signup/',
                                     data={
-                                        'username': 'juan',
+                                        'username': 'testuser',
                                         'name': 'juan',
-                                        'dob': '1995-12-01',
+                                        'day': '01',
+                                        'month': '12',
+                                        'year': '1995',
                                         'password1': 'testpass123',
                                         'password2': 'testpass123'
                                     }
                                     )
         self.assertContains(response, 'This field is required')
 
-    def test_dob_required(self):
+    def test_day_required(self):
         response = self.client.post('/accounts/signup/',
                                     data={
-                                        'username': 'juan',
+                                        'username': 'testuser',
                                         'email': 'test@email.com',
                                         'name': 'juan',
+                                        'month': '12',
+                                        'year': '1995',
+                                        'password1': 'testpass123',
+                                        'password2': 'testpass123'
+                                    }
+                                    )
+        self.assertContains(response, 'This field is required')
+
+    def test_month_required(self):
+        response = self.client.post('/accounts/signup/',
+                                    data={
+                                        'username': 'testuser',
+                                        'email': 'test@email.com',
+                                        'name': 'juan',
+                                        'day': '01',
+                                        'year': '1995',
+                                        'password1': 'testpass123',
+                                        'password2': 'testpass123'
+                                    }
+                                    )
+        self.assertContains(response, 'This field is required')
+
+    def test_year_required(self):
+        response = self.client.post('/accounts/signup/',
+                                    data={
+                                        'username': 'testuser',
+                                        'email': 'test@email.com',
+                                        'name': 'juan',
+                                        'day': '01',
+                                        'month': '12',
                                         'password1': 'testpass123',
                                         'password2': 'testpass123'
                                     }
@@ -61,10 +96,12 @@ class SignupViewTest(TestCase):
     def test_future_dob_shows_error(self):
         response = self.client.post('/accounts/signup/',
                                     data={
-                                        'username': 'juan',
+                                        'username': 'testuser',
                                         'email': 'test@email.com',
                                         'name': 'juan',
-                                        'dob': '2999-12-01',
+                                        'day': '01',
+                                        'month': '12',
+                                        'year': '2499',
                                         'password1': 'testpass123',
                                         'password2': 'testpass123'
                                     }
@@ -74,10 +111,12 @@ class SignupViewTest(TestCase):
     def test_dob_more_than_90_year_ago_shows_error(self):
         response = self.client.post('/accounts/signup/',
                                     data={
-                                        'username': 'juan',
+                                        'username': 'testuser',
                                         'email': 'test@email.com',
                                         'name': 'juan',
-                                        'dob': '1901-12-01',
+                                        'day': '01',
+                                        'month': '12',
+                                        'year': '1905',
                                         'password1': 'testpass123',
                                         'password2': 'testpass123'
                                     }
@@ -87,6 +126,9 @@ class SignupViewTest(TestCase):
     def test_duplicate_username_shows_error(self):
         User.objects.create(
             username='juan',
+            day='01',
+            month='12',
+            year='1995',
             dob='1995-12-01',
             email='test@email.com',
             password='testpass123'
@@ -94,9 +136,11 @@ class SignupViewTest(TestCase):
         response = self.client.post('/accounts/signup/',
                                     data={
                                         'username': 'juan',
-                                        'email': 'other@email.com',
+                                        'email': 'test@email.com',
                                         'name': 'juan',
-                                        'dob': '1995-12-01',
+                                        'day': '01',
+                                        'month': '12',
+                                        'year': '1995',
                                         'password1': 'testpass123',
                                         'password2': 'testpass123'
                                     }
@@ -106,16 +150,21 @@ class SignupViewTest(TestCase):
     def test_duplicate_email_shows_error(self):
         User.objects.create(
             username='juan',
+            day='01',
+            month='12',
+            year='1995',
             dob='1995-12-01',
             email='test@email.com',
             password='testpass123'
         )
         response = self.client.post('/accounts/signup/',
                                     data={
-                                        'username': 'juanc',
+                                        'username': 'testuser',
                                         'email': 'test@email.com',
                                         'name': 'juan',
-                                        'dob': '1995-12-01',
+                                        'day': '01',
+                                        'month': '12',
+                                        'year': '1995',
                                         'password1': 'testpass123',
                                         'password2': 'testpass123'
                                     }
@@ -126,15 +175,18 @@ class SignupViewTest(TestCase):
         self.assertEqual(User.objects.all().count(), 0)
         self.client.post('/accounts/signup/',
                          data={
-                             'username': 'juan',
+                             'username': 'testuser',
                              'email': 'test@email.com',
                              'name': 'juan',
-                             'dob': '1995-12-01',
+                             'day': '01',
+                             'month': '12',
+                             'year': '1995',
                              'password1': 'testpass123',
                              'password2': 'testpass123'
                          }
                          )
         self.assertEqual(User.objects.all().count(), 1)
+        self.assertEqual(User.objects.first().dob, date(1995, 12, 1))
 
 
 class ProfileViewTest(TestCase):
@@ -142,6 +194,9 @@ class ProfileViewTest(TestCase):
     def setUp(self):
         User.objects.create(
             username='testuser',
+            day='01',
+            month='12',
+            year='1995',
             dob='1995-12-01',
             email='test@user.com',
             password='testpass123'
@@ -158,6 +213,9 @@ class ProfileViewTest(TestCase):
     def test_only_correct_user_can_access_profile(self):
         User.objects.create(
             username='wronguser',
+            day='29',
+            month='05',
+            year='2000',
             dob='2000-05-29',
             email='wrong@user.com',
             password='testpass123'
@@ -174,6 +232,7 @@ class ProfileViewTest(TestCase):
             self.response.content.decode()
         )
 
+    # TODO: Change event date field after model change
     def test_dob_change_cant_leave_event_out_of_range(self):
         UserEvent.objects.create(
             event_name='test event',
@@ -184,7 +243,9 @@ class ProfileViewTest(TestCase):
             reverse('profile', kwargs={'pk': self.user.username}),
             data={
                 'email': 'test@user.com',
-                'dob': '2006-12-01',
+                'day': '01',
+                'month': '12',
+                'year': '2006',
                 'first_name': 'test'
             }
         )
@@ -195,11 +256,15 @@ class ProfileViewTest(TestCase):
             reverse('profile', kwargs={'pk': self.user.username}),
             data={
                 'email': 'new@email.com',
-                'dob': '1996-12-01',
+                'day': '02',
+                'month': '01',
+                'year': '1996',
                 'first_name': 'new name'
             }
         )
         user = User.objects.get(username='testuser')
         self.assertEqual(user.email, 'new@email.com')
+        self.assertEqual(user.dob.day, 2)
+        self.assertEqual(user.dob.month, 1)
         self.assertEqual(user.dob.year, 1996)
         self.assertEqual(user.first_name, 'new name')

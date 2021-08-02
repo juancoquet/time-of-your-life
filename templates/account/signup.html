@@ -6,27 +6,27 @@
   <form method="post">
     {% csrf_token %}
     <p class="form_field">
-      <label for="form.username">Username</label>
+      <label for="id_username">Username</label>
       {{ form.username }}
     </p>
     <p class="form_field">
-      <label for="form.email">Email address</label>
+      <label for="id_email">Email address</label>
       {{ form.email }}
     </p>
     <p class="form_field">
-      <label for="form.first_name">Name</label>
+      <label for="id_first_name">Name</label>
       {{ form.first_name }}
     </p>
     <p class="form_field">
-      <label for="form.dob">Date of birth</label>
-      {{ form.dob }}
+      <label for="id_day">Date of birth</label>
+      {{ form.day }}{{ form.month }}{{ form.year }}
     </p>
     <p class="form_field">
-      <label for="form.password1">Password</label>
+      <label for="id_password1">Password</label>
       {{ form.password1 }}
     </p>
     <p class="form_field">
-      <label for="form.password2">Confirm password</label>
+      <label for="id_password2">Confirm password</label>
       {{ form.password2 }}
     </p>
 
