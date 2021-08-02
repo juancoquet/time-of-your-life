@@ -121,7 +121,23 @@ class UserEventFormTest(TestCase):
         form = UserEventForm(
             data={
                 'event_name': 'test event',
-                'event_date': '2005-06-28',
+                'day': '28',
+                'month': '05',
+                'year': '2001'
             }
         )
         self.assertTrue(form.is_valid())
+
+    def test_save_creates_object_with_day_month_year(self):
+        form = UserEventForm(
+            data={
+                'event_name': 'test event',
+                'day': '28',
+                'month': '05',
+                'year': '2001'
+            }
+        )
+        event = form.save(commit=False)
+        self.assertEqual(event.day, 28)
+        self.assertEqual(event.month, 5)
+        self.assertEqual(event.year, 2001)

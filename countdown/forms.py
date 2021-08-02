@@ -142,9 +142,16 @@ class UserEventForm(forms.ModelForm):
     class Meta:
         model = UserEvent
         fields = ['event_name', 'day', 'month', 'year']
-        widgets = {
-            'event_date': forms.DateInput(attrs={"class": "datepicker"}),
-        }
+
+    def save(self, commit=True):
+        event = super().save(commit=False)
+        day_given = self.cleaned_data['day']
+        month_given = self.cleaned_data['month']
+        year_given = self.cleaned_data['year']
+        event.event_date = date(year_given, month_given, day_given)
+        if commit:
+            event.save_event()
+        return event
 
     def show_event_date_error(self):
         self.errors['event_date'] = EVENT_DATE_ERROR
