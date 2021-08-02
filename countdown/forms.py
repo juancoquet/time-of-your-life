@@ -56,6 +56,7 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 
+# TODO: split date on dobform
 class DOBForm(forms.Form):
     dob = forms.DateField(
         label='Date of Birth',
@@ -120,6 +121,7 @@ class DOBForm(forms.Form):
         return range(1, total_weeks_passed + 1)
 
 
+# TODO: Split date on event form
 class EventForm(forms.Form):
     event_title = forms.CharField(max_length='100')
     event_date = forms.DateField(
@@ -154,7 +156,7 @@ class UserEventForm(forms.ModelForm):
         return event
 
     def show_event_date_error(self):
-        self.errors['event_date'] = EVENT_DATE_ERROR
+        self.errors['year'] = EVENT_DATE_ERROR
 
     def show_unique_restraint_error(self):
-        self.errors['event_name'] = DUPLICATE_EVENT_ERROR
+        self.errors['year'] = DUPLICATE_EVENT_ERROR

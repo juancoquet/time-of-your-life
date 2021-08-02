@@ -13,11 +13,11 @@
             </p>
             <p class="form_field">
                 <label for="user_event_form.event_date">Event date:</label>
-                {{ user_event_form.event_date }}
+                {{ user_event_form.day }}{{ user_event_form.month }}{{ user_event_form.year }}
             </p>
             <button name="add_event_btn" type="submit">Add event</button>
             <p class="error">{{ user_event_form.event_name.errors }}</p>
-            <p class="error">{{ user_event_form.event_date.errors }}</p>
+            <p class="error">{{ user_event_form.year.errors }}</p>
         </form>
     </div>
 

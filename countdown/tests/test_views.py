@@ -159,6 +159,9 @@ class DashboardViewTest(TestCase):
         User.objects.create(
             username='testuser',
             email='test@user.com',
+            day='01',
+            month='12',
+            year='1995',
             dob='1995-12-01',
             password='testpass123'
         )
@@ -210,7 +213,9 @@ class DashboardViewTest(TestCase):
         response = self.client.post('/grid/dashboard/',
                                     data={
                                         'event_name': 'test event',
-                                        'event_date': '2004-05-29'
+                                        'day': '29',
+                                        'month': '05',
+                                        'year': '2004'
                                     }
                                     )
         self.assertEqual(len(UserEvent.objects.all()), 1)
@@ -219,7 +224,9 @@ class DashboardViewTest(TestCase):
         response = self.client.post('/grid/dashboard/',
                                     data={
                                         'event_name': 'test event',
-                                        'event_date': '1940-05-29'
+                                        'day': '29',
+                                        'month': '05',
+                                        'year': '1940'
                                     }
                                     )
         self.assertEqual(len(UserEvent.objects.all()), 0)
@@ -228,7 +235,9 @@ class DashboardViewTest(TestCase):
         response = self.client.post('/grid/dashboard/',
                                     data={
                                         'event_name': 'test event',
-                                        'event_date': '2100-05-29'
+                                        'day': '29',
+                                        'month': '05',
+                                        'year': '2100'
                                     }
                                     )
         self.assertContains(response, EVENT_DATE_ERROR)
@@ -236,6 +245,9 @@ class DashboardViewTest(TestCase):
     def test_valid_post_creates_event_for_correct_owner(self):
         User.objects.create(
             username='wronguser',
+            day='01',
+            month='12',
+            year='1995',
             dob='1995-12-01',
             password='testpass123',
             email='wronguser@email.com'
@@ -245,7 +257,9 @@ class DashboardViewTest(TestCase):
         response = self.client.post('/grid/dashboard/',
                                     data={
                                         'event_name': 'test event',
-                                        'event_date': '2005-05-29'
+                                        'day': '29',
+                                        'month': '05',
+                                        'year': '2005'
                                     }
                                     )
         event = UserEvent.objects.first()

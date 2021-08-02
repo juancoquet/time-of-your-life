@@ -1,3 +1,4 @@
+from datetime import date
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -83,6 +84,10 @@ def dashboard(request):
         if event_form.is_valid():
             event = event_form.save(commit=False)
             event.owner = user
+            day_given = event_form.cleaned_data['day']
+            month_given = event_form.cleaned_data['month']
+            year_given = event_form.cleaned_data['year']
+            event.event_date = date(year_given, month_given, day_given)
             try:
                 event.save_event()
             except ValidationError:
@@ -103,6 +108,7 @@ def dashboard(request):
     })
 
 
+# TODO: Split date field on event update view
 class EventUpdateView(LoginRequiredMixin, UpdateView):
     model = UserEvent
     form_class = UserEventForm
