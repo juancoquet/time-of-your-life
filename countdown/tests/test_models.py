@@ -18,6 +18,9 @@ class UserEventModelTest(TestCase):
         User.objects.create(
             username='testuser',
             email='test@user.com',
+            day='01',
+            month='12',
+            year='1995',
             dob='1995-12-01',
             password='testpass123'
         )
@@ -29,6 +32,9 @@ class UserEventModelTest(TestCase):
         user = self.create_user()
         UserEvent.objects.create(
             event_name='test event',
+            day='28',
+            month='06',
+            year='2005',
             event_date='2005-06-28',
             owner=user
         )
@@ -38,6 +44,9 @@ class UserEventModelTest(TestCase):
         with self.assertRaises(IntegrityError):
             UserEvent.objects.create(
                 event_name='test event',
+                day='28',
+                month='06',
+                year='2005',
                 event_date='2005-06-28',
                 owner=None
             )
@@ -46,15 +55,54 @@ class UserEventModelTest(TestCase):
         with self.assertRaises(IntegrityError):
             UserEvent.objects.create(
                 event_name=None,
+                day='28',
+                month='06',
+                year='2005',
                 event_date='2005-06-28',
                 owner=self.create_user()
             )
 
-    def test_date_required(self):
+    def test_dob_required(self):
         with self.assertRaises(IntegrityError):
             UserEvent.objects.create(
                 event_name='test event',
+                day='28',
+                month='06',
+                year='2005',
                 event_date=None,
+                owner=self.create_user()
+            )
+
+    def test_day_required(self):
+        with self.assertRaises(IntegrityError):
+            UserEvent.objects.create(
+                event_name='test event',
+                day=None,
+                month='06',
+                year='2005',
+                event_date='2005-06-28',
+                owner=self.create_user()
+            )
+
+    def test_month_required(self):
+        with self.assertRaises(IntegrityError):
+            UserEvent.objects.create(
+                event_name='test event',
+                day='28',
+                month=None,
+                year='2005',
+                event_date='2005-06-28',
+                owner=self.create_user()
+            )
+
+    def test_year_required(self):
+        with self.assertRaises(IntegrityError):
+            UserEvent.objects.create(
+                event_name='test event',
+                day='28',
+                month='06',
+                year=None,
+                event_date='2005-06-28',
                 owner=self.create_user()
             )
 
@@ -63,23 +111,32 @@ class UserEventModelTest(TestCase):
         User.objects.create(
             username='wronguser',
             email='wrong@user.com',
+            day='01',
+            month='01',
+            year='1980',
             dob='1980-01-01',
             password='testpass123'
         )
         wrong_user = User.objects.get(username='wronguser')
         UserEvent.objects.create(
             event_name='test event',
-            event_date='2005-06-29',
+            day='28',
+            month='06',
+            year='2005',
+            event_date='2005-06-28',
             owner=correct_user
         )
         event = UserEvent.objects.first()
         self.assertEqual(event.owner, correct_user)
         self.assertNotEqual(event.owner, wrong_user)
 
-    def test_event_date_before_user_dob_invalid2(self):
+    def test_event_date_before_user_dob_invalid(self):
         user = self.create_user()
         event = UserEvent(
             event_name='test event',
+            day='29',
+            month='06',
+            year='1940',
             event_date='1940-06-29',
             owner=user
         )
@@ -89,6 +146,9 @@ class UserEventModelTest(TestCase):
         user = self.create_user()
         event = UserEvent(
             event_name='test event',
+            day='29',
+            month='06',
+            year='1940',
             event_date='1940-06-29',
             owner=user
         )
@@ -99,6 +159,9 @@ class UserEventModelTest(TestCase):
         user = self.create_user()
         event = UserEvent(
             event_name='test event',
+            day='29',
+            month='06',
+            year='2100',
             event_date='2100-06-29',
             owner=user
         )
@@ -109,18 +172,27 @@ class UserEventModelTest(TestCase):
         user = self.create_user()
         event = UserEvent(
             event_name='test event',
+            day='29',
+            month='01',
+            year='2005',
             event_date='2005-01-29',
             owner=user
         )
         self.assertEqual(event.index, (10, 9))
         event = UserEvent(
             event_name='test event',
+            day='01',
+            month='12',
+            year='1995',
             event_date='1995-12-01',
             owner=user
         )
         self.assertEqual(event.index, (1, 1))
         event = UserEvent(
             event_name='test event',
+            day='29',
+            month='02',
+            year='2004',
             event_date='2004-02-29',
             owner=user
         )
@@ -130,6 +202,9 @@ class UserEventModelTest(TestCase):
         user = self.create_user()
         event = UserEvent(
             event_name='test event',
+            day='29',
+            month='01',
+            year='2005',
             event_date='2005-01-29',
             owner=user
         )
@@ -144,6 +219,9 @@ class UserEventModelTest(TestCase):
         user = self.create_user()
         event = UserEvent(
             event_name='test event',
+            day='29',
+            month='01',
+            year='2005',
             event_date='2005-01-29',
             owner=user
         )
@@ -158,12 +236,18 @@ class UserEventModelTest(TestCase):
         user = self.create_user()
         UserEvent.objects.create(
             event_name='test event',
+            day='28',
+            month='06',
+            year='2005',
             event_date='2005-06-28',
             owner=user
         )
         with self.assertRaises(IntegrityError):
             UserEvent.objects.create(
                 event_name='test event',
+                day='28',
+                month='06',
+                year='2005',
                 event_date='2005-06-28',
                 owner=user
             )

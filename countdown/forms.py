@@ -141,7 +141,7 @@ class UserEventForm(forms.ModelForm):
 
     class Meta:
         model = UserEvent
-        fields = ['event_name', 'event_date']
+        fields = ['event_name', 'day', 'month', 'year']
         widgets = {
             'event_date': forms.DateInput(attrs={"class": "datepicker"}),
         }

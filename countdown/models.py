@@ -1,6 +1,7 @@
 from datetime import date
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.urls import reverse
 from math import ceil
@@ -18,6 +19,24 @@ class UserEvent(models.Model):
         editable=False
     )
     event_name = models.CharField(max_length=100, blank=False, null=False)
+    day = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(1),
+            MaxValueValidator(31)
+        ]
+    )
+    month = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(1),
+            MaxValueValidator(12)
+        ]
+    )
+    year = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(1000),
+            MaxValueValidator(2999)
+        ]
+    )
     event_date = models.DateField(blank=False, null=False)
     owner = models.ForeignKey(
         User, related_name='events', on_delete=models.CASCADE)
