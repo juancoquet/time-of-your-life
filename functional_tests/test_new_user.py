@@ -24,7 +24,9 @@ class NewUserTest(FunctionalTest):
         self.submit_signup_form(
             username='testuser',
             email='test@user.com',
-            dob='2100-12-01',
+            day='01',
+            month='12',
+            year='2100',
             password='testpass123'
         )
         self.assertIn(FUTURE_DOB_ERROR, self.browser.page_source)
@@ -33,7 +35,9 @@ class NewUserTest(FunctionalTest):
         self.submit_signup_form(
             username='testuser',
             email='test@user.com',
-            dob='1901-12-01',
+            day='01',
+            month='12',
+            year='1901',
             password='testpass123'
         )
         self.assertIn(PAST_DOB_ERROR, self.browser.page_source)
@@ -42,7 +46,9 @@ class NewUserTest(FunctionalTest):
         self.submit_signup_form(
             username='testuser',
             email='test@user.com',
-            dob='1995-12-01',
+            day='01',
+            month='12',
+            year='1995',
             password='testpass123'
         )
         self.assertIn('grid/dashboard/', self.browser.current_url)
@@ -77,14 +83,12 @@ class NewUserTest(FunctionalTest):
 
         # They use the event form to add a life event. The page refreshes, and the event
         # is shown on the calendar.
-        event_name_input = self.browser.find_element_by_id('id_event_name')
-        event_date_input = self.browser.find_element_by_id('id_event_date')
-        submit_button = self.browser.find_element_by_name(
-            'add_event_btn')
-
-        event_name_input.send_keys('test event')
-        event_date_input.send_keys('1998-04-12')
-        submit_button.click()
+        self.add_life_event(
+            event_name='test event',
+            day='12',
+            month='04',
+            year='1998'
+        )
 
         past_weeks = self.browser.find_elements_by_css_selector('.week.past')
         future_weeks = self.browser.find_elements_by_css_selector(
@@ -100,9 +104,12 @@ class NewUserTest(FunctionalTest):
         self.assertEqual(len(all_weeks), 52*90)
 
         # They try to add a duplicate event, but they see an error.
-        submit_button = self.browser.find_element_by_name(
-            'add_event_btn')
-        submit_button.click()
+        self.add_life_event(
+            event_name='test event',
+            day='12',
+            month='04',
+            year='1998'
+        )
 
         dupe_error = self.browser.find_element_by_css_selector('.error').text
         self.assertEqual(dupe_error, DUPLICATE_EVENT_ERROR)
@@ -123,27 +130,31 @@ class NewUserTest(FunctionalTest):
         update = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Edit', update)
         event_name_input = self.browser.find_element_by_id('id_event_name')
-        event_date_input = self.browser.find_element_by_id('id_event_date')
+        day_input = self.browser.find_element_by_id('id_day')
+        month_input = self.browser.find_element_by_id('id_month')
+        year_input = self.browser.find_element_by_id('id_year')
 
         # They edit the event info, and are taken back to the calendar page.
         event_name_input.clear()
         event_name_input.send_keys('edited event')
-        event_date_input.clear()
-        event_date_input.send_keys('2004-03-29')
+        day_input.clear()
+        month_input.clear()
+        year_input.clear()
+        day_input.send_keys('29')
+        month_input.send_keys('03')
+        year_input.send_keys('2004')
         self.browser.find_element_by_css_selector('.button-submit').click()
 
         heading = self.browser.find_element_by_tag_name('h2').text
         self.assertEqual(heading, 'Your Life Calendar')
 
         # They decide to add another event, in the future this time.
-        event_name_input = self.browser.find_element_by_id('id_event_name')
-        event_date_input = self.browser.find_element_by_id('id_event_date')
-        submit_button = self.browser.find_element_by_name(
-            'add_event_btn')
-
-        event_name_input.send_keys('test event')
-        event_date_input.send_keys('2078-05-29')
-        submit_button.click()
+        self.add_life_event(
+            event_name='test event',
+            day='29',
+            month='05',
+            year='2078'
+        )
 
         # The page refreshes and they can now see two highlighted events.
         events = self.browser.find_elements_by_css_selector('.event')
@@ -158,14 +169,12 @@ class NewUserTest(FunctionalTest):
         ### Set up ####
         self.create_user_and_sign_in()
 
-        event_name_input = self.browser.find_element_by_id('id_event_name')
-        event_date_input = self.browser.find_element_by_id('id_event_date')
-        submit_button = self.browser.find_element_by_name(
-            'add_event_btn')
-
-        event_name_input.send_keys('test event')
-        event_date_input.send_keys('1998-04-12')
-        submit_button.click()
+        self.add_life_event(
+            event_name='test event',
+            day='12',
+            month='04',
+            year='1998'
+        )
 
         ############
         ### Test ###

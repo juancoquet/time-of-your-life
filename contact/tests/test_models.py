@@ -46,8 +46,11 @@ class FeedbackModelTest(TestCase):
     def test_authenticated_user_saves_to_object(self, mock_notification):
         User.objects.create_user(
             username='testuser',
+            day='01',
+            month='12',
+            year='1995',
             dob='1995-12-01',
-            email='test@email.com',
+            email='test@user.com',
             password='testpass123'
         )
         user = User.objects.first()
@@ -65,8 +68,11 @@ class FeedbackModelTest(TestCase):
     def test_object_creation_sends_email(self, mock_notification):
         User.objects.create_user(
             username='testuser',
+            day='01',
+            month='12',
+            year='1995',
             dob='1995-12-01',
-            email='test@email.com',
+            email='test@user.com',
             password='testpass123'
         )
         user = User.objects.first()
@@ -117,8 +123,11 @@ class ContactModelTest(TestCase):
     def test_authenticated_user_saves_to_object(self, mock_notification):
         User.objects.create_user(
             username='testuser',
+            day='01',
+            month='12',
+            year='1995',
             dob='1995-12-01',
-            email='test@email.com',
+            email='test@user.com',
             password='testpass123'
         )
         user = User.objects.first()
@@ -136,8 +145,11 @@ class ContactModelTest(TestCase):
     def test_object_creation_sends_email(self, mock_notification):
         User.objects.create_user(
             username='testuser',
+            day='01',
+            month='12',
+            year='1995',
             dob='1995-12-01',
-            email='test@email.com',
+            email='test@user.com',
             password='testpass123'
         )
         user = User.objects.first()

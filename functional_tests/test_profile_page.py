@@ -21,7 +21,9 @@ class ProfilePageTest(FunctionalTest):
         # They decide to edit all their details realising they made a mistake during sign up
         self.submit_user_update_form(
             email='other@email.com',
-            dob='2000-12-01',
+            day='01',
+            month='12',
+            year='2000',
             name='Test Name'
         )
 
@@ -39,7 +41,9 @@ class ProfilePageTest(FunctionalTest):
         # They add a new life event
         self.add_life_event(
             event_name='test event',
-            event_date='2005-04-29'
+            day='29',
+            month='04',
+            year='2005'
         )
 
         self.assertEqual(
@@ -50,8 +54,10 @@ class ProfilePageTest(FunctionalTest):
         self.browser.find_element_by_css_selector('.profile').click()
         self.submit_user_update_form(
             email='other@email.com',
-            dob='2006-12-01',
+            day='01',
+            month='12',
+            year='2006',
             name='Test Name'
         )
-        error = self.browser.find_element_by_id('errors_dob').text
+        error = self.browser.find_element_by_id('errors_year').text
         self.assertEqual(EVENT_OUT_OF_RANGE_ERROR, error)

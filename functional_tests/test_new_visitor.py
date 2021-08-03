@@ -19,25 +19,27 @@ class NewVisitorTest(FunctionalTest):
         self.assertIn("bird's eye view of your life", description)
 
         # After reading the explanation, they see a prompt to enter their date of birth.
-        date_input = self.browser.find_element_by_id('id_dob')
+        self.browser.find_element_by_id('id_day')
+        self.browser.find_element_by_id('id_month')
+        self.browser.find_element_by_id('id_year')
         create_button = self.browser.find_element_by_name('create_button')
 
         # They accidentally click the create button without providing a DOB, but the browser intecepts the request
-        self.browser.find_element_by_css_selector('#id_dob:invalid')
+        self.browser.find_element_by_css_selector('#id_year:invalid')
         create_button.click()
 
         # They enter a date in the future and they see an error telling them that the date of birth must be in the past
-        self.add_dob('2999-12-31')
+        self.add_dob(day='31', month='12', year='2999')
         self.assertEqual(self.get_error_element().text, FUTURE_DOB_ERROR)
 
         # They enter a date more than 90 years ago and see an error telling them that the date of birth must be within
         # the past 90 years
-        self.add_dob('1901-12-01')
+        self.add_dob(day='01', month='12', year='1901')
         self.assertEqual(self.get_error_element().text, PAST_DOB_ERROR)
 
         # They enter a valid DOB, and are shown a grid of boxes representing their life calendar.
         # Getting elements again as page refreshed and old elements are now stale
-        self.add_dob('1995-12-01')
+        self.add_dob(day='01', month='12', year='1995')
         self.assertEqual(
             self.browser.find_element_by_tag_name('h2').text,
             'Your Life Calendar'
@@ -60,21 +62,36 @@ class NewVisitorTest(FunctionalTest):
 
     def test_grid_page_invites_user_to_add_life_event(self):
         # A new user visits the site and enters a valid DOB
-        self.add_dob('1995-12-01')
+        self.add_dob(day='01', month='12', year='1995')
 
         # They see a section of the website inviting them to add a life event.
         self.browser.find_element_by_name('add_event')
 
         # They try to add a date before their date of birth, but they are met with an error.
-        self.add_life_event('out of bounds', '1990-01-31')
+        self.add_life_event(
+            event_name='out of bounds',
+            day='31',
+            month='01',
+            year='1990',
+        )
         self.assertIn(EVENT_DATE_ERROR, self.browser.page_source)
 
         # They try to add a date outside of their 90-year life window, and once again see the error.
-        self.add_life_event('out of bounds', '2085-12-02')
+        self.add_life_event(
+            event_name='out of bounds',
+            day='02',
+            month='12',
+            year='2085',
+        )
         self.assertIn(EVENT_DATE_ERROR, self.browser.page_source)
 
         # They insert an event name and a valid date into the form provided.
-        self.add_life_event('My event', '2010-03-31')
+        self.add_life_event(
+            event_name='my event',
+            day='31',
+            month='03',
+            year='2010',
+        )
 
         # The page refreshes and they see that their event is represented in the calendar as a highlighted box.
         past_weeks = self.browser.find_elements_by_css_selector('.week.past')

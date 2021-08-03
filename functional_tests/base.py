@@ -48,33 +48,50 @@ class FunctionalTest(StaticLiveServerTestCase):
             f.write(self.browser.page_source)
 
     def get_error_element(self):
-        return self.browser.find_element_by_css_selector('.errorlist')
+        return self.browser.find_element_by_css_selector('.error')
 
-    def add_dob(self, dob):
-        date_input = self.browser.find_element_by_id('id_dob')
+    def add_dob(self, day, month, year):
+        day_input = self.browser.find_element_by_id('id_day')
+        month_input = self.browser.find_element_by_id('id_month')
+        year_input = self.browser.find_element_by_id('id_year')
+        day_input.clear()
+        month_input.clear()
+        year_input.clear()
+        day_input.send_keys(day)
+        month_input.send_keys(month)
+        year_input.send_keys(year)
         create_button = self.browser.find_element_by_name('create_button')
-        date_input.clear()
-        date_input.send_keys(dob)
         create_button.click()
 
-    def add_life_event(self, event_name, event_date):
+    def add_life_event(self, event_name, day, month, year):
         try:
             event_title_input = self.browser.find_element_by_id(
                 'id_event_title')
+            event_title_input.clear()
             event_title_input.send_keys(event_name)
         except NoSuchElementException:
             event_title_input = self.browser.find_element_by_id(
                 'id_event_name')
+            event_title_input.clear()
             event_title_input.send_keys(event_name)
-        event_date_input = self.browser.find_element_by_id('id_event_date')
-        event_date_input.send_keys(event_date)
+        day_input = self.browser.find_element_by_id('id_day')
+        month_input = self.browser.find_element_by_id('id_month')
+        year_input = self.browser.find_element_by_id('id_year')
+        day_input.clear()
+        month_input.clear()
+        year_input.clear()
+        day_input.send_keys(day)
+        month_input.send_keys(month)
+        year_input.send_keys(year)
         submit_button = self.browser.find_element_by_name('add_event_btn')
         submit_button.click()
 
-    def submit_signup_form(self, username, email, dob, password):
+    def submit_signup_form(self, username, email, day, month, year, password):
         username_input = self.browser.find_element_by_id('id_username')
         email_input = self.browser.find_element_by_id('id_email')
-        dob_input = self.browser.find_element_by_id('id_dob')
+        day_input = self.browser.find_element_by_id('id_day')
+        month_input = self.browser.find_element_by_id('id_month')
+        year_input = self.browser.find_element_by_id('id_year')
         password1_input = self.browser.find_element_by_id('id_password1')
         password2_input = self.browser.find_element_by_id('id_password2')
         submit_button = self.browser.find_element_by_id('btn_signup')
@@ -82,8 +99,12 @@ class FunctionalTest(StaticLiveServerTestCase):
         username_input.send_keys(username)
         email_input.clear()
         email_input.send_keys(email)
-        dob_input.clear()
-        dob_input.send_keys(dob)
+        day_input.clear()
+        month_input.clear()
+        year_input.clear()
+        day_input.send_keys(day)
+        month_input.send_keys(month)
+        year_input.send_keys(year)
         password1_input.clear()
         password1_input.send_keys(password)
         password2_input.clear()
@@ -95,18 +116,26 @@ class FunctionalTest(StaticLiveServerTestCase):
         self.submit_signup_form(
             username='testuser',
             email='test@user.com',
-            dob='1995-12-01',
+            day='01',
+            month='12',
+            year='1995',
             password='testpass123'
         )
 
-    def submit_user_update_form(self, email, dob, name):
+    def submit_user_update_form(self, email, day, month, year, name):
         email_field = self.browser.find_element_by_id('id_email')
         email_field.clear()
         email_field.send_keys(email)
 
-        dob_field = self.browser.find_element_by_id('id_dob')
-        dob_field.clear()
-        dob_field.send_keys(dob)
+        day_field = self.browser.find_element_by_id('id_day')
+        month_field = self.browser.find_element_by_id('id_month')
+        year_field = self.browser.find_element_by_id('id_year')
+        day_field.clear()
+        month_field.clear()
+        year_field.clear()
+        day_field.send_keys(day)
+        month_field.send_keys(month)
+        year_field.send_keys(year)
 
         name_field = self.browser.find_element_by_id('id_first_name')
         name_field.clear()

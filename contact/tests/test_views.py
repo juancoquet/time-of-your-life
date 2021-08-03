@@ -24,6 +24,9 @@ class FeedbackViewTest(TestCase):
     def test_logged_in_user_saves_to_feedback_object(self, mock_notification):
         User.objects.create_user(
             username='testuser',
+            day='01',
+            month='12',
+            year='1995',
             dob='1995-12-01',
             email='test@user.com',
             password='testpass123'
@@ -94,6 +97,9 @@ class ContactViewTest(TestCase):
     def test_logged_in_user_saves_to_contact_object(self, mock_notification):
         User.objects.create_user(
             username='testuser',
+            day='01',
+            month='12',
+            year='1995',
             dob='1995-12-01',
             email='test@user.com',
             password='testpass123'
