@@ -25,7 +25,7 @@ def home(request):
     return render(request, 'home.html', {'dob_form': dob_form})
 
 
-def grid(request, dob, event_name=None, event_date=None):
+def grid(request, dob, event_name=None, day=None, month=None, year=None):
     if not DOBForm(data={'dob': dob}).is_valid():
         return redirect('/')
 
@@ -33,31 +33,40 @@ def grid(request, dob, event_name=None, event_date=None):
     if request.method == 'POST':
         if event_form.is_valid():
             event_name = event_form.cleaned_data['event_title']
-            event_date = event_form.cleaned_data['event_date']
-            return redirect(reverse('event', args=[dob, event_name, event_date]))
+            day = event_form.cleaned_data['day']
+            month = event_form.cleaned_data['month']
+            year = event_form.cleaned_data['year']
+            return redirect(reverse('event', args=[dob, event_name, day, month, year]))
 
     dob_form = DOBForm(data={'dob': dob})
     current_year = dob_form.get_current_year_of_life()
 
-    if event_name and event_date:
-        event = EventForm(
-            data={'event_title': event_name, 'event_date': event_date})
-        if not event.is_valid():
+    if event_name and day and month and year:
+        event_form = EventForm(
+            data={
+                'event_title': event_name,
+                'day': day,
+                'month': month,
+                'year': year
+            }
+        )
+        if not event_form.is_valid():
             return redirect(reverse('grid', args=[dob]))
 
-        event_date = event.cleaned_data['event_date']
+        event_date = date(year, month, day)
         dob = dob_form.cleaned_data['dob']
 
         if event_is_within_90_yrs_of_dob(event_date, dob):
             event_year_of_life = get_event_year_of_life(event_date, dob)
             event_week_no = get_event_week_number(event_date, dob)
         else:
-            event_form.errors['event_date'] = EVENT_DATE_ERROR
+            event_form.errors['year'] = EVENT_DATE_ERROR
             event_year_of_life = None
             event_week_no = None
     else:
         event_year_of_life = None
         event_week_no = None
+        event_date = None
 
     return render(request, 'grid.html', {
         'years_passed': range(1, current_year),
@@ -109,7 +118,6 @@ def dashboard(request):
     })
 
 
-# TODO: Split date field on event update view
 class EventUpdateView(LoginRequiredMixin, UpdateView):
     model = UserEvent
     form_class = UserEventForm
@@ -129,8 +137,7 @@ class EventUpdateView(LoginRequiredMixin, UpdateView):
         event = self.get_object()
         if not form.is_valid():
             return self.form_invalid(form)
-        event.event_name = form.cleaned_data['event_name']
-        event.event_date = form.cleaned_data['event_date']
+        event = form.save(commit=False)
         if event.is_valid():
             event.save_event()
             return redirect('/')

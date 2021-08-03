@@ -10,10 +10,10 @@
     </p>
     <p class="form_field">
       <label for="event_date">Event date:</label>
-      {{ form.event_date }}
+      {{ form.day }}{{ form.month }}{{ form.year }}
     </p>
     <p class="errors">{{ form.errors.event_name }}</p>
-    <p class="errors">{{ form.errors.event_date }}</p>
+    <p class="errors">{{ form.errors.year }}</p>
     <button class="btn button-submit" type="submit">Update</button>
     <a href="{% url 'dashboard' %}"><button type="button" class="btn button-cancel">Cancel</button></a>
   </form>

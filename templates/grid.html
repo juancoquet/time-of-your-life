@@ -9,9 +9,9 @@
             <label for="event_form.event_title">Event name:</label>
             {{ event_form.event_title }}<br>
             <label for="event_form.event_date">Event date:</label>
-            {{ event_form.event_date }}<br>
+            {{ event_form.day }}{{ event_form.month }}{{ event_form.year }}<br>
             <button name="add_event_btn" type="submit">Add event</button><br>
-            {{ event_form.event_date.errors }}
+            {{ event_form.year.errors }}
         </form>
     </div>
 

@@ -1,4 +1,4 @@
-from datetime import datetime, date
+from datetime import date
 from django import forms
 import math
 
@@ -43,9 +43,9 @@ def get_todays_date_on_birth_year(dob):
 def get_today_minus_90_years():
     today = date.today()
     try:
-        minus_90 = datetime(today.year-90, today.month, today.day)
+        minus_90 = date(today.year-90, today.month, today.day)
     except ValueError:
-        minus_90 = datetime(today.year-90, 3, 1)
+        minus_90 = date(today.year-90, 3, 1)
     return minus_90
 
 
@@ -67,13 +67,13 @@ class DOBForm(forms.Form):
 
     def clean_dob(self, *args, **kwargs):
         dob_given = self.cleaned_data['dob']
-        dob_given = datetime(dob_given.year, dob_given.month, dob_given.day)
-        if dob_given >= datetime.today():
+        dob_given = date(dob_given.year, dob_given.month, dob_given.day)
+        if dob_given >= date.today():
             raise forms.ValidationError(FUTURE_DOB_ERROR)
         if dob_given < get_today_minus_90_years():
             raise forms.ValidationError(PAST_DOB_ERROR)
         else:
-            return dob_given.date()
+            return dob_given
 
     def get_current_year_of_life(self):
         self.full_clean()
@@ -123,22 +123,35 @@ class DOBForm(forms.Form):
         return range(1, total_weeks_passed + 1)
 
 
-# TODO: Split date on event form
 class EventForm(forms.Form):
     event_title = forms.CharField(max_length='100')
-    event_date = forms.DateField(
-        widget=forms.DateInput(attrs={"class": "datepicker"})
-    )
+    day = forms.IntegerField(min_value=1, max_value=31)
+    month = forms.IntegerField(min_value=1, max_value=12)
+    year = forms.IntegerField(min_value=1, max_value=9999)
 
-    def clean_event_date(self, *args, **kwargs):
-        date_given = self.cleaned_data['event_date']
-        date_given = datetime(
-            date_given.year, date_given.month, date_given.day)
+    def clean_year(self, *args, **kwargs):
+        day_given = int(self['day'].data)
+        month_given = int(self['month'].data)
+        year_given = int(self['year'].data)
+        try:
+            date_given = date(year_given, month_given, day_given)
+            if date_given < get_today_minus_90_years():
+                self.errors['year'] = EVENT_DATE_ERROR
+            else:
+                return year_given
+        except ValueError:
+            self.errors['year'] = INVALID_DATE_ERROR
 
-        if date_given < get_today_minus_90_years():
-            raise forms.ValidationError(EVENT_DATE_ERROR)
-        else:
-            return date_given.date()
+    def is_valid(self) -> bool:
+        day_given = int(self['day'].data)
+        month_given = int(self['month'].data)
+        year_given = int(self['year'].data)
+        try:
+            date(year_given, month_given, day_given)
+        except ValueError:
+            self.errors['year'] = INVALID_DATE_ERROR
+            return False
+        return super().is_valid()
 
 
 class UserEventForm(forms.ModelForm):

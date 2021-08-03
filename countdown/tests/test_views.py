@@ -1,3 +1,4 @@
+from accounts.forms import EVENT_OUT_OF_RANGE_ERROR
 from unittest import skip
 from unittest.mock import patch
 
@@ -115,11 +116,11 @@ class GridViewTest(TestCase):
         self.assertIsInstance(response.context['event_form'], EventForm)
 
     def test_event_date_before_dob_raises(self):
-        response = self.client.get('/grid/1995-12-01/test%20event=1995-11-30')
+        response = self.client.get('/grid/1995-12-01/test%20event=30-11-1995')
         self.assertContains(response, EVENT_DATE_ERROR)
 
     def test_event_date_after_90_year_mark_raises(self):
-        response = self.client.get('/grid/1995-12-01/test%20event=2085-12-02')
+        response = self.client.get('/grid/1995-12-01/test%20event=02-12-2085')
         self.assertContains(response, EVENT_DATE_ERROR)
 
     def test_event_form_post_uses_grid_template(self):
@@ -127,30 +128,40 @@ class GridViewTest(TestCase):
             '/grid/1995-12-01',
             data={
                 'event_name': 'test event',
-                'event_date': '2005-05-31'
+                'day': '31',
+                'month': '05',
+                'year': '2005'
             }
         )
         self.assertTemplateUsed(response, 'grid.html')
 
     def test_context_contains_event_year(self):
-        response = self.client.get('/grid/1995-12-01/test%20event=2005-05-31')
+        response = self.client.get('/grid/1995-12-01/test%20event=31-05-2005')
         self.assertEqual(response.context['event_year'], 10)
 
     def test_context_contains_event_week_number(self):
-        response = self.client.get('/grid/1999-12-01/test%20event=2005-05-31')
+        response = self.client.get('/grid/1999-12-01/test%20event=31-05-2005')
         self.assertEqual(response.context['event_week'], 26)
 
     def test_context_contains_event_week_number_leap_day_event(self):
-        response = self.client.get('/grid/1995-12-01/test%20event=2004-02-29')
+        response = self.client.get('/grid/1995-12-01/test%20event=29-02-2004')
         self.assertEqual(response.context['event_week'], 13)
 
     def test_context_contains_event_week_number_leap_dob(self):
-        response = self.client.get('/grid/1996-02-29/test%20event=2005-05-31')
+        response = self.client.get('/grid/1996-02-29/test%20event=31-05-2005')
         self.assertEqual(response.context['event_week'], 14)
 
-    def test_faulty_event_date_redirects_to_grid(self):
-        response = self.client.get('/grid/1995-12-01/event=not-a-date')
-        self.assertRedirects(response, reverse('grid', args=['1995-12-01']))
+    def test_event_form_invalid_date_shows_error(self):
+        response = self.client.post(
+            '/grid/1995-12-01',
+            data={
+                'event_name': 'test event',
+                'day': '31',
+                'month': '02',
+                'year': '2005'
+            }
+        )
+        self.assertContains(response, INVALID_DATE_ERROR)
 
 
 class DashboardViewTest(TestCase):
@@ -305,6 +316,9 @@ class EventUpdateViewTest(TestCase):
     def setUp(self):
         User.objects.create(
             username='testuser',
+            day='01',
+            month='12',
+            year='1995',
             dob='1995-12-01',
             password='testpass123',
             email='test@user.com'
@@ -312,6 +326,9 @@ class EventUpdateViewTest(TestCase):
         self.user = User.objects.first()
         UserEvent.objects.create(
             event_name='test event',
+            day='29',
+            month='05',
+            year='2005',
             event_date='2005-05-29',
             owner=self.user
         )
@@ -323,7 +340,9 @@ class EventUpdateViewTest(TestCase):
             self.event.get_edit_url(),
             data={
                 'event_name': 'changed event',
-                'event_date': '2009-05-29'
+                'day': '29',
+                'month': '05',
+                'year': '2009'
             }
         )
         self.event = UserEvent.objects.first()
@@ -336,7 +355,9 @@ class EventUpdateViewTest(TestCase):
             self.event.get_edit_url(),
             data={
                 'event_name': 'changed event',
-                'event_date': '2009-05-29'
+                'day': '29',
+                'month': '05',
+                'year': '2009'
             }
         )
         self.assertEqual(len(UserEvent.objects.all()), 1)
@@ -346,25 +367,20 @@ class EventUpdateViewTest(TestCase):
             self.event.get_edit_url(),
             data={
                 'event_name': 'changed event',
-                'event_date': '2109-05-29'
+                'day': '29',
+                'month': '05',
+                'year': '2109'
             }
         )
         self.assertContains(response, EVENT_DATE_ERROR)
-
-    def test_non_date_shows_error(self):
-        response = self.client.post(
-            self.event.get_edit_url(),
-            data={
-                'event_name': 'changed event',
-                'event_date': 'abcdefg'
-            }
-        )
-        self.assertContains(response, 'Enter a valid date')
 
     def test_only_event_owner_can_edit(self):
         wrong_user = User.objects.create(
             username='wronguser',
             email='wrong@user.com',
+            day='01',
+            month='01',
+            year='2000',
             dob='2000-01-01',
             password='testpass123'
         )
@@ -377,7 +393,9 @@ class EventUpdateViewTest(TestCase):
             self.event.get_edit_url(),
             data={
                 'event_name': 'changed event',
-                'event_date': '2009-05-29'
+                'day': '29',
+                'month': '05',
+                'year': '2009'
             }
         )
         self.assertEqual(response.status_code, 302)

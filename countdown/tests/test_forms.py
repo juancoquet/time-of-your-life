@@ -4,7 +4,7 @@ from django.test import TestCase
 from unittest.mock import patch
 
 from countdown import forms
-from countdown.forms import (DOBForm, EventForm, UserEventForm,
+from countdown.forms import (DOBForm, EVENT_DATE_ERROR, EventForm, INVALID_DATE_ERROR, UserEventForm,
                              FUTURE_DOB_ERROR, PAST_DOB_ERROR, is_leap_year)
 from countdown.models import UserEvent
 
@@ -90,17 +90,83 @@ class DOBFormTest(TestCase):
 
 class EventFormTest(TestCase):
 
-    def test_past_date_is_valid(self):
+    def test_valid_past_date(self):
         form = EventForm(
-            data={'event_title': 'test event', 'event_date': '2005-05-31'}
+            data={
+                'event_title': 'test event',
+                'day': '31',
+                'month': '05',
+                'year': '2005'
+            }
         )
         self.assertTrue(form.is_valid())
 
-    def test_past_date_greater_than_90_years_ago_not_valid(self):
+    def test_valid_future_date(self):
         form = EventForm(
-            data={'event_title': 'test event', 'event_date': '1909-12-31'}
+            data={
+                'event_title': 'test event',
+                'day': '31',
+                'month': '05',
+                'year': '2065'
+            }
+        )
+        self.assertTrue(form.is_valid())
+
+    def test_day_out_of_range(self):
+        form = EventForm(
+            data={
+                'event_title': 'test event',
+                'day': '32',
+                'month': '05',
+                'year': '2005'
+            }
         )
         self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['year'], INVALID_DATE_ERROR)
+        form = EventForm(
+            data={
+                'event_title': 'test event',
+                'day': '-1',
+                'month': '05',
+                'year': '2005'
+            }
+        )
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['year'], INVALID_DATE_ERROR)
+
+    def test_month_out_of_range(self):
+        form = EventForm(
+            data={
+                'event_title': 'test event',
+                'day': '19',
+                'month': '13',
+                'year': '2005'
+            }
+        )
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['year'], INVALID_DATE_ERROR)
+        form = EventForm(
+            data={
+                'event_title': 'test event',
+                'day': '19',
+                'month': '-1',
+                'year': '2005'
+            }
+        )
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['year'], INVALID_DATE_ERROR)
+
+    def test_past_date_greater_than_90_years_ago_not_valid(self):
+        form = EventForm(
+            data={
+                'event_title': 'test event',
+                'day': '31',
+                'month': '05',
+                'year': '1901'
+            }
+        )
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['year'], EVENT_DATE_ERROR)
 
 
 class HelperTest(TestCase):
