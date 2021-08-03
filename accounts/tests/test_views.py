@@ -232,10 +232,12 @@ class ProfileViewTest(TestCase):
             self.response.content.decode()
         )
 
-    # TODO: Change event date field after model change
     def test_dob_change_cant_leave_event_out_of_range(self):
         UserEvent.objects.create(
             event_name='test event',
+            day='29',
+            month='04',
+            year='2005',
             event_date='2005-04-29',
             owner=self.user
         )

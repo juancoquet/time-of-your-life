@@ -20,13 +20,24 @@ def home(request):
     dob_form = DOBForm(request.POST or None)
     if request.method == 'POST':
         if dob_form.is_valid():
-            dob = dob_form.cleaned_data['dob']
+            day = dob_form.cleaned_data['day']
+            month = dob_form.cleaned_data['month']
+            year = dob_form.cleaned_data['year']
+            dob = date(year, month, day)
             return redirect(f'grid/{dob}')
     return render(request, 'home.html', {'dob_form': dob_form})
 
 
 def grid(request, dob, event_name=None, day=None, month=None, year=None):
-    if not DOBForm(data={'dob': dob}).is_valid():
+    dob_year, dob_month, dob_day = dob.split('-')
+    dob_form = DOBForm(
+        data={
+            'day': dob_day,
+            'month': dob_month,
+            'year': dob_year
+        }
+    )
+    if not dob_form.is_valid():
         return redirect('/')
 
     event_form = EventForm(request.POST or None)
@@ -38,7 +49,6 @@ def grid(request, dob, event_name=None, day=None, month=None, year=None):
             year = event_form.cleaned_data['year']
             return redirect(reverse('event', args=[dob, event_name, day, month, year]))
 
-    dob_form = DOBForm(data={'dob': dob})
     current_year = dob_form.get_current_year_of_life()
 
     if event_name and day and month and year:
@@ -54,7 +64,8 @@ def grid(request, dob, event_name=None, day=None, month=None, year=None):
             return redirect(reverse('grid', args=[dob]))
 
         event_date = date(year, month, day)
-        dob = dob_form.cleaned_data['dob']
+        dob_day, dob_month, dob_year = dob_form.cleaned_data.values()
+        dob = date(dob_year, dob_month, dob_day)
 
         if event_is_within_90_yrs_of_dob(event_date, dob):
             event_year_of_life = get_event_year_of_life(event_date, dob)

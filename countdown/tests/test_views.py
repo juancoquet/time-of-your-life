@@ -32,17 +32,42 @@ class HomePageTest(TestCase):
         self.assertIsInstance(response.context['dob_form'], DOBForm)
 
     def test_valid_form_POST_redirects_to_grid(self):
-        response = self.client.post('/', data={'dob': '1995-12-01'})
+        response = self.client.post('/',
+                                    data={
+                                        'day': '01',
+                                        'month': '12',
+                                        'year': '1995'
+                                    }
+                                    )
         self.assertRedirects(response, '/grid/1995-12-01')
 
-    def test_invalid_form_POST_shows_error(self):
-        response = self.client.post('/', data={'dob': '2999-12-31'})
+    def test_future_date_form_POST_shows_error(self):
+        response = self.client.post('/',
+                                    data={
+                                        'day': '31',
+                                        'month': '12',
+                                        'year': '2999'
+                                    }
+                                    )
         self.assertContains(response, FUTURE_DOB_ERROR)
+
+    def test_invalid_date_form_POST_shows_error(self):
+        response = self.client.post('/',
+                                    data={
+                                        'day': '31',
+                                        'month': '02',
+                                        'year': '1995'
+                                    }
+                                    )
+        self.assertContains(response, INVALID_DATE_ERROR)
 
     def test_logged_in_user_redirects_to_dashboard(self):
         User.objects.create(
             username='testuser',
             email='test@email.com',
+            day='01',
+            month='12',
+            year='1995',
             dob='1995-12-01',
             password='testpass123'
         )
@@ -406,6 +431,9 @@ class EventDeleteViewTest(TestCase):
     def setUp(self):
         User.objects.create(
             username='testuser',
+            day='01',
+            month='12',
+            year='1995',
             dob='1995-12-01',
             password='testpass123',
             email='test@user.com'
@@ -413,6 +441,9 @@ class EventDeleteViewTest(TestCase):
         self.user = User.objects.first()
         UserEvent.objects.create(
             event_name='test event',
+            day='29',
+            month='05',
+            year='2005',
             event_date='2005-05-29',
             owner=self.user
         )
@@ -422,6 +453,9 @@ class EventDeleteViewTest(TestCase):
     def test_only_event_owner_can_delete(self):
         User.objects.create(
             username='wronguser',
+            day='19',
+            month='01',
+            year='2001',
             dob='2001-01-19',
             password='testpass123',
             email='wrong@user.com'
@@ -434,6 +468,9 @@ class EventDeleteViewTest(TestCase):
     def test_page_uses_correct_event(self):
         UserEvent.objects.create(
             event_name='wrong event',
+            day='29',
+            month='05',
+            year='1999',
             event_date='1999-05-29',
             owner=self.user
         )
@@ -449,6 +486,9 @@ class EventDeleteViewTest(TestCase):
     def test_post_deletes_correct_event(self):
         UserEvent.objects.create(
             event_name='delete event',
+            day='29',
+            month='05',
+            year='1999',
             event_date='1999-05-29',
             owner=self.user
         )

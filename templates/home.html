@@ -11,11 +11,10 @@
         <form method="POST" action="/">
             {% csrf_token %}
             <label for="{{ dob_form.dob.id_for_label }}">Date of Birth:</label><br>
-            {{ dob_form.dob }}
+            {{ dob_form.day }}{{ dob_form.month }}{{ dob_form.year }}
             <button name="create_button" type="submit">Create</button>
-            {{ dob_form.dob.errors }}
+            <p>{{ dob_form.year.errors }}</p>
         </form>
     </div>
 
-    <div class="neumorphism"></div>
 {% endblock content %}

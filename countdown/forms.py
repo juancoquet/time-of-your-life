@@ -58,27 +58,43 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 
-# TODO: split date on dobform
 class DOBForm(forms.Form):
-    dob = forms.DateField(
-        label='Date of Birth',
-        widget=forms.DateInput(attrs={"class": "datepicker"})
-    )
+    day = forms.IntegerField(min_value=1, max_value=31)
+    month = forms.IntegerField(min_value=1, max_value=12)
+    year = forms.IntegerField(min_value=1, max_value=9999)
 
-    def clean_dob(self, *args, **kwargs):
-        dob_given = self.cleaned_data['dob']
-        dob_given = date(dob_given.year, dob_given.month, dob_given.day)
-        if dob_given >= date.today():
-            raise forms.ValidationError(FUTURE_DOB_ERROR)
-        if dob_given < get_today_minus_90_years():
-            raise forms.ValidationError(PAST_DOB_ERROR)
-        else:
-            return dob_given
+    def clean_year(self, *args, **kwargs):
+        day_given = int(self['day'].data)
+        month_given = int(self['month'].data)
+        year_given = int(self['year'].data)
+        try:
+            dob_given = date(year_given, month_given, day_given)
+            if dob_given >= date.today():
+                self.errors['year'] = FUTURE_DOB_ERROR
+            if dob_given < get_today_minus_90_years():
+                self.errors['year'] = PAST_DOB_ERROR
+            else:
+                return year_given
+        except ValueError:
+            self.errors['year'] = INVALID_DATE_ERROR
+
+    def is_valid(self) -> bool:
+        day_given = int(self['day'].data)
+        month_given = int(self['month'].data)
+        year_given = int(self['year'].data)
+        try:
+            date(year_given, month_given, day_given)
+        except ValueError:
+            self.errors['year'] = INVALID_DATE_ERROR
+            return False
+        return super().is_valid()
 
     def get_current_year_of_life(self):
         self.full_clean()
-        dob_given = self.cleaned_data['dob']
-        dob_given = date(dob_given.year, dob_given.month, dob_given.day)
+        day_given = self.cleaned_data['day']
+        month_given = self.cleaned_data['month']
+        year_given = self.cleaned_data['year']
+        dob_given = date(year_given, month_given, day_given)
 
         todays_date_on_birth_year = get_todays_date_on_birth_year(dob_given)
 
@@ -92,8 +108,10 @@ class DOBForm(forms.Form):
 
     def get_current_week_no(self):
         self.full_clean()
-        dob_given = self.cleaned_data['dob']
-        dob_given = date(dob_given.year, dob_given.month, dob_given.day)
+        day_given = self.cleaned_data['day']
+        month_given = self.cleaned_data['month']
+        year_given = self.cleaned_data['year']
+        dob_given = date(year_given, month_given, day_given)
 
         todays_date_on_birth_year = get_todays_date_on_birth_year(dob_given)
 

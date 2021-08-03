@@ -33,59 +33,154 @@ class DOBFormTest(TestCase):
         forms.date = datetime.date
 
     def test_future_date_is_not_valid(self):
-        form = DOBForm(data={'dob': '2999-12-31'})
+        form = DOBForm(
+            data={
+                'day': '31',
+                'month': '12',
+                'year': '2999'
+            }
+        )
         self.assertFalse(form.is_valid())
-        self.assertEqual(form.errors['dob'], [FUTURE_DOB_ERROR])
+        self.assertEqual(form.errors['year'], FUTURE_DOB_ERROR)
 
     def test_dob_more_than_90_years_ago_is_not_valid(self):
-        form = DOBForm(data={'dob': '1901-01-01'})
+        form = DOBForm(
+            data={
+                'day': '01',
+                'month': '01',
+                'year': '1901'
+            }
+        )
         self.assertFalse(form.is_valid())
-        self.assertEqual(form.errors['dob'], [PAST_DOB_ERROR])
+        self.assertEqual(form.errors['year'], PAST_DOB_ERROR)
 
     def test_past_date_is_valid(self):
-        form = DOBForm(data={'dob': '1995-12-01'})
+        form = DOBForm(
+            data={
+                'day': '01',
+                'month': '12',
+                'year': '1995'
+            }
+        )
         self.assertTrue(form.is_valid())
 
     def test_get_current_year_of_life(self):
         self.patch_datetoday_with_mock()
 
-        dob = DOBForm(data={'dob': '1995-12-01'})
+        dob = DOBForm(
+            data={
+                'day': '01',
+                'month': '12',
+                'year': '1995'
+            }
+        )
         self.assertEqual(dob.get_current_year_of_life(), 26)
 
     def test_get_current_year_of_life_if_today_is_leap_day(self):
         self.patch_datetoday_with_mock(2020, 2, 29)
 
-        dob = DOBForm(data={'dob': '2000-02-29'})
+        dob = DOBForm(
+            data={
+                'day': '29',
+                'month': '02',
+                'year': '2000'
+            }
+        )
         self.assertEqual(dob.get_current_year_of_life(), 21)
 
     def test_get_current_week_no(self):
         self.patch_datetoday_with_mock()
 
-        dob = DOBForm(data={'dob': '1995-12-01'})
+        dob = DOBForm(
+            data={
+                'day': '01',
+                'month': '12',
+                'year': '1995'
+            }
+        )
         self.assertEqual(dob.get_current_week_no(), 28)
-        dob = DOBForm(data={'dob': '2004-02-29'})
+        dob = DOBForm(
+            data={
+                'day': '29',
+                'month': '02',
+                'year': '2004'
+            }
+        )
         self.assertEqual(dob.get_current_week_no(), 15)
-        dob = DOBForm(data={'dob': '2000-6-09'})
+        dob = DOBForm(
+            data={
+                'day': '09',
+                'month': '06',
+                'year': '2000'
+            }
+        )
         self.assertEqual(dob.get_current_week_no(), 1)
-        dob = DOBForm(data={'dob': '2000-6-10'})
+        dob = DOBForm(
+            data={
+                'day': '10',
+                'month': '06',
+                'year': '2000'
+            }
+        )
         self.assertEqual(dob.get_current_week_no(), 52)
 
     def test_get_current_week_no_if_today_is_leap_day(self):
         self.patch_datetoday_with_mock(2020, 2, 29)
 
-        dob = DOBForm(data={'dob': '1995-12-01'})
+        dob = DOBForm(
+            data={
+                'day': '01',
+                'month': '12',
+                'year': '1995'
+            }
+        )
         self.assertEqual(dob.get_current_week_no(), 13)
-        dob = DOBForm(data={'dob': '1996-12-01'})
+        dob = DOBForm(
+            data={
+                'day': '01',
+                'month': '12',
+                'year': '1996'
+            }
+        )
         self.assertEqual(dob.get_current_week_no(), 13)
-        dob = DOBForm(data={'dob': '2004-02-29'})
+        dob = DOBForm(
+            data={
+                'day': '29',
+                'month': '02',
+                'year': '2004'
+            }
+        )
         self.assertEqual(dob.get_current_week_no(), 1)
-        dob = DOBForm(data={'dob': '2000-03-1'})
+        dob = DOBForm(
+            data={
+                'day': '01',
+                'month': '03',
+                'year': '2000'
+            }
+        )
         self.assertEqual(dob.get_current_week_no(), 52)
 
     def test_yields_weeks_passed_iter(self):
-        dob = DOBForm(data={'dob': '1995-12-01'})
+        dob = DOBForm(
+            data={
+                'day': '01',
+                'month': '12',
+                'year': '1995'
+            }
+        )
         self.patch_datetoday_with_mock()
         self.assertEqual(len(dob.weeks_passed), (25*52) + 27)
+
+    def test_invalid_date_shows_error(self):
+        form = DOBForm(
+            data={
+                'day': '31',
+                'month': '02',
+                'year': '1995'
+            }
+        )
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['year'], INVALID_DATE_ERROR)
 
 
 class EventFormTest(TestCase):

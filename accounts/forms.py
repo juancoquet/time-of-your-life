@@ -32,7 +32,7 @@ class CustomUserCreationForm(UserCreationForm):
             raise ValidationError(VALID_DATE_ERROR)
         if dob_given >= timezone.now().date():
             raise ValidationError(FUTURE_DOB_ERROR)
-        if dob_given < get_today_minus_90_years().date():
+        if dob_given < get_today_minus_90_years():
             raise ValidationError(PAST_DOB_ERROR)
         else:
             return year_given
@@ -67,7 +67,7 @@ class CustomUserChangeForm(UserChangeForm):
             raise ValidationError(VALID_DATE_ERROR)
         if dob_given >= timezone.now().date():
             raise ValidationError(FUTURE_DOB_ERROR)
-        if dob_given < get_today_minus_90_years().date():
+        if dob_given < get_today_minus_90_years():
             raise ValidationError(PAST_DOB_ERROR)
         else:
             return year_given
