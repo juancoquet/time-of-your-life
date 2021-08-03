@@ -1,3 +1,4 @@
+from accounts.forms import EVENT_OUT_OF_RANGE_ERROR
 from datetime import date
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.contrib.auth.decorators import login_required

@@ -13,6 +13,8 @@ EVENT_DATE_ERROR = "Event dates must be within a 90-year window starting on your
 
 DUPLICATE_EVENT_ERROR = "This event already exists"
 
+INVALID_DATE_ERROR = "Please enter a valid date"
+
 ###############
 ### Helpers ###
 ###############
@@ -160,3 +162,22 @@ class UserEventForm(forms.ModelForm):
 
     def show_unique_restraint_error(self):
         self.errors['year'] = DUPLICATE_EVENT_ERROR
+
+    def year_field_within_range(self):
+        if int(self['year'].data) > 2999:
+            self.errors['year'] = EVENT_DATE_ERROR
+            return False
+        return True
+
+    def is_valid(self) -> bool:
+        day_given = int(self['day'].data)
+        month_given = int(self['month'].data)
+        year_given = int(self['year'].data)
+        try:
+            date(year_given, month_given, day_given)
+        except ValueError:
+            self.errors['year'] = INVALID_DATE_ERROR
+            return False
+        if self.year_field_within_range():
+            return super().is_valid()
+        return False

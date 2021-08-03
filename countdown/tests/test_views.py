@@ -8,7 +8,7 @@ from django.http import response
 from django.test import TestCase
 from django.urls.base import reverse
 
-from countdown.forms import (DOBForm, EventForm, UserEventForm,
+from countdown.forms import (DOBForm, EventForm, INVALID_DATE_ERROR, UserEventForm,
                              FUTURE_DOB_ERROR, EVENT_DATE_ERROR, DUPLICATE_EVENT_ERROR)
 from countdown.models import UserEvent
 
@@ -231,7 +231,7 @@ class DashboardViewTest(TestCase):
                                     )
         self.assertEqual(len(UserEvent.objects.all()), 0)
 
-    def test_error_shown_on_invalid_event_date_post(self):
+    def test_error_shown_on_distant_event_date_post(self):
         response = self.client.post('/grid/dashboard/',
                                     data={
                                         'event_name': 'test event',
@@ -265,6 +265,39 @@ class DashboardViewTest(TestCase):
         event = UserEvent.objects.first()
         self.assertEqual(event.owner, correct_user)
         self.assertNotEqual(event.owner, wrong_user)
+
+    def test_invalid_day_raises_error(self):
+        response = self.client.post('/grid/dashboard/',
+                                    data={
+                                        'event_name': 'test event',
+                                        'day': '29999',
+                                        'month': '05',
+                                        'year': '2005'
+                                    }
+                                    )
+        self.assertContains(response, INVALID_DATE_ERROR)
+
+    def test_invalid_month_raises_error(self):
+        response = self.client.post('/grid/dashboard/',
+                                    data={
+                                        'event_name': 'test event',
+                                        'day': '29',
+                                        'month': '05999',
+                                        'year': '2005'
+                                    }
+                                    )
+        self.assertContains(response, INVALID_DATE_ERROR)
+
+    def test_invalid_year_raises_error(self):
+        response = self.client.post('/grid/dashboard/',
+                                    data={
+                                        'event_name': 'test event',
+                                        'day': '29',
+                                        'month': '05',
+                                        'year': '399999'
+                                    }
+                                    )
+        self.assertContains(response, INVALID_DATE_ERROR)
 
 
 class EventUpdateViewTest(TestCase):

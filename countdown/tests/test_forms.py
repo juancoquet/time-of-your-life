@@ -141,3 +141,36 @@ class UserEventFormTest(TestCase):
         self.assertEqual(event.day, 28)
         self.assertEqual(event.month, 5)
         self.assertEqual(event.year, 2001)
+
+    def test_invalid_day(self):
+        form = UserEventForm(
+            data={
+                'event_name': 'test event',
+                'day': '28999',
+                'month': '05',
+                'year': '2001'
+            }
+        )
+        self.assertFalse(form.is_valid())
+
+    def test_invalid_month(self):
+        form = UserEventForm(
+            data={
+                'event_name': 'test event',
+                'day': '28',
+                'month': '05999',
+                'year': '2001'
+            }
+        )
+        self.assertFalse(form.is_valid())
+
+    def test_invalid_year(self):
+        form = UserEventForm(
+            data={
+                'event_name': 'test event',
+                'day': '28',
+                'month': '05',
+                'year': '212341'
+            }
+        )
+        self.assertFalse(form.is_valid())
