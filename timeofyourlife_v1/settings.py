@@ -172,3 +172,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 DEFAULT_FROM_EMAIL = 'Time of Your Life <noreply@timeofyourlife.io>'
+
+LIVERELOAD_HOST = '0.0.0.0'

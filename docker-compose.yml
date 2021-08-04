@@ -8,6 +8,7 @@ services:
             - .:/timeofyourlife_v1
         ports:
             - 8000:8000
+            - 35729:35729
         depends_on:
             - db
             - selenium
