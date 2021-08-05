@@ -1,19 +1,45 @@
+:root {
+    --bg-clr: hsl(0, 33%, 96%);
+    --main-clr: hsl(190, 69%, 28%);
+    --accent-clr: hsl(35, 100%, 58%);
+    --dark-accent-clr: hsl(27, 100%, 43%);
+}
+
 html {
     font-size: 62.5%;
+    font-family: 'Open Sans', sans-serif;
 }
 
 body {
-    /* background-color: #e3e7ee; */
-    background-color: F8F1F1;
+    background-color: var(--bg-clr);
+}
+
+h1,
+h2,
+h3,
+p {
+    color: var(--main-clr);
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'Raleway', sans-serif;
 }
 
 h1 {
-    color: hsl(210, 100%, 12%);
+    font-size: 6.4rem;
 }
 
-#home {
-    font-family: 'Patua One', cursive;
-    font-size: 24px;
+h2 {
+    font-size: 3.2rem;
+}
+
+h3,
+p,
+a,
+label {
+    font-size: 1.6rem;
 }
 
 .week {
@@ -97,15 +123,4 @@ h1 {
 .week.event:hover {
     transform: scale(125%);
     transition: 300ms;
-}
-
-.neumorphism {
-    width: 150px;
-    height: 150px;
-    margin: 40px;
-    border-radius: 10%;
-    background: hsl(169, 40%, 92%);
-    box-shadow: 19px 19px 38px #ceddda,
-        -19px -19px 38px #f6ffff;
-    ;
 }

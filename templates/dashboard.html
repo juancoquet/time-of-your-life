@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Your Life Calendar</h2>
+  <h1>Your Life Calendar</h1>
 
     <div name="add_event">
-        <h3>Add a life event</h3>
+        <h2>Add a life event</h2>
         <form action="{% url 'dashboard' %}" method="post">
             {% csrf_token %}
             <p class="form_field">
