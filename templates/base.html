@@ -20,23 +20,35 @@
 
 </head>
 <body>
-    <nav>
-        <a id="home" href="/">Time of Your Life</a>
-        <a id='about' href="{% url 'about' %}">About</a>
-        <a id='feedback' href="{% url 'feedback' %}">Feedback</a>
-        <a id='contact' href="{% url 'contact' %}">Contact</a>
-        {% if not user.is_authenticated %}
-            <a href="{% url 'account_signup' %}" id="id_signup">Sign up</a>
-            <a href="{% url 'account_login' %}" id='id_login_link'>Log in</a>
-        {% else %}
-            <a id='id_logout' href="{% url 'account_logout' %}">Log out</a>
-            <span class="profile" id="id_logged_in"><a href="{% url 'profile' pk=user.username %}">{{ user.username }}</a></span>
-        {% endif %}
-        <a href="/admin/"><button>Admin</button></a>
-    </nav>
+    <header>
+        <nav>
+            <ul class="nav_links">
+                <div class="left">
+                    <li><a id="home" href="/">
+                        <div class="logo-small">
+                            <h1 class="logo-tyl-small">Time <span class="logo-of-small">of</span> Your Life</h1>
+                        </div>
+                    </a></li>
+                    <li><a id='about' href="{% url 'about' %}">About</a></li>
+                    <li><a id='feedback' href="{% url 'feedback' %}">Feedback</a></li>
+                    <li><a id='contact' href="{% url 'contact' %}">Contact</a></li>
+                </div>
+                <div class="right">
+                    {% if not user.is_authenticated %}
+                        <li><a href="{% url 'account_login' %}" id='id_login_link'>Log in</a></li>
+                        <li><a href="{% url 'account_signup' %}" id="id_signup">Sign up</a></li>
+                    {% else %}
+                        <li><a id='id_logout' href="{% url 'account_logout' %}">Log out</a></li>
+                        <li class="profile" id="id_logged_in"><a href="{% url 'profile' pk=user.username %}">{{ user.username }}</a></li>
+                    {% endif %}
+                </div>
+            </ul>
+        </nav>
+    </header>
 
     {% block content %}
     {% endblock content %}
+    <a href="/admin/"><button>Admin</button></a>
 
 
     <script>
