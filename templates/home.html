@@ -1,21 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+
     <section class="hero">
         <div class="container-col">
+
             <div class="logo-big">
                 <h1 class="logo-tyl">Time <span class="logo-of">of</span> Your Life</h1>
             </div>
 
+
             <div id="hero-content">
+
                 <div class="container-left">
                     <h2 class="hero-text">Create a calendar of your life</h2>
                     <p class="hero-text">Enter your date of birth to get started</p>
                 </div>
 
+
                 <div class="container-arrow">
                     <div id="arrow"></div>
                 </div>
+
                 
                 <div class="container-form">
                     <form method="POST" action="/">
@@ -27,9 +34,12 @@
                 </div>
 
             </div>
-        </div>
 
+        </div>
     </section>
+
+
+
     <div id="site-description">
         <p>
             Time of Your Life helps you to see a bird's eye view of your life. Type your date of birth below to generate
@@ -37,5 +47,6 @@
             represent a year. Weeks that you have already lived will be greyed out.
         </p>
     </div>
+
 
 {% endblock content %}

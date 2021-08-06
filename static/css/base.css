@@ -1,3 +1,7 @@
+/*---------------------------*\
+    #BASE FORMATING
+\*---------------------------*/
+
 :root {
     --bg-clr: hsl(0, 33%, 96%);
     --main-clr: hsl(190, 69%, 28%);
@@ -70,7 +74,12 @@ label {
 }
 
 
-/* START NAV BAR */
+
+
+
+/*---------------------------*\
+    #NAV BAR
+\*---------------------------*/
 
 nav {
     margin: 0.8rem auto;
@@ -83,11 +92,12 @@ nav h1 {
     margin-right: 1.6rem;
 }
 
-.nav_links {
+.nav__links {
     list-style: None;
     display: flex;
     justify-content: space-between;
 }
+
 
 .left {
     margin-right: auto;
@@ -107,10 +117,12 @@ nav h1 {
     margin: 1.6rem;
 }
 
+
 #id_signup,
 #id_profile {
     margin-right: 0;
 }
+
 
 .logo-tyl-small {
     font-family: 'Open Sans Condensed', sans-serif;
@@ -137,11 +149,13 @@ nav h1 {
     border-left: 0;
 }
 
-/* END NAV BAR */
 
 
 
-/* START HERO */
+
+/*---------------------------*\
+    #HERO
+\*---------------------------*/
 
 .hero {
     background-color: var(--main-clr);
@@ -160,6 +174,11 @@ nav h1 {
     text-align: center;
     height: 100%;
 }
+
+.hero-text {
+    color: var(--bg-clr);
+}
+
 
 .logo-tyl {
     font-family: 'Open Sans Condensed', sans-serif;
@@ -186,9 +205,6 @@ nav h1 {
     border-left: 0;
 }
 
-.hero-text {
-    color: var(--bg-clr);
-}
 
 #hero-content {
     width: 100%;
@@ -203,6 +219,7 @@ nav h1 {
     margin-top: 0;
 }
 
+
 .container-left {
     /* background-color: red; */
     width: 45%;
@@ -210,6 +227,7 @@ nav h1 {
     flex-direction: column;
     text-align: left;
 }
+
 
 .container-arrow {
     display: flex;
@@ -224,7 +242,7 @@ nav h1 {
     background-color: var(--bg-clr);
     transform: rotate(45deg);
     margin: 0 6.4rem;
-    border-radius: 10%;
+    border-radius: 5px;
 }
 
 
@@ -248,8 +266,9 @@ nav h1 {
     transform: rotate(-45deg) translate(0, -350%);
     position: relative;
     z-index: 1;
-    border-radius: 10%;
+    border-radius: 5px;
 }
+
 
 .container-form {
     width: 45%;
@@ -300,12 +319,13 @@ nav h1 {
 
 }
 
-/* END HERO */
 
 
 
 
-
+/*---------------------------*\
+    #CALENDAR
+\*---------------------------*/
 .week {
     border-radius: 10%;
     background: darkgray;
