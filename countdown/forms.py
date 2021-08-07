@@ -63,6 +63,15 @@ class DOBForm(forms.Form):
     month = forms.IntegerField(min_value=1, max_value=12)
     year = forms.IntegerField(min_value=1, max_value=9999)
 
+    day.widget.attrs.update({
+            'class': 'input input--int banner__input',
+            'placeholder': 'DD',
+        })
+    month.widget.attrs.update(
+        {'class': 'input input--int banner__input', 'placeholder': 'MM'})
+    year.widget.attrs.update(
+        {'class': 'input input--int banner__input', 'placeholder': 'YYYY'})
+
     def clean_year(self, *args, **kwargs):
         day_given = int(self['day'].data)
         month_given = int(self['month'].data)

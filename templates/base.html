@@ -26,30 +26,30 @@
 
     <header>
         <nav>
-            <ul class="nav__links">
+            <ul class="nav-links">
 
 
-                <div class="left">
+                <div class="container container--left width--fit">
 
-                    <li><a id="home" href="/">
-                        <div class="logo-small">
-                            <h1 class="logo-tyl-small">Time <span class="logo-of-small">of</span> Your Life</h1>
+                    <li><a class="nav-links__link" id="home" href="/">
+                        <div class="logo--small">
+                            <h1 class="logo__tyl--small">Time <span class="logo__of--small">of</span> Your Life</h1>
                         </div>
                     </a></li>
 
-                    <li><a id='about' href="{% url 'about' %}">About</a></li>
-                    <li><a id='feedback' href="{% url 'feedback' %}">Feedback</a></li>
-                    <li><a id='contact' href="{% url 'contact' %}">Contact</a></li>
+                    <li><a class="nav-links__link" id='about' href="{% url 'about' %}">About</a></li>
+                    <li><a class="nav-links__link" id='feedback' href="{% url 'feedback' %}">Feedback</a></li>
+                    <li><a class="nav-links__link" id='contact' href="{% url 'contact' %}">Contact</a></li>
                 </div>
 
 
-                <div class="right">
+                <div class="container container--right width--fit">
                     {% if not user.is_authenticated %}
-                        <li><a href="{% url 'account_login' %}" id='id_login_link'>Log in</a></li>
-                        <li><a href="{% url 'account_signup' %}" id="id_signup">Sign up</a></li>
+                        <li><a class="nav-links__link" href="{% url 'account_login' %}" id='id_login_link'>Log in</a></li>
+                        <li><a class="btn nav__btn" href="{% url 'account_signup' %}" id="id_signup">Sign up</a></li>
                     {% else %}
-                        <li><a id='id_logout' href="{% url 'account_logout' %}">Log out</a></li>
-                        <li class="profile" id="id_logged_in"><a href="{% url 'profile' pk=user.username %}">{{ user.username }}</a></li>
+                        <li><a class="nav-links__link" id='id_logout' href="{% url 'account_logout' %}">Log out</a></li>
+                        <li class="profile" id="id_logged_in"><a class="btn nav__btn" href="{% url 'profile' pk=user.username %}">{{ user.username }}</a></li>
                     {% endif %}
                 </div>
 
