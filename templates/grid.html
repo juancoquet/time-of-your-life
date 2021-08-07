@@ -2,19 +2,6 @@
 
 {% block content %}
 
-    <div class="add_event" name="add_event">
-        <h3>Add a life event</h3>
-        <form action="{% url 'grid' dob=date_of_birth %}" method="post">
-            {% csrf_token %}
-            <label for="event_form.event_title">Event name:</label>
-            {{ event_form.event_title }}<br>
-            <label for="event_form.event_date">Event date:</label>
-            {{ event_form.day }}{{ event_form.month }}{{ event_form.year }}<br>
-            <button name="add_event_btn" type="submit">Add event</button><br>
-            {{ event_form.year.errors }}
-        </form>
-    </div>
-
     <h2>Your Life Calendar</h2>
 
     <div class="grid">
@@ -117,6 +104,20 @@
                 </tr>
             {% endfor %}
         </table>
+    </div>
+
+
+    <div class="add_event" name="add_event">
+        <h3>Add a life event</h3>
+        <form action="{% url 'grid' dob=date_of_birth %}" method="post">
+            {% csrf_token %}
+            <label for="event_form.event_title">Event name:</label>
+            {{ event_form.event_title }}<br>
+            <label for="event_form.event_date">Event date:</label>
+            {{ event_form.day }}{{ event_form.month }}{{ event_form.year }}<br>
+            <button name="add_event_btn" type="submit">Add event</button><br>
+            {{ event_form.year.errors }}
+        </form>
     </div>
 
 

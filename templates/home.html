@@ -27,7 +27,7 @@
                 <form class="container--col container--right banner__neumorphism container--form height--fit" method="POST" action="/">
                     {% csrf_token %}
                     <div class="container">{{ dob_form.day }}<span class="banner__text banner__text--main">—</span>{{ dob_form.month }}<span class="banner__text banner__text--main">—</span>{{ dob_form.year }}</div>
-                    <p class="error">{{ dob_form.year.errors }}</p>
+                    <p class="error banner__error">{{ dob_form.year.errors }} </p>
                     <button class="btn banner__btn"name="create_button" type="submit">Create</button>
                 </form>
 
