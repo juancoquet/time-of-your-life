@@ -64,9 +64,9 @@ class DOBForm(forms.Form):
     year = forms.IntegerField(min_value=1, max_value=9999)
 
     day.widget.attrs.update({
-            'class': 'input input--int banner__input',
-            'placeholder': 'DD',
-        })
+        'class': 'input input--int banner__input',
+        'placeholder': 'DD',
+    })
     month.widget.attrs.update(
         {'class': 'input input--int banner__input', 'placeholder': 'MM'})
     year.widget.attrs.update(
@@ -155,6 +155,19 @@ class EventForm(forms.Form):
     day = forms.IntegerField(min_value=1, max_value=31)
     month = forms.IntegerField(min_value=1, max_value=12)
     year = forms.IntegerField(min_value=1, max_value=9999)
+
+    event_title.widget.attrs.update({
+        'class': 'input',
+        'placeholder': 'Event name'
+    })
+    day.widget.attrs.update({
+        'class': 'input input--int',
+        'placeholder': 'DD',
+    })
+    month.widget.attrs.update(
+        {'class': 'input input--int', 'placeholder': 'MM'})
+    year.widget.attrs.update(
+        {'class': 'input input--int', 'placeholder': 'YYYY'})
 
     def clean_year(self, *args, **kwargs):
         day_given = int(self['day'].data)

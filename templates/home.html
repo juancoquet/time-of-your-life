@@ -4,7 +4,7 @@
 
 
     <section class="banner">
-        <div class="container--col">
+        <div class="container--col container--width">
 
             <div class="logo--big">
                 <h1 class="logo-big__logo-tyl">Time <span class="logo-big__logo-of">of</span> Your Life</h1>
@@ -14,7 +14,7 @@
             <div class="container banner__container">
 
                 <div class="container--left banner__container-left">
-                    <h2 class="banner__text banner__text--heading">Create a calendar of your life</h2>
+                    <h2 class="banner__text container__text--heading">Create a calendar of your life</h2>
                     <p class="banner__text">Enter your date of birth to get started</p>
                 </div>
 
@@ -24,9 +24,9 @@
                 </div>
 
                 
-                <form class="container--col container--right banner__neumorphism container--form height--fit" method="POST" action="/">
+                <form class="container--col container--right neumorphism neumorphism--banner container--form height--fit" method="POST" action="/">
                     {% csrf_token %}
-                    <div class="container">{{ dob_form.day }}<span class="banner__text banner__text--main">—</span>{{ dob_form.month }}<span class="banner__text banner__text--main">—</span>{{ dob_form.year }}</div>
+                    <div class="container">{{ dob_form.day }}<span class="banner__text text--main">—</span>{{ dob_form.month }}<span class="banner__text text--main">—</span>{{ dob_form.year }}</div>
                     <p class="error banner__error">{{ dob_form.year.errors }} </p>
                     <button class="btn banner__btn"name="create_button" type="submit">Create</button>
                 </form>
@@ -38,7 +38,8 @@
 
 
 
-    <div id="site-description">
+    <div class="container container--width" id="site-description">
+        <h1>ignore the stuff down here</h1>
         <p>
             Time of Your Life helps you to see a bird's eye view of your life. Type your date of birth below to generate
             a Life Calendar — a grid of 4,680 boxes that each represent a week of your life, forming 90 rows that each
