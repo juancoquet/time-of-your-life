@@ -21,7 +21,7 @@ function contentPosition(){
 
         if(tooltipBoundaries.right > calendarBoundaies.right){
             arrow.style.borderBottomColor = 'transparent';
-            arrow.style.borderLeftColor = 'white';
+            arrow.style.borderLeftColor = '#F8F1F1';
             arrow.style.top = arrow.offsetHeight/2 + content.offsetHeight/2 + 'px';
             arrow.style.left = content.offsetWidth + arrow.offsetWidth/2 + 'px';
             
@@ -31,7 +31,7 @@ function contentPosition(){
 
         if(tooltipBoundaries.left < calendarBoundaies.left){
             arrow.style.borderBottomColor = 'transparent';
-            arrow.style.borderRightColor = 'white';
+            arrow.style.borderRightColor = '#F8F1F1';
             arrow.style.top = arrow.offsetHeight/2 + content.offsetHeight/2 + 'px';
             arrow.style.left = -arrow.offsetWidth/2 + 'px';
             

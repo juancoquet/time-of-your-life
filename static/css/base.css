@@ -415,6 +415,8 @@ nav .logo__tyl--small {
     border-left: 0;
 }
 
+
+
 .container--arrow {
     padding: 0 4.8rem;
     width: auto;
@@ -429,12 +431,6 @@ nav .logo__tyl--small {
     transform: translateX(-25%) rotate(45deg);
     border-radius: 5px;
 }
-
-/* .banner__neumorphism {
-    border-radius: 6px;
-    box-shadow: 8px 8px 19px #145e6c,
-        -8px -8px 19px #187284;
-} */
 
 .container--form {
     padding: 2.4rem;
@@ -451,14 +447,27 @@ nav .logo__tyl--small {
 /*---------------------------*\
     #CALENDAR
 \*---------------------------*/
+
+.calendar-container {
+    display: flex;
+    justify-content: flex-start;
+}
+
 .calendar {
-    margin-right: 3.2rem;
+    /* margin-right: 3.2rem; */
     margin-bottom: 3.2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.labels--vertical__label-90 {
+    grid-row: 90 / 91;
 }
 
 .year-row {
     display: flex;
 }
+
 
 .week {
     border-radius: 2px;
@@ -485,15 +494,33 @@ nav .logo__tyl--small {
     z-index: 1;
 }
 
-/* FIXME: Event week overlaps tooltip */
-/* .week.event {
-    background-color: rgb(221, 4, 4);
-    position: relative;
-    color: black;
-    position: relative;
-    transition: 300ms;
-    z-index: 1;
-} */
+.week.event::after {
+    content: '';
+    position: absolute;
+    height: 8px;
+    width: 8px;
+    background-color: var(--accent-clr);
+    border-radius: 2px;
+    animation: pulse 3s ease infinite;
+    cursor: default;
+}
+
+@keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+
+    33% {
+        transform: translate(-50%, -50%) scale(3);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(4);
+        opacity: 0;
+    }
+}
 
 .week__number {
     margin: 0;
@@ -504,13 +531,20 @@ nav .logo__tyl--small {
     cursor: pointer;
 }
 
+
+
+
+/*---------------------------*\
+    #TOOLTIP
+\*---------------------------*/
+
 .all-tooltips {
     position: relative;
 }
 
 .tooltip-content {
     position: absolute;
-    background-color: white;
+    background-color: var(--bg-clr);
     box-shadow: 0px 0px 30px #00000040;
     padding: 10px 30px;
     border-radius: 8px;
@@ -547,39 +581,10 @@ nav .logo__tyl--small {
 .tooltip-content .arrow {
     position: absolute;
     border: 10px solid transparent;
-    border-bottom-color: white;
+    border-bottom-color: var(--bg-clr);
     top: 0px;
     left: 50%;
     transform: translate(-50%, -100%);
-}
-
-.week.event::after {
-    content: '';
-    position: absolute;
-    height: 8px;
-    width: 8px;
-    background-color: var(--accent-clr);
-    border-radius: 2px;
-    animation: pulse 3s ease infinite;
-    cursor: default;
-}
-
-@keyframes pulse {
-    0% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1;
-    }
-
-    33% {
-        transform: translate(-50%, -50%) scale(3);
-        opacity: 0;
-    }
-
-    100% {
-        transform: translate(-50%, -50%) scale(4);
-        opacity: 0;
-    }
-
 }
 
 .edit,
@@ -590,22 +595,174 @@ nav .logo__tyl--small {
 }
 
 
-/* .week.event:hover .tooltip-content,
-.week.event:active .tooltip-content {
-    transform: translate(calc(-50% + 7px), 28px) scale(40%);
-    transition: 75ms transform;
-    transform-origin: top;
-} */
-
-/* .week.event:hover {
-    transform: scale(200%);
-    transition: 300ms;
-} */
 
 
+/*---------------------------*\
+    #LABELS
+\*---------------------------*/
+
+.labels--horizontal {
+    display: grid;
+    grid-template-columns: repeat(52, 8px);
+    column-gap: 2px;
+    width: 100%;
+}
+
+.labels--vertical {
+    justify-self: flex-start;
+    display: grid;
+    grid-template-rows: repeat(90, 8px);
+    row-gap: 2px;
+    height: 100%;
+    margin-left: 0.2rem;
+}
+
+.labels__label--horizontal {
+    font-size: 0.8rem;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+    justify-self: center;
+}
+
+.labels__label--vertical {
+    font-size: 0.8rem;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+    justify-self: flex-start;
+}
 
 
-/* Hide int field spinners */
+.labels--horizontal__label-1 {
+    grid-column: 1 / 2;
+}
+
+.labels--horizontal__label-5 {
+    grid-column: 5 / 6;
+}
+
+.labels--horizontal__label-10 {
+    grid-column: 10 / 11;
+}
+
+.labels--horizontal__label-15 {
+    grid-column: 15 / 16;
+}
+
+.labels--horizontal__label-20 {
+    grid-column: 20 / 21;
+}
+
+.labels--horizontal__label-25 {
+    grid-column: 25 / 26;
+}
+
+.labels--horizontal__label-30 {
+    grid-column: 30 / 31;
+}
+
+.labels--horizontal__label-35 {
+    grid-column: 35 / 36;
+}
+
+.labels--horizontal__label-40 {
+    grid-column: 40 / 41;
+}
+
+.labels--horizontal__label-45 {
+    grid-column: 45 / 46;
+}
+
+.labels--horizontal__label-50 {
+    grid-column: 50 / 51;
+}
+
+.labels--horizontal__label-52 {
+    grid-column: 52 / 53;
+}
+
+
+
+.labels--vertical__label-1 {
+    grid-row: 1 / 2;
+}
+
+.labels--vertical__label-5 {
+    grid-row: 5 / 6;
+}
+
+.labels--vertical__label-10 {
+    grid-row: 10 / 11;
+}
+
+.labels--vertical__label-15 {
+    grid-row: 15 / 16;
+}
+
+.labels--vertical__label-20 {
+    grid-row: 20 / 21;
+}
+
+.labels--vertical__label-25 {
+    grid-row: 25 / 26;
+}
+
+.labels--vertical__label-30 {
+    grid-row: 30 / 31;
+}
+
+.labels--vertical__label-35 {
+    grid-row: 35 / 36;
+}
+
+.labels--vertical__label-40 {
+    grid-row: 40 / 41;
+}
+
+.labels--vertical__label-45 {
+    grid-row: 45 / 46;
+}
+
+.labels--vertical__label-50 {
+    grid-row: 50 / 51;
+}
+
+.labels--vertical__label-55 {
+    grid-row: 55 / 56;
+}
+
+.labels--vertical__label-60 {
+    grid-row: 60 / 65;
+}
+
+.labels--vertical__label-65 {
+    grid-row: 65 / 66;
+}
+
+.labels--vertical__label-70 {
+    grid-row: 70 / 71;
+}
+
+.labels--vertical__label-75 {
+    grid-row: 75 / 76;
+}
+
+.labels--vertical__label-80 {
+    grid-row: 80 / 81;
+}
+
+.labels--vertical__label-85 {
+    grid-row: 85 / 86;
+}
+
+
+
+
+
+/*---------------------------*\
+    #MISC
+\*---------------------------*/
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -616,5 +773,3 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance: textfield;
 }
-
-/* End hide int field spinners */
