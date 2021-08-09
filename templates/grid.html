@@ -7,35 +7,47 @@
         <h1 class="container__heading--left">Your Life Calendar</h1>
 
 
-        <div class="container">
-            <table>
+        <div class="container container--wrap">
+            <div class="calendar">
+
                 {% for yr_num in years_passed %}
-                    <tr class="year-row past" id="year-{{ yr_num }}">
+                    <div class="year-row past" id="year-{{ yr_num }}">
                         {% for week_no in full_year_weeks %}
+
                             {% if yr_num == event_year and week_no == event_week %}
-                                <td class="week past event" id="{{ yr_num }}-{{ week_no }}">
-                                    {{ week_no }}
-                                    <div class="all-tooltips">
-                                        <div class="tooltip">
-                                            <div class="tooltip-content">
-                                                <div class="arrow"></div>
-                                                <div class="content"><h3>{{ event_name }}</h3><p>{{ event_date }}</p></div>
+
+                                <div class="all-tooltips">
+                                    <div class="week past event" id="{{ yr_num }}-{{ week_no }}">
+                                        <p class="week__number">{{ week_no }}</p>
+                                    </div>
+                                    <div class="tooltip">
+                                        <div class="tooltip-content">
+                                            <div class="arrow"></div>
+                                            <div class="content"><h3>{{ event_name }}</h3>
+                                                <p>{{ event_date }}</p>
                                             </div>
                                         </div>
                                     </div>
-                                </td>
+                                </div>
+                                    
                             {% else %}
-                                <td class="week past" id="{{ yr_num }}-{{ week_no }}">{{ week_no }}</td>
+                                <div class="week past" id="{{ yr_num }}-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
                             {% endif %}
+
                         {% endfor %}
-                    </tr>
+                    </div>
                 {% endfor %}
-                <tr class="year-row present" id="year-{{ current_year }}">
+                
+
+                <div class="year-row present" id="year-{{ current_year }}">
+
                     {% for week_no in weeks_passed_this_yr %}
                         {% if current_year == event_year and week_no == event_week %}
-                            <td class="week past event" id="{{ current_year }}-{{ week_no }}">
-                                {{ week_no }}
+
                                 <div class="all-tooltips">
+                                    <div class="week past event" id="{{ current_year }}-{{ week_no }}">
+                                        <p class="week__number">{{ week_no }}</p>
+                                    </div>
                                     <div class="tooltip">
                                         <div class="tooltip-content">
                                             <div class="arrow"></div>
@@ -43,15 +55,18 @@
                                         </div>
                                     </div>
                                 </div>
-                            </td>
+
                         {% else %}
-                            <td class="week past" id="{{ current_year }}-{{ week_no }}">{{ week_no }}</td>
+                            <div class="week past" id="{{ current_year }}-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
                         {% endif %}
                     {% endfor %}
+
                     {% if current_year == event_year and current_week == event_week %}
-                        <td class="week present event" id="{{ current_week }}">
-                            {{ current_week }}
+
                             <div class="all-tooltips">
+                                <div class="week present event" id="{{ current_week }}">
+                                    <p class="week__number">{{ current_week }}</p>
+                                </div>
                                 <div class="tooltip">
                                     <div class="tooltip-content">
                                         <div class="arrow"></div>
@@ -59,15 +74,19 @@
                                     </div>
                                 </div>
                             </div>
-                        </td>
+
                     {% else %}
-                        <td class="week present" id="{{ current_week }}">{{ current_week }}</td>
+                        <div class="week present" id="{{ current_week }}"><p class="week__number">{{ current_week }}</p></div>
                     {% endif %}
+
+
                     {% for week_no in weeks_left_this_yr %}
                         {% if current_year == event_year and week_no == event_week %}
-                            <td class="week future event" id="{{ current_year }}-{{ week_no }}">
-                                {{ week_no }}
+
                                 <div class="all-tooltips">
+                                    <div class="week future event" id="{{ current_year }}-{{ week_no }}">
+                                        <p class="week__number">{{ week_no }}</p>
+                                    </div>
                                     <div class="tooltip">
                                         <div class="tooltip-content">
                                             <div class="arrow"></div>
@@ -75,19 +94,21 @@
                                         </div>
                                     </div>
                                 </div>
-                            </td>
+                                
                         {% else %}
-                            <td class="week future" id="{{ current_year }}-{{ week_no }}">{{ week_no }}</td>
+                            <div class="week future" id="{{ current_year }}-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
                         {% endif %}
                     {% endfor %}
-                </tr>
+                </div>
                 {% for yr_num in future_years %}
-                    <tr class="year-row future" id="year-{{ yr_num }}">
+                    <div class="year-row future" id="year-{{ yr_num }}">
                         {% for week_no in full_year_weeks %}
                             {% if yr_num == event_year and week_no == event_week %}
-                                <td class="week future event" id="{{ yr_num }}-{{ week_no }}">
-                                    {{ week_no }}
+
                                     <div class="all-tooltips">
+                                        <div class="week future event" id="{{ yr_num }}-{{ week_no }}">
+                                            <p class="week__number">{{ week_no }}</p>
+                                        </div>
                                         <div class="tooltip">
                                             <div class="tooltip-content">
                                                 <div class="arrow"></div>
@@ -95,31 +116,32 @@
                                             </div>
                                         </div>
                                     </div>
-                                </td>
+
                             {% else %}
-                                <td class="week future" id="{{ yr_num }}-{{ week_no }}">{{ week_no }}</td>
+                                <div class="week future" id="{{ yr_num }}-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
                             {% endif %}
                         {% endfor %}
-                    </tr>
+                    </div>
                 {% endfor %}
-            </table>
-
-
-
-            <form class="container--col container--right container--form flex--start neumorphism neumorphism--bg" action="{% url 'grid' dob=date_of_birth %}" method="post">
-                <h2 class="container__heading--left card__heading">Add a life event</h2>
-                <p>
-                    Highlight an event on your Life Calendar — the birth of a child, the day you
-                    got married, a graduation, etc...
-                </p>
-                {% csrf_token %}
-                {{ event_form.event_title }}
-                <div class="container">{{ event_form.day }}<span class="text--main">—</span>{{ event_form.month }}<span class="text--main">—</span>{{ event_form.year }}</div>
-                <p class="error">{{ event_form.year.errors }}</p>
-                <button class="btn " name="add_event_btn" type="submit">Add event</button>
-            </form>
-
         </div>
+        
+        <form class="container--col container--form flex--start neumorphism neumorphism--bg card" action="{% url 'grid' dob=date_of_birth %}" method="post">
+            <h2 class="container__heading--left card__heading">Add a life event</h2>
+            <p class="card__text">
+                Highlight an event on your Life Calendar — the birth of a child, the day you
+                got married, a graduation, etc...
+            </p>
+            {% csrf_token %}
+            {{ event_form.event_title }}
+            <div class="container">{{ event_form.day }}<span class="text--main form__dash">—</span>{{ event_form.month }}<span class="text--main form__dash">—</span>{{ event_form.year }}</div>
+            <p class="error">{{ event_form.year.errors }}</p>
+            <button class="btn " name="add_event_btn" type="submit">Add event</button>
+            <p class="card__text card__text--footnote">
+                Create a free account to add and save multiple live events
+            </p>
+        </form>
+
+    </div>
 
 
 {% endblock %}
