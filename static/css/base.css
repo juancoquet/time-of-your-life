@@ -642,11 +642,10 @@ nav .logo__tyl--small {
     transform: translate(-50%, -100%);
 }
 
-.edit,
-.delete {
-    color: grey;
-    font-size: 10px;
-    margin: 5px;
+.tooltip__link {
+    color: var(--dark-accent-clr);
+    font-size: 0.8rem;
+    margin: 0.8rem;
 }
 
 
@@ -819,7 +818,7 @@ nav .logo__tyl--small {
 }
 
 .labels--vertical__label-60 {
-    grid-row: 60 / 65;
+    grid-row: 60 / 61;
 }
 
 .labels--vertical__label-65 {

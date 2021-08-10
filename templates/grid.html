@@ -8,7 +8,7 @@
 
 
         <div class="container container--wrap">
-        
+
             <div class="labels--horizontal">
                 <p class="labels__label--horizontal labels--horizontal__weeks">Weeks</p>
                 <p class="labels__label--horizontal labels--horizontal__label-1">1</p>
@@ -32,6 +32,7 @@
                 
                             {% for week_no in full_year_weeks %}
                                 {% if yr_num == event_year and week_no == event_week %}
+
                                     <div class="all-tooltips">
                                         <div class="week past event" id="{{ yr_num }}-{{ week_no }}">
                                             <p class="week__number">{{ week_no }}</p>
@@ -39,7 +40,8 @@
                                         <div class="tooltip">
                                             <div class="tooltip-content">
                                                 <div class="arrow"></div>
-                                                <div class="content"><h3>{{ event_name }}</h3>
+                                                <div class="content">
+                                                    <h3>{{ event_name }}</h3>
                                                     <p>{{ event_date }}</p>
                                                 </div>
                                             </div>
