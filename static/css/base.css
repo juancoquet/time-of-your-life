@@ -20,9 +20,9 @@
 }
 
 html {
-    font-size: 62.5%;
     font-family: 'Open Sans', sans-serif;
     background-color: var(--bg-clr);
+    font-size: 62.5%;
 }
 
 body {
@@ -483,6 +483,7 @@ nav .logo__tyl--small {
     text-align: center;
     margin: 1px;
     transition: var(--transition-off);
+    font-size: 0;
 }
 
 .week.past {
