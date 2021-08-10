@@ -14,7 +14,7 @@ function contentPosition(){
 
 
         content.style.left = event.offsetWidth/2 - content.offsetWidth/2 + 'px';
-        content.style.top = event.offsetHeight*3 + 'px';
+        content.style.top = event.offsetHeight*3.5 + 'px';
         
         tooltipBoundaries = content.getBoundingClientRect();
         calendarBoundaies = calendar.getBoundingClientRect();

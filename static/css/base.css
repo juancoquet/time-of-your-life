@@ -154,6 +154,10 @@ header {
     align-self: center;
 }
 
+.card__text--link {
+    color: var(--dark-accent-clr);
+}
+
 
 .input {
     font-family: 'Open Sans';
@@ -477,21 +481,50 @@ nav .logo__tyl--small {
     width: 8px;
     text-align: center;
     margin: 1px;
+    transition: var(--transition-off);
 }
-
 
 .week.past {
     border-color: #C8B6B6;
 }
 
+
 .week.present {
     background-color: var(--main-clr);
 }
 
+.week.present::after {
+    content: '';
+    position: absolute;
+    height: 8px;
+    width: 8px;
+    background-color: var(--main-clr);
+    border-radius: 2px;
+    animation: pulse 3s ease infinite;
+    cursor: pointer;
+    z-index: -1;
+    margin-top: 1px;
+}
+
+.week.present:hover .week__number {
+    font-size: 0.4rem;
+    visibility: visible;
+    color: var(--bg-clr);
+}
+
+.week.present:hover {
+    transform: scale(2);
+}
+
+.week.present:hover::after {
+    display: none;
+}
+
+
 .week.event {
     background-color: var(--accent-clr);
     border-color: var(--accent-clr);
-    z-index: 1;
+    cursor: pointer;
 }
 
 .week.event::after {
@@ -502,7 +535,9 @@ nav .logo__tyl--small {
     background-color: var(--accent-clr);
     border-radius: 2px;
     animation: pulse 3s ease infinite;
-    cursor: default;
+    cursor: pointer;
+    z-index: -1;
+    margin-top: 1px;
 }
 
 @keyframes pulse {
@@ -557,15 +592,18 @@ nav .logo__tyl--small {
     z-index: 2;
     font-size: 1.6rem;
     cursor: auto;
+    transition: var(--transition-off);
 }
 
 .all-tooltips:hover .tooltip-content {
     opacity: 1;
     pointer-events: all;
+    transition: var(--transition-on);
 }
 
 .all-tooltips:hover .week.event {
     transform: scale(2);
+    transition: var(--transition-on);
 }
 
 .all-tooltips:hover .week__number {
@@ -574,8 +612,10 @@ nav .logo__tyl--small {
     color: var(--bg-clr);
 }
 
+/* Hide animation when hovering */
 .all-tooltips:hover .week.event::after {
-    visibility: hidden;
+    /* visibility: hidden; */
+    display: none;
 }
 
 .tooltip-content .arrow {
