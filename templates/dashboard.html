@@ -1,26 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Your Life Calendar</h1>
+    <div class="container--col container--width">
+        <h1 class="container__heading--left">Your Life Calendar</h1>
 
-    <div name="add_event">
-        <h2>Add a life event</h2>
-        <form action="{% url 'dashboard' %}" method="post">
-            {% csrf_token %}
-            <p class="form_field">
-                <label for="user_event_form.event_name">Event name:</label>
+        
+        <div class="container container--wrap">
+
+            <div class="labels--horizontal">
+                <p class="labels__label--horizontal labels--horizontal__weeks">Weeks</p>
+                <p class="labels__label--horizontal labels--horizontal__label-1">1</p>
+                <p class="labels__label--horizontal labels--horizontal__label-5">5</p>
+                <p class="labels__label--horizontal labels--horizontal__label-10">10</p>
+                <p class="labels__label--horizontal labels--horizontal__label-15">15</p>
+                <p class="labels__label--horizontal labels--horizontal__label-20">20</p>
+                <p class="labels__label--horizontal labels--horizontal__label-25">25</p>
+                <p class="labels__label--horizontal labels--horizontal__label-30">30</p>
+                <p class="labels__label--horizontal labels--horizontal__label-35">35</p>
+                <p class="labels__label--horizontal labels--horizontal__label-40">40</p>
+                <p class="labels__label--horizontal labels--horizontal__label-45">45</p>
+                <p class="labels__label--horizontal labels--horizontal__label-50">50</p>
+                <p class="labels__label--horizontal labels--horizontal__label-52">52</p>
+            </div>
+          
+            <div class="calendar-container">
+                    {{ calendar|safe }}
+            </div>
+            <form class="container--col container--form flex--start neumorphism neumorphism--bg card" action="{% url 'dashboard' %}" method="post">
+                <h2 class="container__heading--left card__heading">Add a life event</h2>
+                <p class="card__text">
+                        Highlight an event on your Life Calendar — the birth of a child, the day you
+                        got married, a graduation, etc...
+                    </p>
+                {% csrf_token %}
                 {{ user_event_form.event_name }}
-            </p>
-            <p class="form_field">
-                <label for="user_event_form.event_date">Event date:</label>
-                {{ user_event_form.day }}{{ user_event_form.month }}{{ user_event_form.year }}
-            </p>
-            <button name="add_event_btn" type="submit">Add event</button>
-            <p class="error">{{ user_event_form.year.errors }}</p>
-        </form>
-    </div>
+                <div class="container">{{ user_event_form.day }}<span class="text--main form__dash">—</span>{{ user_event_form.month }}<span class="text--main form__dash">—</span>{{ user_event_form.year }}</div>
+                <p class="error">{{ user_event_form.year.errors }}</p>
+                <button class="btn " name="add_event_btn" type="submit">Add event</button>
+            </form>
 
-    <div class="grid">
-            {{ calendar|safe }}
-    </div>
+        </div>
+
+
+     </div>
 {% endblock content %}

@@ -199,6 +199,24 @@ class UserEventForm(forms.ModelForm):
     class Meta:
         model = UserEvent
         fields = ['event_name', 'day', 'month', 'year']
+        widgets = {
+            'event_name': forms.TextInput(attrs={
+                'class': 'input',
+                'placeholder': 'Event name'
+            }),
+            'day': forms.NumberInput(attrs={
+                'class': 'input input--int',
+                'placeholder': 'DD',
+            }),
+            'month': forms.NumberInput(attrs={
+                'class': 'input input--int',
+                'placeholder': 'MM',
+            }),
+            'year': forms.NumberInput(attrs={
+                'class': 'input input--int',
+                'placeholder': 'YYYY',
+            }),
+        }
 
     def save(self, commit=True):
         event = super().save(commit=False)

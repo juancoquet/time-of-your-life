@@ -8,6 +8,7 @@
 
 
         <div class="container container--wrap">
+        
             <div class="labels--horizontal">
                 <p class="labels__label--horizontal labels--horizontal__weeks">Weeks</p>
                 <p class="labels__label--horizontal labels--horizontal__label-1">1</p>
@@ -23,6 +24,7 @@
                 <p class="labels__label--horizontal labels--horizontal__label-50">50</p>
                 <p class="labels__label--horizontal labels--horizontal__label-52">52</p>
             </div>
+
             <div class="calendar-container">
                 <div class="calendar">
                     {% for yr_num in years_passed %}
@@ -150,23 +152,23 @@
             </div>
 
 
-        <form class="container--col container--form flex--start neumorphism neumorphism--bg card" action="{% url 'grid' dob=date_of_birth %}" method="post">
-            <h2 class="container__heading--left card__heading">Add a life event</h2>
-            <p class="card__text">
-                Highlight an event on your Life Calendar — the birth of a child, the day you
-                got married, a graduation, etc...
-            </p>
-            {% csrf_token %}
-            {{ event_form.event_title }}
-            <div class="container">{{ event_form.day }}<span class="text--main form__dash">—</span>{{ event_form.month }}<span class="text--main form__dash">—</span>{{ event_form.year }}</div>
-            <p class="error">{{ event_form.year.errors }}</p>
-            <button class="btn " name="add_event_btn" type="submit">Add event</button>
-            <p class="card__text card__text--footnote">
-                <a class="card__text--footnote card__text--link" href="{% url 'account_signup' %}">Create a free account</a> to add and save multiple life events
-            </p>
-        </form>
+            <form class="container--col container--form flex--start neumorphism neumorphism--bg card" action="{% url 'grid' dob=date_of_birth %}" method="post">
+                <h2 class="container__heading--left card__heading">Add a life event</h2>
+                <p class="card__text">
+                    Highlight an event on your Life Calendar — the birth of a child, the day you
+                    got married, a graduation, etc...
+                </p>
+                {% csrf_token %}
+                {{ event_form.event_title }}
+                <div class="container">{{ event_form.day }}<span class="text--main form__dash">—</span>{{ event_form.month }}<span class="text--main form__dash">—</span>{{ event_form.year }}</div>
+                <p class="error">{{ event_form.year.errors }}</p>
+                <button class="btn " name="add_event_btn" type="submit">Add event</button>
+                <p class="card__text card__text--footnote">
+                    <a class="card__text--footnote card__text--link" href="{% url 'account_signup' %}">Create a free account</a> to add and save multiple life events
+                </p>
+            </form>
 
-    </div>
+        </div>
 
 
 {% endblock %}
