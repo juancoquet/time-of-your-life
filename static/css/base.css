@@ -474,6 +474,7 @@ nav .logo__tyl--small {
 
 
 .week {
+    position: relative;
     border-radius: 2px;
     border: 1px solid var(--main-clr);
     display: block;
@@ -490,6 +491,7 @@ nav .logo__tyl--small {
 
 
 .week.present {
+    position: relative;
     background-color: var(--main-clr);
 }
 
@@ -503,7 +505,8 @@ nav .logo__tyl--small {
     animation: pulse 3s ease infinite;
     cursor: pointer;
     z-index: -1;
-    margin-top: 1px;
+    top: -1px;
+    left: -1px;
 }
 
 .week.present:hover .week__number {
@@ -522,6 +525,7 @@ nav .logo__tyl--small {
 
 
 .week.event {
+    position: relative;
     background-color: var(--accent-clr);
     border-color: var(--accent-clr);
     cursor: pointer;
@@ -537,22 +541,23 @@ nav .logo__tyl--small {
     animation: pulse 3s ease infinite;
     cursor: pointer;
     z-index: -1;
-    margin-top: 1px;
+    top: -1px;
+    left: -1px;
 }
 
 @keyframes pulse {
     0% {
-        transform: translate(-50%, -50%) scale(1);
+        transform: scale(1);
         opacity: 1;
     }
 
     33% {
-        transform: translate(-50%, -50%) scale(3);
+        transform: scale(3);
         opacity: 0;
     }
 
     100% {
-        transform: translate(-50%, -50%) scale(4);
+        transform: scale(4);
         opacity: 0;
     }
 }
@@ -601,8 +606,17 @@ nav .logo__tyl--small {
     transition: var(--transition-on);
 }
 
+/* .all-tooltips:hover .week.event {
+    transform: scale(2);
+    transition: var(--transition-on);
+} */
+
 .all-tooltips:hover .week.event {
     transform: scale(2);
+    -webkit-transform: scale(2);
+    -ms-transform: scale(2);
+    -webkit-transition: var(--transition-on);
+    -o-transition: var(--transition-on);
     transition: var(--transition-on);
 }
 
@@ -660,11 +674,12 @@ nav .logo__tyl--small {
     column-gap: 8px;
     height: 100%;
     margin-left: 0.2rem;
+    z-index: 2;
 }
 
 .labels__label--horizontal {
     font-size: 0.8rem;
-    text-align: left;
+    text-align: right;
     margin: 0;
     padding: 0;
     justify-self: center;
