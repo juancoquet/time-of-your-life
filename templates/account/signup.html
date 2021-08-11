@@ -1,39 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Sign up</h2>
 
-  <form method="post">
+<div class="container--col container--width">
+  <form class="container--col container--form neumorphism neumorphism--bg card card--margin-top" method="post">
+    
+    <h2 class="card__heading--margin-bottom">Create an account</h2>
     {% csrf_token %}
-    <p class="form_field">
-      <label for="id_username">Username</label>
-      {{ form.username }}
-    </p>
-    <p class="form_field">
-      <label for="id_email">Email address</label>
-      {{ form.email }}
-    </p>
-    <p class="form_field">
-      <label for="id_first_name">Name</label>
-      {{ form.first_name }}
-    </p>
-    <p class="form_field">
-      <label for="id_day">Date of birth</label>
-      {{ form.day }}{{ form.month }}{{ form.year }}
-    </p>
-    <p class="form_field">
-      <label for="id_password1">Password</label>
-      {{ form.password1 }}
-    </p>
-    <p class="form_field">
-      <label for="id_password2">Confirm password</label>
-      {{ form.password2 }}
-    </p>
 
-    <button type="submit" id="btn_signup">Sign up</button>
+    {{ form.username }}
+    {{ form.email }}
+    {{ form.first_name }}
+    <div class="container">{{ form.day }}<span class="text--main form__dash">—</span>{{ form.month }}<span class="text--main form__dash">—</span>{{ form.year }}</div>
+    {{ form.password1 }}
+    {{ form.password2 }}
+    <button class="btn" type="submit" id="btn_signup">Sign up</button>
 
-    <p>
-      {{ form.errors }}
-    </p>
+    {% if form.errors %}
+      <div class="errorlist-container">
+        {{ form.username.errors }}
+        {{ form.email.errors }}
+        {{ form.first_name.errors }}
+        {{ form.year.errors }}
+        {{ form.password1.errors }}
+        {{ form.password2.errors }}
+      </div>
+    {% endif %}
+
   </form>
+</div>
+
 {% endblock content %}

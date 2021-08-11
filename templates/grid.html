@@ -163,8 +163,10 @@
                 {% csrf_token %}
                 {{ event_form.event_title }}
                 <div class="container">{{ event_form.day }}<span class="text--main form__dash">—</span>{{ event_form.month }}<span class="text--main form__dash">—</span>{{ event_form.year }}</div>
-                <p class="error">{{ event_form.year.errors }}</p>
                 <button class="btn " name="add_event_btn" type="submit">Add event</button>
+                {% if event_form.errors %}
+                    <p class="error">{{ event_form.year.errors }}</p>
+                {% endif %}
                 <p class="card__text card__text--footnote">
                     <a class="card__text--footnote card__text--link" href="{% url 'account_signup' %}">Create a free account</a> to add and save multiple life events
                 </p>

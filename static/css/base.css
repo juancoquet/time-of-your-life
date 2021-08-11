@@ -136,14 +136,27 @@ header {
     margin: 0;
 }
 
+.card--margin-top {
+    margin-top: 6.4rem;
+}
+
 .card__heading {
     margin-top: 0;
     margin-bottom: 0;
 }
 
+.card__heading--margin-bottom {
+    margin-top: 0;
+    margin-bottom: 1.6rem;
+}
+
 .card__text {
     align-self: flex-start;
     max-width: 43ch;
+}
+
+.card__text--no-margin {
+    margin: 0;
 }
 
 .card__text--footnote {
@@ -156,6 +169,10 @@ header {
 
 .card__text--link {
     color: var(--dark-accent-clr);
+}
+
+.card__message {
+    margin-bottom: 0;
 }
 
 
@@ -200,6 +217,15 @@ input:focus::placeholder {
     margin-top: 0;
     font-size: 1.2rem;
     color: #8F1A2E;
+}
+
+.errorlist {
+    color: #8F1A2E;
+    list-style-type: none;
+}
+
+.errorlist-container {
+    margin-top: 1.6rem;
 }
 
 .form__dash {
@@ -640,6 +666,11 @@ nav .logo__tyl--small {
     top: 0px;
     left: 50%;
     transform: translate(-50%, -100%);
+}
+
+.link {
+    color: var(--dark-accent-clr);
+    margin-bottom: 0;
 }
 
 .tooltip__link {

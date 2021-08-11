@@ -9,6 +9,7 @@ selenium = "*"
 psycopg2-binary = "==2.9.1"
 django-allauth = "==0.43.0"
 django-livereload-server = "*"
+django-widget-tweaks = "*"
 
 [dev-packages]
 

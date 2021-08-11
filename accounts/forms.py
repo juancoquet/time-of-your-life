@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms import ValidationError, DateInput, widgets
@@ -17,7 +18,40 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = get_user_model()
-        fields = ('username', 'email', 'first_name', 'day', 'month', 'year',)
+        fields = ('username', 'email', 'first_name', 'day', 'month', 'year')
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class': 'input',
+                'placeholder': 'Username*'
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'input',
+                'placeholder': 'Email*'
+            }),
+            'first_name': forms.TextInput(attrs={
+                'class': 'input',
+                'placeholder': 'Name'
+            }),
+            'day': forms.NumberInput(attrs={
+                'class': 'input input--int',
+                'placeholder': 'DD*',
+            }),
+            'month': forms.NumberInput(attrs={
+                'class': 'input input--int',
+                'placeholder': 'MM*',
+            }),
+            'year': forms.NumberInput(attrs={
+                'class': 'input input--int',
+                'placeholder': 'YYYY*',
+            }),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(CustomUserCreationForm, self).__init__(*args, **kwargs)
+        self.fields['password1'].widget = forms.PasswordInput(
+            attrs={'class': 'input', 'placeholder': 'Password*'})
+        self.fields['password2'].widget = forms.PasswordInput(
+            attrs={'class': 'input', 'placeholder': 'Confirm password*'})
 
     def clean_year(self, *args, **kwargs):
         try:
@@ -53,6 +87,28 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = get_user_model()
         fields = ('email', 'first_name', 'day', 'month', 'year',)
+        widgets = {
+            'email': forms.EmailInput(attrs={
+                'class': 'input',
+                'placeholder': 'Email'
+            }),
+            'first_name': forms.TextInput(attrs={
+                'class': 'input',
+                'placeholder': 'Name'
+            }),
+            'day': forms.NumberInput(attrs={
+                'class': 'input input--int',
+                'placeholder': 'DD',
+            }),
+            'month': forms.NumberInput(attrs={
+                'class': 'input input--int',
+                'placeholder': 'MM',
+            }),
+            'year': forms.NumberInput(attrs={
+                'class': 'input input--int',
+                'placeholder': 'YYYY',
+            }),
+        }
 
     def clean_year(self, *args, **kwargs):
         try:

@@ -1,22 +1,37 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>My information</h2>
-  <form method="post">
-    {% csrf_token %}
-    <p class="form-field"><label for="id_email">Email </label>{{ form.email }}</p>
-    <p class="form-field"><label for="id_day">Date of Birth </label>{{ form.day }}{{ form.month }}{{ form.year }}</p>
-    <p class="form-field"><label for="id_name">Name </label>{{ form.first_name }}</p>
-    <button type="submit" class="btn button-submit">Submit</button>
-    <p id="errors_email" class="errors">{{ form.errors.email }}</p>
-    <p id="errors_year" class="errors">{{ form.errors.year }}</p>
-    <p id="errors_first_name" class="errors">{{ form.errors.first_name }}</p>
-    {% for message in messages %}
-      {% if 'custom' in message.tags %}
-        <p class="message">{{ message }}</p>
+
+
+  <div class="container--col container--width">
+    <form class="container--col container--form neumorphism neumorphism--bg card card--margin-top" method="post">
+      <h2 class="card__heading--margin-bottom">My information</h2>
+      {% csrf_token %}
+      {{ form.email }}
+      <div class="container">{{ form.day }}<span class="text--main form__dash">—</span>{{ form.month }}<span class="text--main form__dash">—</span>{{ form.year }}</div>
+      {{ form.first_name }}
+      <button type="submit" class="btn button-submit">Submit</button>
+
+      {% if form.errors %}
+        <div class="errorlist-container">
+          {{ form.email.errors }}
+          {{ form.first_name.errors }}
+          {{ form.year.errors }}
+        </div>
       {% endif %}
-    {% endfor %}
-  </form>
-  <h3>Change password</h3>
-  <p>Please click <a href="{% url 'account_change_password' %}">here</a> to change your password.</p>
+
+      {% for message in messages %}
+        {% if 'custom' in message.tags %}
+          <p class="message card__message">{{ message }}</p>
+        {% endif %}
+      {% endfor %}
+
+    </form>
+
+    <p>Please <a class="link" href="{% url 'account_change_password' %}">click here</a> to change your password.</p>
+
+  </div>
+
+
+
 {% endblock content %}
