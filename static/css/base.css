@@ -122,6 +122,10 @@ header {
     align-self: flex-start;
 }
 
+.container__text--left {
+    align-self: flex-start;
+}
+
 .container--wrap {
     flex-wrap: wrap;
 }
@@ -148,6 +152,10 @@ header {
 .card__heading--margin-bottom {
     margin-top: 0;
     margin-bottom: 1.6rem;
+}
+
+.text--center {
+    text-align: center;
 }
 
 .card__text {
