@@ -72,10 +72,6 @@ label {
     color: var(--main-clr)
 }
 
-header {
-    box-shadow: 0 2px 10px #ECDADA;
-}
-
 .container {
     display: flex;
     justify-content: space-between;
@@ -95,6 +91,11 @@ header {
     height: 100%;
 }
 
+.container--col--center {
+    justify-content: center;
+    align-items: center;
+}
+
 .container--width {
     max-width: var(--mw);
     padding: 0 var(--side-padding);
@@ -110,8 +111,17 @@ header {
     margin-right: 0;
 }
 
+.margin--top-bottom {
+    margin-top: 1.6rem;
+    margin-bottom: 3.2rem;
+}
+
 .width--fit {
     width: auto;
+}
+
+.width--max {
+    width: 100%;
 }
 
 .height--fit {
@@ -240,6 +250,10 @@ input:focus::placeholder {
     padding-bottom: 1.6rem;
 }
 
+.form--left {
+    align-self: flex-start;
+}
+
 
 
 .btn {
@@ -255,6 +269,18 @@ input:focus::placeholder {
     transition: var(--transition-off);
 }
 
+.btn--cancel {
+    background-color: transparent;
+    color: #8F1A2E;
+    border: 2px solid #8F1A2E;
+}
+
+
+.btn--left {
+    justify-self: flex-start;
+    align-self: flex-start;
+}
+
 
 .banner__btn {}
 
@@ -266,9 +292,19 @@ input:focus::placeholder {
     animation: grow 0.2s;
 }
 
+.btn--cancel:hover {
+    background-color: hsl(350, 69%, 93%);
+}
+
 .btn:active {
     box-shadow: inset 4px 4px 8px #cf8623,
         inset -4px -4px 8px #ffc633;
+}
+
+.btn--cancel:active {
+    box-shadow: none;
+    box-shadow: inset 4px 4px 8px hsl(350, 69%, 83%),
+        inset -4px -4px 8px hsl(350, 69%, 98%);
 }
 
 .nav__btn {
@@ -311,11 +347,30 @@ input:focus::placeholder {
         -14px -14px 28px #ffffff;
 }
 
+.neumorphism-inset--bg {
+    box-shadow: inset 13px 13px 28px #ece4e4,
+        inset -13px -13px 28px #fffcfc;
+}
+
+.border--main {
+    border-radius: 6px;
+    border: 2px solid var(--main-clr);
+}
+
 
 
 /*---------------------------*\
     #NAV BAR
 \*---------------------------*/
+
+header {
+    box-shadow: 0 2px 10px hsla(0, 12%, 9%, 0.15);
+    border-bottom: 1px solid hsl(0, 33%, 91%);
+    position: sticky;
+    top: 0;
+    background-color: var(--bg-clr);
+    z-index: 999;
+}
 
 nav {
     margin: 1.6rem auto;

@@ -1,20 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Edit event</h2>
-  <form method="post">
-    {% csrf_token %}
-    <p class="form_field">
-      <label for="event_name">Event name:</label>
+<div class="container--col container--width">
+  
+    <form class="container--col container--form neumorphism neumorphism--bg card card--margin-top" method="post">
+      <h2 class="card__heading--margin-bottom">Edit event</h2>
+      {% csrf_token %}
+  
+
       {{ form.event_name }}
-    </p>
-    <p class="form_field">
-      <label for="event_date">Event date:</label>
-      {{ form.day }}{{ form.month }}{{ form.year }}
-    </p>
-    <p class="errors">{{ form.errors.event_name }}</p>
-    <p class="errors">{{ form.errors.year }}</p>
-    <button class="btn button-submit" type="submit">Update</button>
-    <a href="{% url 'dashboard' %}"><button type="button" class="btn button-cancel">Cancel</button></a>
-  </form>
+      <div class="container">{{ form.day }}<span class="text--main form__dash">—</span>{{ form.month }}<span class="text--main form__dash">—</span>{{ form.year }}</div>
+  
+      <button class="btn button-submit" type="submit">Update</button>
+      <a class="width--max" href="{% url 'dashboard' %}"><button class="btn btn--cancel" type="button">Cancel</button></a>
+  
+      {% if form.errors %}
+        <div class="errorlist-container">
+          <ul class="errorlist">
+            <li>{{ form.year.errors }}</li>
+          </ul>
+        </div>
+      {% endif %}
+  
+  
+    </form>
+</div>
 {% endblock content %}
