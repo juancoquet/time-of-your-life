@@ -193,6 +193,11 @@ label {
     margin-bottom: 0;
 }
 
+.banner__message {
+    color: var(--bg-clr);
+    margin-bottom: 0;
+}
+
 
 .input {
     font-family: 'Open Sans';
@@ -212,11 +217,13 @@ label {
     outline: 2px solid var(--accent-clr);
 }
 
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
     opacity: 1;
 }
 
-input:focus::placeholder {
+input:focus::placeholder,
+textarea:focus::placeholder {
     color: transparent;
 }
 
@@ -475,10 +482,15 @@ nav .logo__tyl--small {
 
 .banner__text {
     color: var(--bg-clr);
+    max-width: 45ch;
 }
 
 .banner__container {
     margin-bottom: 3.2rem;
+}
+
+.banner__textarea {
+    min-width: 39ch;
 }
 
 

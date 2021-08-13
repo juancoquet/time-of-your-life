@@ -1,15 +1,35 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
 {% block content %}
-  <h2>Time of Your Life is a work in progress</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" id="id_submit" class="btn-submit">Submit</button>
-  </form>
-  {% for message in messages %}
-      {% if 'custom' in message.tags %}
-        <p class="message">{{ message }}</p>
-      {% endif %}
-    {% endfor %}
+  <section class="banner">
+
+    <div class="container container--width">
+      <div class="banner__container-left">
+        <h1 class="banner__text container__text--heading">Time of Your Life is a work in progress</h1>
+        <p class="banner__text">Found a bug? Feature request? Love it or hate it, please let me know so I can
+          continue to improve it.
+        </p>
+      </div>
+
+      <form class="container--col container--right neumorphism neumorphism--banner container--form height--fit width--fit" method="post">
+        {% csrf_token %}
+
+        {{ form.subject|add_class:'input banner__input'|attr:'placeholder:Subject' }}
+        {% render_field form.message class+=' input banner__input banner__textarea' rows='5' placeholder='Message*' %}
+        {{ form.email|add_class:'input banner__input'|attr:'placeholder:Email' }}
+
+        <button type="submit" id="id_submit" class="btn">Submit</button>
+    
+        {% for message in messages %}
+          {% if 'custom' in message.tags %}
+            <p class="banner__message">{{ message }}</p>
+          {% endif %}
+        {% endfor %}
+
+      </form>
+    </div>
+      
+  </section>
+
 {% endblock content %}
