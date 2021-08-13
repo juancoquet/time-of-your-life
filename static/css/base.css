@@ -222,6 +222,10 @@ textarea::placeholder {
     opacity: 1;
 }
 
+textarea {
+    resize: none;
+}
+
 input:focus::placeholder,
 textarea:focus::placeholder {
     color: transparent;
