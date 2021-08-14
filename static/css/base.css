@@ -7,6 +7,7 @@
     --main-clr: hsl(190, 69%, 28%);
     --accent-clr: hsl(35, 100%, 58%);
     --dark-accent-clr: hsl(27, 100%, 43%);
+    --bg-muted: #C8B6B6;
     --mw: 1200px;
     --side-padding: 6.4rem;
     --transition-on: 200ms;
@@ -383,8 +384,9 @@ textarea:focus::placeholder {
 
 
 .text--block {
-    max-width: 75rem;
+    max-width: 65rem;
     margin-left: 0;
+    margin-bottom: 3.2rem;
 }
 
 .text--block--h2 {
@@ -644,7 +646,7 @@ nav .logo__tyl--small {
 }
 
 .week.past {
-    border-color: #C8B6B6;
+    border-color: var(--bg-muted);
 }
 
 
@@ -1079,6 +1081,36 @@ nav .logo__tyl--small {
 
 .op-1 {
     opacity: 0.1;
+}
+
+
+
+
+
+
+/*---------------------------*\
+    #FOOTER
+\*---------------------------*/
+
+.footer {
+    padding: 1.6rem;
+    border-top: 1px solid hsl(190, 69%, 23%);
+    background-color: var(--main-clr);
+}
+
+.footer__container {
+    justify-content: center;
+    align-items: center;
+}
+
+.footer__text {
+    font-size: 1.2rem;
+    color: var(--bg-muted);
+}
+
+.footer__img {
+    transform: scale(35%);
+    margin-top: 0.8rem;
 }
 
 
