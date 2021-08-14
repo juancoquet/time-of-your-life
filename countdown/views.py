@@ -25,7 +25,20 @@ def home(request):
             year = dob_form.cleaned_data['year']
             dob = date(year, month, day)
             return redirect(f'grid/{dob}')
-    return render(request, 'home.html', {'dob_form': dob_form})
+    return render(request, 'home.html', {
+        'dob_form': dob_form,
+        'years_passed': range(1, 23),
+        'current_year': 23,
+        'future_years': range(24, 35),
+        'full_year_weeks': range(1, 53),
+        'current_year': 24,
+        'weeks_passed_this_yr': range(1, 32),
+        'current_week': 32,
+        'weeks_left_this_yr': range(33, 53),
+        'event_year': 19,
+        'event_week': 46,
+    }
+    )
 
 
 def grid(request, dob, event_name=None, day=None, month=None, year=None):

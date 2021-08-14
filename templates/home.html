@@ -38,14 +38,286 @@
 
 
 
-    <div class="container container--width" id="site-description">
-        <h1>ignore the stuff down here</h1>
-        <p>
-            Time of Your Life helps you to see a bird's eye view of your life. Type your date of birth below to generate
-            a Life Calendar — a grid of 4,680 boxes that each represent a week of your life, forming 90 rows that each
-            represent a year. Weeks that you have already lived will be greyed out.
-        </p>
-    </div>
+    <section class="banner banner--bg">
+        <div class="container container--width" id="site-description">
+            <div class="container--col banner__content--top container--left">
+                <h1 class="container__heading--left">View the current week of your life</h1>
+                <p class="container__text--left">Each box in your Life Calendar represents a week in your life, 
+                each row represents a year from age 0 to age 90. Weeks that have already passed will be greyed out, and the current week 
+                will be highlighted.</p>
+                <p class="container__text--left">Hover over it to view this year's current week number.</p>
+            </div>
+            <div class="container container--col">
+
+                <div class="labels--horizontal--preview">
+                    <p class="labels__label--horizontal labels--horizontal__weeks">Weeks</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-1">1</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-5">5</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-10">10</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-15">15</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-20">20</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-25">25</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-30">30</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-35">35</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-40">40</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-45">45</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-50">50</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-52">52</p>
+                </div>
+
+                <div class="calendar-container container--right">
+                    <div class="calendar">
+                    
+                        {% for yr_num in years_passed %}
+                            <div class="year-row past" id="year-{{ yr_num }}">                    
+                                {% for week_no in full_year_weeks %}
+                                    <div class="week past" id="{{ yr_num }}-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    
+                        <div class="year-row present" id="year-{{ current_year }}">
+                            {% for week_no in weeks_passed_this_yr %}
+                                <div class="week past" id="{{ current_year }}-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+
+                            <div class="week present" id="{{ current_week }}"><p class="week__number">{{ current_week }}</p></div>
+
+                            {% for week_no in weeks_left_this_yr %}
+                                <div class="week future" id="{{ current_year }}-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+
+                        {% for yr_num in future_years %}
+                            <div class="year-row future" id="year-{{ yr_num }}">
+                                {% for week_no in full_year_weeks %}
+                                    <div class="week future" id="{{ yr_num }}-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+
+
+                        <div class="year-row future op-10">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id="36-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+                        <div class="year-row future op-9">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id"37-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+                        <div class="year-row future op-8">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id="38-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+                        <div class="year-row future op-7">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id="39-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+                        <div class="year-row future op-6">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id="40-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+                        <div class="year-row future op-5">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id="41-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+                        <div class="year-row future op-4">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id="42-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+                        <div class="year-row future op-3">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id="43-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+                        <div class="year-row future op-2">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id="44-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+                        <div class="year-row future op-1">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id="45-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                    <div class="labels--vertical--preview">
+                        <p class="labels__label--vertical labels--vertical__label-1">1</p>
+                        <p class="labels__label--vertical labels--vertical__label-5">5</p>
+                        <p class="labels__label--vertical labels--vertical__label-10">10</p>
+                        <p class="labels__label--vertical labels--vertical__label-15">15</p>
+                        <p class="labels__label--vertical labels--vertical__label-20">20</p>
+                        <p class="labels__label--vertical labels--vertical__label-25">25</p>
+                        <p class="labels__label--vertical labels--vertical__label-30">30</p>
+                        <p class="labels__label--vertical labels--vertical__label-35">35</p>
+                        <p class="labels__label--vertical labels--vertical__label-40 op-5">40</p>
+                        <p class="labels__label--vertical labels--vertical__years">Years</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <section class="banner banner--bg">
+        <div class="container container--width" id="site-description">
+            <div class="container--col banner__content--top container--left">
+                <h1 class="container__heading--left">Highlight life events</h1>
+                <p class="container__text--left">Add important life events to your Life Calendar and they will be 
+                displayed on the appropriate week. Hover over an event to view its information.</p>
+            </div>
+            <div class="container container--col">
+
+                <div class="labels--horizontal--preview">
+                    <p class="labels__label--horizontal labels--horizontal__weeks">Weeks</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-1">1</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-5">5</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-10">10</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-15">15</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-20">20</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-25">25</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-30">30</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-35">35</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-40">40</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-45">45</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-50">50</p>
+                    <p class="labels__label--horizontal labels--horizontal__label-52">52</p>
+                </div>
+
+                <div class="calendar-container container--right">
+                    <div class="calendar">
+                    
+                        {% for yr_num in years_passed %}
+                        <div class="year-row past" id="year-{{ yr_num }}">
+                
+                            {% for week_no in full_year_weeks %}
+                                {% if yr_num == event_year and week_no == event_week %}
+
+                                    <div class="all-tooltips">
+                                        <div class="week past event" id="{{ yr_num }}-{{ week_no }}">
+                                            <p class="week__number">{{ week_no }}</p>
+                                        </div>
+                                        <div class="tooltip">
+                                            <div class="tooltip-content">
+                                                <div class="arrow"></div>
+                                                <div class="content">
+                                                    <h3>Graduation</h3>
+                                                    <p>July 18, 2016</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                
+                                {% else %}
+                                    <div class="week past" id="{{ yr_num }}-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+
+
+
+
+                    
+                        <div class="year-row present" id="year-{{ current_year }}">
+                            {% for week_no in weeks_passed_this_yr %}
+                                <div class="week past" id="{{ current_year }}-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+
+                            <div class="week present" id="{{ current_week }}"><p class="week__number">{{ current_week }}</p></div>
+
+                            {% for week_no in weeks_left_this_yr %}
+                                <div class="week future" id="{{ current_year }}-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+
+                        {% for yr_num in future_years %}
+                            <div class="year-row future" id="year-{{ yr_num }}">
+                                {% for week_no in full_year_weeks %}
+                                    <div class="week future" id="{{ yr_num }}-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+
+
+                        <div class="year-row future op-10">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id="36-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+                        <div class="year-row future op-9">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id"37-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+                        <div class="year-row future op-8">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id="38-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+                        <div class="year-row future op-7">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id="39-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+                        <div class="year-row future op-6">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id="40-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+                        <div class="year-row future op-5">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id="41-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+                        <div class="year-row future op-4">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id="42-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+                        <div class="year-row future op-3">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id="43-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+                        <div class="year-row future op-2">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id="44-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+                        <div class="year-row future op-1">
+                            {% for week_no in full_year_weeks %}
+                                <div class="week future" id="45-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                    <div class="labels--vertical--preview">
+                        <p class="labels__label--vertical labels--vertical__label-1">1</p>
+                        <p class="labels__label--vertical labels--vertical__label-5">5</p>
+                        <p class="labels__label--vertical labels--vertical__label-10">10</p>
+                        <p class="labels__label--vertical labels--vertical__label-15">15</p>
+                        <p class="labels__label--vertical labels--vertical__label-20">20</p>
+                        <p class="labels__label--vertical labels--vertical__label-25">25</p>
+                        <p class="labels__label--vertical labels--vertical__label-30">30</p>
+                        <p class="labels__label--vertical labels--vertical__label-35">35</p>
+                        <p class="labels__label--vertical labels--vertical__label-40 op-5">40</p>
+                        <p class="labels__label--vertical labels--vertical__years">Years</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
 {% endblock content %}
