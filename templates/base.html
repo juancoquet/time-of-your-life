@@ -22,29 +22,31 @@
         <nav>
             <ul class="nav-links">
 
+                <li><a class="nav-links__link nav-links__link--logo" id="home" href="/">
+                    <div class="logo--small">
+                        <h1 class="logo__tyl--small">Time <span class="logo__of--small">of</span> Your Life</h1>
+                    </div>
+                </a></li>
 
-                <div class="container container--left width--fit">
-
-                    <li><a class="nav-links__link" id="home" href="/">
-                        <div class="logo--small">
-                            <h1 class="logo__tyl--small">Time <span class="logo__of--small">of</span> Your Life</h1>
-                        </div>
-                    </a></li>
-
-                    <li><a class="nav-links__link" id='about' href="{% url 'about' %}">About</a></li>
-                    <li><a class="nav-links__link" id='feedback' href="{% url 'feedback' %}">Feedback</a></li>
-                    <li><a class="nav-links__link" id='contact' href="{% url 'contact' %}">Contact</a></li>
-                </div>
-
-
-                <div class="container container--right width--fit">
-                    {% if not user.is_authenticated %}
-                        <li><a class="nav-links__link" href="{% url 'account_login' %}" id='id_login_link'>Log in</a></li>
-                        <li><a class="btn nav__btn" href="{% url 'account_signup' %}" id="id_signup">Sign up</a></li>
-                    {% else %}
-                        <li><a class="nav-links__link" id='id_logout' href="{% url 'account_logout' %}">Log out</a></li>
-                        <li class="profile" id="id_logged_in"><a class="btn nav__btn" href="{% url 'profile' pk=user.username %}">{{ user.username }}</a></li>
-                    {% endif %}
+                <input type="checkbox" class="nav-toggle" id="nav-toggle">
+                <div class="container nav-links__container">
+                    <label for="nav-toggle" class="nav-toggle-label">
+                        <span></span>
+                    </label>
+                    <div class="container container--left width--fit">
+                        <li><a class="nav-links__link" id='about' href="{% url 'about' %}">About</a></li>
+                        <li><a class="nav-links__link" id='feedback' href="{% url 'feedback' %}">Feedback</a></li>
+                        <li><a class="nav-links__link" id='contact' href="{% url 'contact' %}">Contact</a></li>
+                    </div>
+                    <div class="container container--right width--fit">
+                        {% if not user.is_authenticated %}
+                            <li><a class="nav-links__link" href="{% url 'account_login' %}" id='id_login_link'>Log in</a></li>
+                            <li><a class="nav-links__link btn nav__btn" href="{% url 'account_signup' %}" id="id_signup">Sign up</a></li>
+                        {% else %}
+                            <li><a class="nav-links__link" id='id_logout' href="{% url 'account_logout' %}">Log out</a></li>
+                            <li class="nav-links__link profile" id="id_logged_in"><a class="btn nav__btn" href="{% url 'profile' pk=user.username %}">{{ user.username }}</a></li>
+                        {% endif %}
+                    </div>
                 </div>
 
 
@@ -55,11 +57,11 @@
     {% block content %}
     {% endblock content %}
 
-    <footer class="footer">
+    {% comment %} <footer class="footer">
         <div class="container container--width footer__container">
             <p><a class="footer__text" href="mailto:info@timeofyourlife.io">info@timeofyourlife.io</a></p>
         </div>
-    </footer>
+    </footer> {% endcomment %}
     
     <script src="{% static '/js/tooltips.js' %}"></script>
 </body>
