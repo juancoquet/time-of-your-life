@@ -24,7 +24,7 @@
                 </div>
 
                 
-                <form class="container--col container--right neumorphism neumorphism--banner container--form height--fit" method="POST" action="/">
+                <form class="container--col container--right neumorphism neumorphism--banner container--form height--fit banner__form" method="POST" action="/">
                     {% csrf_token %}
                     <div class="container">{{ dob_form.day }}<span class="banner__text text--main form__dash">—</span>{{ dob_form.month }}<span class="banner__text text--main form__dash">—</span>{{ dob_form.year }}</div>
                     <p class="error banner__error">{{ dob_form.year.errors }} </p>
@@ -47,7 +47,7 @@
                 will be highlighted.</p>
                 <p class="container__text--left">Hover over it to view this year's current week number.</p>
             </div>
-            <div class="container container--col">
+            <div class="container container--col calendar-preview">
 
                 <div class="labels--horizontal--preview">
                     <p class="labels__label--horizontal labels--horizontal__weeks">Weeks</p>
@@ -170,13 +170,13 @@
 
 
     <section class="banner banner--bg">
-        <div class="container container--width" id="site-description">
+        <div class="container container--width">
             <div class="container--col banner__content--top container--left">
                 <h1 class="container__heading--left">Highlight life events</h1>
                 <p class="container__text--left">Add important life events to your Life Calendar and they will be 
                 displayed on the appropriate week. Hover over an event to view its information.</p>
             </div>
-            <div class="container container--col">
+            <div class="container container--col calendar-preview">
 
                 <div class="labels--horizontal--preview">
                     <p class="labels__label--horizontal labels--horizontal__weeks">Weeks</p>

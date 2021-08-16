@@ -12,6 +12,8 @@
     --side-padding: 6.4rem;
     --transition-on: 200ms;
     --transition-off: 100ms;
+    --week-size: 8px;
+    --cal-gap: 1px;
 }
 
 * {
@@ -721,39 +723,7 @@ nav .logo__tyl--small {
 }
 
 
-/*---------------------------*\
-    #RESPONSIVE-BANNER
-\*---------------------------*/
 
-@media only screen and (max-width: 830px) {
-
-    .banner>.container,
-    .banner__container {
-        flex-direction: column;
-    }
-
-    .banner {
-        padding: 4.8rem 0;
-    }
-
-    .banner__container {
-        margin-bottom: 0;
-    }
-
-    .container--arrow {
-        display: none;
-    }
-
-    .container--left,
-    .container--right {
-        margin: auto;
-    }
-
-    .banner__container-left {
-        margin-bottom: 1.6rem;
-        text-align: center;
-    }
-}
 
 
 
@@ -787,10 +757,10 @@ nav .logo__tyl--small {
     border-radius: 2px;
     border: 1px solid var(--main-clr);
     display: block;
-    height: 8px;
-    width: 8px;
+    height: var(--week-size);
+    width: var(--week-size);
     text-align: center;
-    margin: 1px;
+    margin: var(--cal-gap);
     transition: var(--transition-off);
     font-size: 0;
     z-index: 2;
@@ -809,8 +779,8 @@ nav .logo__tyl--small {
 .week.present::after {
     content: '';
     position: absolute;
-    height: 8px;
-    width: 8px;
+    height: var(--week-size);
+    width: var(--week-size);
     background-color: var(--main-clr);
     border-radius: 2px;
     animation: pulse 3s ease infinite;
@@ -839,14 +809,15 @@ nav .logo__tyl--small {
     position: relative;
     background-color: var(--accent-clr);
     border-color: var(--accent-clr);
+    z-index: 3;
     cursor: pointer;
 }
 
 .week.event::after {
     content: '';
     position: absolute;
-    height: 8px;
-    width: 8px;
+    height: var(--week-size);
+    width: var(--week-size);
     background-color: var(--accent-clr);
     border-radius: 2px;
     animation: pulse 3s ease infinite;
@@ -972,10 +943,10 @@ nav .logo__tyl--small {
 
 .labels--horizontal {
     display: grid;
-    grid-template-columns: repeat(52, 8px);
-    grid-template-rows: 8px 8px;
+    grid-template-columns: repeat(52, var(--week-size));
+    grid-template-rows: var(--week-size) var(--week-size);
     column-gap: 2px;
-    row-gap: 8px;
+    row-gap: var(--week-size);
     width: 100%;
     margin-bottom: 0.3rem;
 }
@@ -983,10 +954,10 @@ nav .logo__tyl--small {
 .labels--vertical {
     justify-self: flex-start;
     display: grid;
-    grid-template-rows: repeat(90, 8px);
-    grid-template-columns: 8px 8px;
+    grid-template-rows: repeat(90, var(--week-size));
+    grid-template-columns: var(--week-size) var(--week-size);
     row-gap: 2px;
-    column-gap: 8px;
+    column-gap: var(--week-size);
     height: 100%;
     margin-left: 0.2rem;
     z-index: 2;
@@ -994,10 +965,10 @@ nav .logo__tyl--small {
 
 .labels--horizontal--preview {
     display: grid;
-    grid-template-columns: repeat(52, 8px);
-    grid-template-rows: 8px 8px;
+    grid-template-columns: repeat(52, var(--week-size));
+    grid-template-rows: var(--week-size) var(--week-size);
     column-gap: 2px;
-    row-gap: 8px;
+    row-gap: var(--week-size);
     /* width: 100%; */
     margin-bottom: 0.3rem;
     margin-right: 2.7rem;
@@ -1007,10 +978,10 @@ nav .logo__tyl--small {
 .labels--vertical--preview {
     justify-self: flex-start;
     display: grid;
-    grid-template-rows: repeat(40, 8px);
-    grid-template-columns: 8px 8px;
+    grid-template-rows: repeat(40, var(--week-size));
+    grid-template-columns: var(--week-size) var(--week-size);
     row-gap: 2px;
-    column-gap: 8px;
+    column-gap: var(--week-size);
     height: 100%;
     margin-left: 0.2rem;
     z-index: 2;
@@ -1280,4 +1251,177 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
     -moz-appearance: textfield;
+}
+
+
+
+
+
+
+
+/*---------------------------*\
+    #RESPONSIVE
+\*---------------------------*/
+
+@media only screen and (max-width: 973px) {
+
+    .banner>.container,
+    .banner__container {
+        flex-direction: column;
+    }
+
+    .banner {
+        padding: 4.8rem 0;
+    }
+
+    .banner__container {
+        margin-bottom: 0;
+    }
+
+    .container--arrow {
+        display: none;
+    }
+
+    .container--left,
+    .container--right {
+        margin: 0;
+    }
+
+    .banner__container-left {
+        margin-bottom: 1.6rem;
+        text-align: center;
+        align-self: center;
+    }
+
+    .banner__content--top {
+        align-self: center;
+    }
+
+    .labels--horizontal--preview {
+        align-self: center;
+    }
+
+    .calendar-preview {
+        align-items: center;
+    }
+
+}
+
+@media only screen and (max-width: 675px) {
+
+    :root {
+        --side-padding: 5vw;
+    }
+
+    .banner {
+        padding: 3.2rem 0;
+    }
+}
+
+@media only screen and (max-width: 610px) {
+
+    :root {
+        --week-size: 7px;
+    }
+
+    .week.present::after,
+    .week.event::after {}
+
+    .week__number {
+        top: -1px;
+    }
+
+    .labels--horizontal--preview {
+        margin-left: 4px
+    }
+
+}
+
+@media only screen and (max-width: 538px) {
+
+    :root {
+        --week-size: 6px;
+    }
+
+    .banner {
+        padding: 1.6rem 0;
+    }
+
+    .logo--big {
+        margin-top: 0.8rem;
+    }
+
+    .banner__form {
+        margin-bottom: 1.6rem;
+    }
+
+    .week.present::after,
+    .week.event::after {}
+
+    .week__number {
+        top: -1px;
+    }
+
+    .labels--horizontal--preview {
+        margin-bottom: 5px;
+    }
+
+}
+
+@media only screen and (max-width: 478px) {
+
+    :root {
+        --week-size: 5px;
+        --cal-gap: 0.5px;
+    }
+
+    html {
+        font-size: 50%;
+    }
+
+    .week.present::after,
+    .week.event::after {}
+
+    .week.event {
+        /* z-index: 3; */
+    }
+
+    .week__number {
+        top: -1px;
+        left: -0.5px;
+    }
+
+    .labels--horizontal--preview {
+        column-gap: 1px;
+    }
+
+    .labels--vertical--preview {
+        row-gap: 1px;
+    }
+
+    .labels__label--horizontal,
+    .labels__label--vertical {
+        font-size: 0.6rem;
+    }
+
+    .labels--horizontal--preview {
+        margin-bottom: 2px;
+    }
+
+}
+
+@media only screen and (max-width: 380px) {
+
+    html {
+        font-size: 37.5%;
+    }
+
+}
+
+@media only screen and (max-width: 366px) {
+
+    :root {
+        --week-size: 4px;
+    }
+
 }
