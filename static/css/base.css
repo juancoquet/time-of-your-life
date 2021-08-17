@@ -1257,6 +1257,52 @@ input[type=number] {
 
 
 
+/*---------------------------*\
+    #RESPONSIVE
+\*---------------------------*/
+
+.modal-bg {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: var(--bg-clr);
+    padding: 3.2rem 6.4rem;
+    text-align: center;
+    border-radius: 6px;
+    max-width: 45ch;
+    position: relative;
+}
+
+.close-button {
+    font-size: 3.2rem;
+    color: #8F1A2E;
+    font-weight: bold;
+    position: absolute;
+    top: 0.1rem;
+    right: 1.6rem;
+    font-family: 'Raleway', sans-serif;
+    cursor: pointer;
+}
+
+.event-metadata {
+    color: var(--bg-muted);
+    font-size: 1.2rem;
+    margin-bottom: 0;
+}
+
+
+
+
 
 
 /*---------------------------*\

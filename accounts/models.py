@@ -128,11 +128,11 @@ class CustomUser(AbstractUser):
             weeks_in_yr = {}
             for week in range(1, 53):
                 if (year, week) < self.current_year_and_week:
-                    weeks_in_yr[f'({year}, {week})'] = f'<div class="week past" id="({year},{week})"><p class="week__number">{week}</p></div>'
+                    weeks_in_yr[f'({year}, {week})'] = f'<div class="week past" id="{year}-{week}"><p class="week__number">{week}</p></div>'
                 elif (year, week) > self.current_year_and_week:
-                    weeks_in_yr[f'({year}, {week})'] = f'<div class="week future" id="({year},{week})"><p class="week__number">{week}</p></div>'
+                    weeks_in_yr[f'({year}, {week})'] = f'<div class="week future" id="{year}-{week}"><p class="week__number">{week}</p></div>'
                 else:
-                    weeks_in_yr[f'({year}, {week})'] = f'<div class="week present" id="({year},{week})"><p class="week__number">{week}</p></div>'
+                    weeks_in_yr[f'({year}, {week})'] = f'<div class="week present" id="{year}-{week}"><p class="week__number">{week}</p></div>'
 
             for wk_index, event_iter in events.items():
                 if week_element := weeks_in_yr.get(wk_index):
@@ -144,18 +144,33 @@ class CustomUser(AbstractUser):
                     before_event_details = f'<div class="all-tooltips">{with_classes}<div class="tooltip">\
                         <div class="tooltip-content"><div class="arrow"></div><div class="content">'
                     event_details = ''
-                    after_event_details = '</div></div></div></div>'
+                    after_event_details = '</div></div></div>'
+                    id_ = wk_index.replace(
+                        '(', '').replace(')', '').replace(', ', '-')
+                    modal = f'<div class="modal-bg" id="modal-bg-{id_}">\
+                            <div id="modal-{id_}" class="modal-content">\
+                            <div id="close-{id_}" class="close-button">&times</div>'
+                    after_modal = '</div></div></div>'
 
                     for event in event_iter:
                         event_name = escape(event.event_name)
                         event_date = event.event_date.strftime('%b %d, %Y')
                         event_url = event.get_edit_url()
                         event_delete_url = event.get_delete_url()
+                        event_yr, event_week = event.index
+
                         event_details += f'<div class="event_details"><h3>{event_name}</h3><p>{event_date}</p>\
                                 <p><a class="tooltip__link" href="{event_url}">Edit</a>\
                                 <a class="tooltip__link" href="{event_delete_url}">Delete</a></p></div>'
 
-                    new_element = before_event_details + event_details + after_event_details
+                        # TODO: multiple modal events
+                        modal += f'<h3 class="card__heading">{event_name}</h3><p>{event_date}</p>\
+                                <p class="event-metadata">Year {event_yr}, week {event_week}</p>\
+                                <p><a class="tooltip__link" href="{event_url}">Edit</a>\
+                                <a class="tooltip__link" href="{event_delete_url}">Delete</a></p>'
+
+                    new_element = before_event_details + event_details + \
+                        after_event_details + modal + after_modal
                     weeks_in_yr[str(event.index)] = new_element
 
             for _, value in weeks_in_yr.items():

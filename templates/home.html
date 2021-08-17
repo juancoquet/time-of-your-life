@@ -216,7 +216,16 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="modal-bg" id="modal-bg-{{ yr_num }}-{{ week_no }}">
+                                            <div id="modal-{ yr_num }}-{{ week_no }}" class="modal-content">
+                                                <div id="close-({ yr_num }}-{{ week_no }}" class="close-button">&times</div>
+                                                <h3 class="card__heading">Graduation</h3>
+                                                <p>July 18, 2016</p>
+                                                <p class='event-metadata'>Year {{ yr_num }}, week {{ week_no }}</p>
+                                            </div>
+                                        </div>
                                     </div>
+
                 
                                 {% else %}
                                     <div class="week past" id="{{ yr_num }}-{{ week_no }}"><p class="week__number">{{ week_no }}</p></div>

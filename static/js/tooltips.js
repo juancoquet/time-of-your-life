@@ -4,6 +4,7 @@ const calendar = document.querySelector('.calendar');
 
 window.addEventListener('DOMContentLoaded', contentPosition);
 window.addEventListener('resize', contentPosition);
+window.addEventListener('DOMContentLoaded', buildModal);
 
 
 function contentPosition(){
@@ -39,6 +40,26 @@ function contentPosition(){
             content.style.top = -content.offsetHeight/2 + event.offsetHeight/2 + 'px';
         }
         
+    })
+}
+
+const eventWeeks = document.querySelectorAll('.week.event');
+const closeBtns = document.querySelectorAll('.close-button')
+
+function buildModal() {
+    eventWeeks.forEach(eventWeek => {
+        console.log(eventWeek)
+        eventWeek.addEventListener('touchend', function() {
+            var modal = document.querySelector('#modal-bg-' + eventWeek.id);
+            // var modal = document.querySelector('#modal-bg-\\(');
+            modal.style.display = 'flex';
+            
+            var closeBtn = modal.querySelector('.close-button')
+            closeBtn.addEventListener('touchend', function() {
+                modal.style.display = 'none'
+            })
+            
+        })
     })
 }
 
