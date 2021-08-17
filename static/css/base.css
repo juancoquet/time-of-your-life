@@ -1258,6 +1258,9 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
+.safari-font-size-fix {
+    font-size: 0;
+}
 
 
 
@@ -1306,14 +1309,6 @@ input[type=number] {
 }
 
 
-
-
-
-
-/*---------------------------*\
-    #RESPONSIVE
-\*---------------------------*/
-
 @media only screen and (max-width: 973px) {
 
     .banner>.container,
@@ -1356,6 +1351,11 @@ input[type=number] {
     .calendar-preview,
     .calendar {
         align-items: center;
+        font-size: 0;
+    }
+
+    .logo--small {
+        font-size: 0;
     }
 
 }
@@ -1377,16 +1377,10 @@ input[type=number] {
         --week-size: 7px;
     }
 
-    .week.present::after,
-    .week.event::after {}
-
-    .week__number {
-        top: -1px;
-    }
-
-    .labels--horizontal,
+    .labels--horizontal--preview,
     .labels--horizontal {
-        margin-left: 4px
+        margin-left: 4px;
+        margin-bottom: 4px;
     }
 
 }
@@ -1409,15 +1403,13 @@ input[type=number] {
         margin-bottom: 1.6rem;
     }
 
-    .week.present::after,
-    .week.event::after {}
-
     .week__number {
         top: -1px;
     }
 
     .labels--horizontal--preview,
     .labels--horizontal {
+        margin-left: 6px;
         margin-bottom: 5px;
     }
 
@@ -1466,12 +1458,29 @@ input[type=number] {
         margin-bottom: 2px;
     }
 
+    .logo-big__logo-of {
+        line-height: 23.2px;
+
+        /* Safari only */
+        -webkit-margin-before: -0.9rem;
+    }
+
+
 }
+
 
 @media only screen and (max-width: 380px) {
 
     html {
         font-size: 37.5%;
+    }
+
+    .logo-big__logo-of {
+        line-height: 17.4px;
+        border-width: 4.2px 0;
+
+        /* Safari only */
+        -webkit-margin-before: -0.6rem;
     }
 
 }
