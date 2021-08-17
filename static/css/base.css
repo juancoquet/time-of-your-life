@@ -514,7 +514,7 @@ nav .logo__tyl--small {
     #RESPONSIVE-NAV
 \*---------------------------*/
 
-@media only screen and (max-width: 830px) {
+@media only screen and (max-width: 850px) {
 
     .nav-links .btn {
         box-shadow: none;
@@ -1348,11 +1348,13 @@ input[type=number] {
         align-self: center;
     }
 
-    .labels--horizontal--preview {
+    .labels--horizontal--preview,
+    .labels--horizontal {
         align-self: center;
     }
 
-    .calendar-preview {
+    .calendar-preview,
+    .calendar {
         align-items: center;
     }
 
@@ -1382,7 +1384,8 @@ input[type=number] {
         top: -1px;
     }
 
-    .labels--horizontal--preview {
+    .labels--horizontal,
+    .labels--horizontal {
         margin-left: 4px
     }
 
@@ -1413,7 +1416,8 @@ input[type=number] {
         top: -1px;
     }
 
-    .labels--horizontal--preview {
+    .labels--horizontal--preview,
+    .labels--horizontal {
         margin-bottom: 5px;
     }
 
@@ -1442,11 +1446,13 @@ input[type=number] {
         left: -0.5px;
     }
 
-    .labels--horizontal--preview {
+    .labels--horizontal--preview,
+    .labels--horizontal {
         column-gap: 1px;
     }
 
-    .labels--vertical--preview {
+    .labels--vertical--preview,
+    .labels--vertical {
         row-gap: 1px;
     }
 
@@ -1455,7 +1461,8 @@ input[type=number] {
         font-size: 0.6rem;
     }
 
-    .labels--horizontal--preview {
+    .labels--horizontal--preview,
+    .labels--horizontal {
         margin-bottom: 2px;
     }
 
