@@ -532,6 +532,10 @@ nav .logo__tyl--small {
         margin-bottom: 0;
     }
 
+    .nav-links__link.profile {
+        padding-right: 0;
+    }
+
     .nav-links__link--logo {
         opacity: 1;
         /* margin-top: 1.6rem;
