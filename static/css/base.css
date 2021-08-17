@@ -793,14 +793,14 @@ nav .logo__tyl--small {
 .week.present:hover .week__number {
     font-size: 0.4rem;
     visibility: visible;
-    color: var(--bg-clr);
 }
 
 .week.present:hover {
     transform: scale(2);
 }
 
-.week.present:hover::after {
+.week.present:hover::after,
+.week.present.hide-pulse::after {
     display: none;
 }
 
@@ -845,6 +845,7 @@ nav .logo__tyl--small {
 }
 
 .week__number {
+    color: var(--bg-clr);
     margin: 0;
     font-size: 0.1rem;
     position: relative;

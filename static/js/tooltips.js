@@ -5,6 +5,7 @@ const calendar = document.querySelector('.calendar');
 window.addEventListener('DOMContentLoaded', contentPosition);
 window.addEventListener('resize', contentPosition);
 window.addEventListener('DOMContentLoaded', buildModal);
+window.addEventListener('DOMContentLoaded', tapPresentWeek);
 
 
 function contentPosition(){
@@ -44,14 +45,12 @@ function contentPosition(){
 }
 
 const eventWeeks = document.querySelectorAll('.week.event');
-const closeBtns = document.querySelectorAll('.close-button')
+const closeBtns = document.querySelectorAll('.close-button');
 
 function buildModal() {
     eventWeeks.forEach(eventWeek => {
-        console.log(eventWeek)
         eventWeek.addEventListener('touchend', function() {
             var modal = document.querySelector('#modal-bg-' + eventWeek.id);
-            // var modal = document.querySelector('#modal-bg-\\(');
             modal.style.display = 'flex';
             
             var closeBtn = modal.querySelector('.close-button')
@@ -63,3 +62,37 @@ function buildModal() {
     })
 }
 
+const presentWeek = document.querySelectorAll('.week.present');
+
+function tapPresentWeek() {
+    presentWeek.forEach(week => {
+        week.addEventListener('touchend', function tap() {
+            console.log('tapped');
+
+
+            week.style.transform = 'scale(2)';
+            week.classList.add('hide-pulse');
+            weekNum = week.querySelector('.week__number');
+            weekNum.style.fontSize = '0.4rem';
+            weekNum.style.visibility = 'visible';
+
+
+
+            setTimeout(function (){
+                week.removeEventListener('touchend', tap);
+                document.addEventListener('touchend', function remove() {
+                    console.log('scale down');
+
+
+                    week.style.transform = 'scale(1)';
+                    week.classList.remove('hide-pulse')
+                    weekNum.style.fontSize = '0.1rem';
+                    weekNum.style.visibility = 'hidden';
+
+
+                    document.removeEventListener('touchend', remove);
+                    week.addEventListener('touchend', tap);
+                })}, 500);
+        })
+    })
+}
