@@ -516,6 +516,7 @@ nav .logo__tyl--small {
         display: block;
         margin-top: 0;
         margin-bottom: 0;
+        padding-right: 0;
     }
 
     .nav-links__link.profile {
@@ -524,6 +525,7 @@ nav .logo__tyl--small {
 
     .nav-links__link--logo {
         opacity: 1;
+        padding-left: 0;
     }
 
     .nav-links .container {
@@ -546,8 +548,8 @@ nav .logo__tyl--small {
 
     .nav-toggle-label {
         display: block;
-        padding: 0.4rem;
-        margin-right: 1.2rem;
+        padding: 0.4rem 0;
+        margin-right: 0;
         cursor: pointer;
 
     }
@@ -561,6 +563,7 @@ nav .logo__tyl--small {
         width: 2.4rem;
         border-radius: 2px;
         position: relative;
+        transition: var(--transition-off);
     }
 
     .nav-toggle-label span::before,
@@ -580,12 +583,33 @@ nav .logo__tyl--small {
 
 
     .nav-toggle:checked+.nav-links__container .nav-toggle-label {
-        margin-top: 2.15rem;
+        margin-top: 2rem;
     }
 
     .nav-toggle:checked+.nav-links__container .container {
         display: flex;
         flex-direction: column;
+    }
+
+    .nav-toggle:checked+.nav-links__container .nav-toggle-label span,
+    .nav-toggle:checked+.nav-links__container .nav-toggle-label span::after {
+        background-color: #8F1A2E;
+        transition: var(--transition-on);
+    }
+
+    .nav-toggle:checked+.nav-links__container .nav-toggle-label span::before {
+        display: none;
+        transition: var(--transition-on);
+    }
+
+    .nav-toggle:checked+.nav-links__container .nav-toggle-label span {
+        transform: rotate(-45deg);
+        transition: var(--transition-on);
+    }
+
+    .nav-toggle:checked+.nav-links__container .nav-toggle-label span::after {
+        transform: rotate(90deg) translate(-27.5%);
+        transition: var(--transition-on);
     }
 
     .logo__tyl--small {
