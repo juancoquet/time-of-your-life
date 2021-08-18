@@ -334,31 +334,6 @@ textarea:focus::placeholder {
         inset -4px -4px 8px hsl(350, 69%, 98%);
 }
 
-.nav__btn {
-    padding: 0.8rem 1.6rem;
-    margin-left: 1.6rem;
-    border-radius: 999px;
-    text-decoration: none;
-    background-color: var(--bg-clr);
-    box-shadow: 4px 4px 8px #d3cdcd,
-        -4px -4px 8px #ffffff;
-    color: var(--main-clr);
-}
-
-.nav__btn:hover {
-    color: hsl(190, 69%, 35%);
-    box-shadow: 4px 4px 8px #cbc6c6,
-        -4px -4px 8px #ffffff;
-    transition: var(--transition-on);
-    background-color: var(--bg-clr);
-}
-
-.nav__btn:active {
-    box-shadow: inset 4px 4px 8px #d3cdcd,
-        inset -4px -4px 8px #ffffff;
-}
-
-
 
 .neumorphism {
     border-radius: 6px;
@@ -445,17 +420,29 @@ nav {
     transition: var(--transition-on);
 }
 
-.nav-links__link--logo {
-    /* display: block; */
-    /* width: 250px; */
+.nav__btn {
+    padding: 0.8rem 1.6rem;
+    margin-left: 1.6rem;
+    border-radius: 999px;
+    text-decoration: none;
+    background-color: var(--bg-clr);
+    box-shadow: 4px 4px 8px #d3cdcd,
+        -4px -4px 8px #ffffff;
+    color: var(--main-clr);
 }
 
-.logo--small {
-    /* display: flex;
-    flex-wrap: nowrap;
-    width: 100%; */
+.nav__btn:hover {
+    color: hsl(190, 69%, 35%);
+    box-shadow: 4px 4px 8px #cbc6c6,
+        -4px -4px 8px #ffffff;
+    transition: var(--transition-on);
+    background-color: var(--bg-clr);
 }
 
+.nav__btn:active {
+    box-shadow: inset 4px 4px 8px #d3cdcd,
+        inset -4px -4px 8px #ffffff;
+}
 
 
 nav .logo__tyl--small {
