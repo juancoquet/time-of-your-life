@@ -513,7 +513,6 @@ nav .logo__tyl--small {
     }
 
     .nav-links__link {
-        /* opacity: 0; */
         display: block;
         margin-top: 0;
         margin-bottom: 0;
@@ -525,12 +524,6 @@ nav .logo__tyl--small {
 
     .nav-links__link--logo {
         opacity: 1;
-        /* margin-top: 1.6rem;
-        margin-bottom: 1.6rem; */
-    }
-
-    .nav-links {
-        /* flex-direction: column; */
     }
 
     .nav-links .container {
@@ -552,7 +545,6 @@ nav .logo__tyl--small {
     }
 
     .nav-toggle-label {
-        /* transform: translateX(-100%); */
         display: block;
         padding: 0.4rem;
         margin-right: 1.2rem;
@@ -594,6 +586,11 @@ nav .logo__tyl--small {
     .nav-toggle:checked+.nav-links__container .container {
         display: flex;
         flex-direction: column;
+    }
+
+    .logo__tyl--small {
+        display: inline;
+        white-space: nowrap;
     }
 
 }
@@ -1400,6 +1397,11 @@ input[type=number] {
         margin-bottom: 5px;
     }
 
+    .logo-big__logo-of {
+        line-height: 29px;
+        margin-top: -1.2rem;
+    }
+
 }
 
 @media only screen and (max-width: 478px) {
@@ -1452,6 +1454,12 @@ input[type=number] {
         -webkit-margin-before: -0.9rem;
     }
 
+    .logo__of--small {
+        border-width: 3.5px 0;
+        line-height: 10px;
+        margin-top: -5px;
+    }
+
 
 }
 
@@ -1459,15 +1467,21 @@ input[type=number] {
 @media only screen and (max-width: 380px) {
 
     html {
-        font-size: 37.5%;
+        font-size: 50%;
+    }
+
+    .logo-big__logo-tyl {
+        font-size: 6rem;
     }
 
     .logo-big__logo-of {
-        line-height: 17.4px;
-        border-width: 4.2px 0;
+        line-height: 19px;
+        margin-top: -1.1rem;
+        border-width: 5.6px 0;
+        font-size: 1.5rem;
 
         /* Safari only */
-        -webkit-margin-before: -0.6rem;
+        -webkit-margin-before: -0.85rem;
     }
 
 }
@@ -1476,6 +1490,30 @@ input[type=number] {
 
     :root {
         --week-size: 4px;
+    }
+
+    .logo-big__logo-tyl {
+        font-size: 5.2rem;
+    }
+
+    .logo-big__logo-of {
+        line-height: 16.7px;
+        margin-top: -0.95rem;
+        border-width: 4.9px 0;
+        font-size: 1.29rem;
+
+        /* Safari only */
+        -webkit-margin-before: -0.85rem;
+    }
+
+    .logo__tyl--small {
+        font-size: 20.5px;
+    }
+
+    .logo__of--small {
+        border-width: 2.8px 0;
+        line-height: 9px;
+        margin-top: -3.5px;
     }
 
 }
