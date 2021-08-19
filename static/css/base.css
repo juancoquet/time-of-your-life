@@ -608,7 +608,7 @@ nav .logo__tyl--small {
     }
 
     .nav-toggle:checked+.nav-links__container .nav-toggle-label span::after {
-        transform: rotate(90deg) translate(-27.5%);
+        transform: rotate(90deg) translate(-6px);
         transition: var(--transition-on);
     }
 
