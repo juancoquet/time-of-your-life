@@ -59,5 +59,5 @@ class ProfilePageTest(FunctionalTest):
             year='2006',
             name='Test Name'
         )
-        error = self.browser.find_element_by_id('errors_year').text
+        error = self.browser.find_element_by_css_selector('.errorlist').text
         self.assertEqual(EVENT_OUT_OF_RANGE_ERROR, error)

@@ -16,7 +16,7 @@ class FeedbackTest(FunctionalTest):
         self.browser.find_element_by_id('feedback').click()
 
         # They are taken to the feedback page.
-        heading = self.browser.find_element_by_tag_name('h2').text
+        heading = self.browser.find_element_by_css_selector('.container__text--heading').text
         self.assertEqual(heading, 'Time of Your Life is a work in progress')
 
         # They see a subject box, a message box and an email box.
@@ -33,7 +33,7 @@ class FeedbackTest(FunctionalTest):
         self.browser.find_element_by_id('id_submit').click()
 
         # They see a message thanking them for their feedback.
-        message = self.browser.find_element_by_css_selector('.message').text
+        message = self.browser.find_element_by_css_selector('.banner__message').text
         self.assertEqual(message, FEEDBACK_MESSAGE)
 
     def test_feedback_not_authenticated(self, mock_notification):
@@ -41,7 +41,7 @@ class FeedbackTest(FunctionalTest):
         self.browser.find_element_by_id('feedback').click()
 
         # They are taken to the feedback page.
-        heading = self.browser.find_element_by_tag_name('h2').text
+        heading = self.browser.find_element_by_css_selector('.container__text--heading').text
         self.assertEqual(heading, 'Time of Your Life is a work in progress')
 
         # They see a subject box, a message box and an email box.
@@ -58,5 +58,5 @@ class FeedbackTest(FunctionalTest):
         self.browser.find_element_by_id('id_submit').click()
 
         # They see a message thanking them for their feedback.
-        message = self.browser.find_element_by_css_selector('.message').text
+        message = self.browser.find_element_by_css_selector('.banner__message').text
         self.assertEqual(message, 'Thanks for your feedback!')

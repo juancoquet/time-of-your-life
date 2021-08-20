@@ -15,8 +15,8 @@ class ContactTest(FunctionalTest):
         self.browser.find_element_by_id('contact').click()
 
         # They are taken to the contact page.
-        heading = self.browser.find_element_by_tag_name('h2').text
-        self.assertEqual(heading, "Don't be shy")
+        heading = self.browser.find_element_by_css_selector('.container__text--heading').text
+        self.assertEqual(heading, "Don't be shy...")
 
         # They see a subject box, a message box and an email box
         subject = self.browser.find_element_by_id('id_subject')
@@ -32,7 +32,7 @@ class ContactTest(FunctionalTest):
         self.browser.find_element_by_id('id_submit').click()
 
         # They see a message letting them know that their message was sent.
-        message = self.browser.find_element_by_css_selector('.message').text
+        message = self.browser.find_element_by_css_selector('.banner__message').text
         self.assertEqual(message, "Sent!")
 
 
@@ -44,8 +44,8 @@ class ContactTest(FunctionalTest):
         self.browser.find_element_by_id('contact').click()
 
         # They are taken to the contact page.
-        heading = self.browser.find_element_by_tag_name('h2').text
-        self.assertEqual(heading, "Don't be shy")
+        heading = self.browser.find_element_by_css_selector('.container__text--heading').text
+        self.assertEqual(heading, "Don't be shy...")
 
         # They see a subject box, a message box and an email box
         subject = self.browser.find_element_by_id('id_subject')
@@ -61,5 +61,5 @@ class ContactTest(FunctionalTest):
         self.browser.find_element_by_id('id_submit').click()
 
         # They see a message letting them know that their message was sent.
-        message = self.browser.find_element_by_css_selector('.message').text
+        message = self.browser.find_element_by_css_selector('.banner__message').text
         self.assertEqual(message, "Message sent")

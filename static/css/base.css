@@ -267,6 +267,7 @@ textarea:focus::placeholder {
 .errorlist {
     color: #8F1A2E;
     list-style-type: none;
+    font-family: 'Raleway', sans-serif;
 }
 
 .errorlist-container {
@@ -737,6 +738,34 @@ nav .logo__tyl--small {
 
 .text--accent {
     color: var(--accent-clr);
+}
+
+
+.more-info__heading {
+    margin-bottom: 0.8rem;
+}
+
+.socials {
+    list-style-type: none;
+    align-self: flex-start;
+    margin-left: 1.6rem;
+    margin-bottom: 6.4rem;
+}
+
+.socials__item {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.socials-text {
+    font-size: 1.6rem;
+    color: var(--main-clr);
+    margin-left: 1.6rem;
+}
+
+.icon {
+    width: 20px;
+    vertical-align: bottom;
+    margin-right: 1.6rem;
 }
 
 

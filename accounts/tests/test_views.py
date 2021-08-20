@@ -20,8 +20,8 @@ class SignupViewTest(TestCase):
     def test_form_fields_are_present(self):
         response = self.client.get('/accounts/signup/')
         self.assertEqual(
-            response.content.decode().count('class="form_field"'),
-            6)
+            response.content.decode().count('class="input'),
+            8)
 
     def test_username_required(self):
         response = self.client.post('/accounts/signup/',
@@ -45,48 +45,6 @@ class SignupViewTest(TestCase):
                                         'day': '01',
                                         'month': '12',
                                         'year': '1995',
-                                        'password1': 'testpass123',
-                                        'password2': 'testpass123'
-                                    }
-                                    )
-        self.assertContains(response, 'This field is required')
-
-    def test_day_required(self):
-        response = self.client.post('/accounts/signup/',
-                                    data={
-                                        'username': 'testuser',
-                                        'email': 'test@email.com',
-                                        'name': 'juan',
-                                        'month': '12',
-                                        'year': '1995',
-                                        'password1': 'testpass123',
-                                        'password2': 'testpass123'
-                                    }
-                                    )
-        self.assertContains(response, 'This field is required')
-
-    def test_month_required(self):
-        response = self.client.post('/accounts/signup/',
-                                    data={
-                                        'username': 'testuser',
-                                        'email': 'test@email.com',
-                                        'name': 'juan',
-                                        'day': '01',
-                                        'year': '1995',
-                                        'password1': 'testpass123',
-                                        'password2': 'testpass123'
-                                    }
-                                    )
-        self.assertContains(response, 'This field is required')
-
-    def test_year_required(self):
-        response = self.client.post('/accounts/signup/',
-                                    data={
-                                        'username': 'testuser',
-                                        'email': 'test@email.com',
-                                        'name': 'juan',
-                                        'day': '01',
-                                        'month': '12',
                                         'password1': 'testpass123',
                                         'password2': 'testpass123'
                                     }

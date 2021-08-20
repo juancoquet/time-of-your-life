@@ -16,7 +16,7 @@ class NewUserTest(FunctionalTest):
         sign_up.click()
         self.assertEqual(
             self.browser.find_element_by_tag_name('h2').text,
-            'Sign up'
+            'Create an account'
         )
 
         # They see a form with the fields username, email, date of birth and password.
@@ -122,7 +122,7 @@ class NewUserTest(FunctionalTest):
         # They click the visible edit button inside the tooltip and it takes them to a page
         # where they can update the event information.
         sleep(2)
-        edit = self.browser.find_element_by_css_selector('.edit')
+        edit = self.browser.find_elements_by_css_selector('.tooltip__link')[0]
         self.actions.move_to_element(
             event).move_to_element(edit).click().perform()
 
@@ -145,7 +145,8 @@ class NewUserTest(FunctionalTest):
         year_input.send_keys('2004')
         self.browser.find_element_by_css_selector('.button-submit').click()
 
-        heading = self.browser.find_element_by_tag_name('h2').text
+        heading = self.browser.find_element_by_css_selector(
+            '.container__heading--left').text
         self.assertEqual(heading, 'Your Life Calendar')
 
         # They decide to add another event, in the future this time.
@@ -186,7 +187,8 @@ class NewUserTest(FunctionalTest):
         self.actions.move_to_element(event).perform()
 
         sleep(2)
-        delete = self.browser.find_element_by_css_selector('.delete')
+        delete = self.browser.find_elements_by_css_selector('.tooltip__link')[
+            1]
         self.actions.move_to_element(
             event).move_to_element(delete).click().perform()
 
@@ -198,7 +200,8 @@ class NewUserTest(FunctionalTest):
         # They click the delete button to confirm, and are taken back to the dashboard.
         self.browser.find_element_by_css_selector(
             '.btn.button-delete').click()
-        heading = self.browser.find_element_by_tag_name('h2').text
+        heading = self.browser.find_element_by_css_selector(
+            '.container__heading--left').text
         self.assertEqual('Your Life Calendar', heading)
 
         # The deleted event no longer appears.

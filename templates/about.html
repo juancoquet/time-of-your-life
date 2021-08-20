@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
@@ -43,6 +44,27 @@
         resource you have — start that diet, quit that job you hate, go on that trip you’ve been dreaming of, ask that girl 
         out, change up your wardrobe... and for goodness’ sake call your mother once in a while — she’s worried sick.
       </p>
+      <h2 class="container__text--left text--block--h2 more-info__heading">More info</h2>
+      <p class="container__text--left">
+        The idea for Time of Your Life came from an article titled <a class="link" href="https://waitbutwhy.com/2014/05/life-weeks.html" target="_blank">Your Life In Weeks</a>, written by Tim Urban on his blog <a class="link" href="http://waitbutwhy.com/" target="_blank">Wait But Why</a>. After reading the article I wanted an interactive version of a Life Calendar, so I built the first iteration of Time of Your Life with plans to add more features over time.
+      </p>
+      <p class="container__text--left">
+         I highly recommend that you read the original article, as well as pretty much every other post on Wait But Why — they’re all very entertaining think pieces.
+      </p>
+      <p class="container__text--left">
+        Time of Your Life was written with Python (Django) and some light JavaScript. The source code can be found on my GitHub page — <a class="link" href="https://github.com/juancoquet/time-of-your-life.git" taget="_blank">https://github.com/juancoquet/time-of-your-life.git</a>
+      </p>
+      <p class="container__text--left">
+        Follow me:
+      </p>
+        <ul class="socials">
+          <li class="socials__item">
+            <a class="link" href="https://instagram.com/juan_coquet" target="_blank"><img class="icon" src="{% static '/images/ig-logo.png' %}" />@juan_coquet</a>
+          </li>
+          <li class="socials__item">
+            <a class="link" href="https://twitter.com/juancoquet" target="_blank"><img src="{% static '/images/twitter-logo.png' %}" alt="Twitter" class="icon">@juancoquet</a><span class="socials-text">(I never tweet, but maybe one day...)</span>
+          </li>
+        </ul>
     </div>
   </section>
 

@@ -11,12 +11,12 @@ class NewVisitorTest(FunctionalTest):
 
         # They notice that the page header and title are "Time of Your Life"
         header_text = self.browser.find_element_by_tag_name('h1').text
-        self.assertEqual(header_text, "Time of Your Life")
+        self.assertEqual(header_text, "TIME of YOUR LIFE")
         self.assertEqual(self.browser.title, 'Time of Your Life')
 
         # They are greeted by a brief explanation of what the web app does.
         description = self.browser.find_element_by_id('site-description').text
-        self.assertIn("bird's eye view of your life", description)
+        self.assertIn("View the current week of your life", description)
 
         # After reading the explanation, they see a prompt to enter their date of birth.
         self.browser.find_element_by_id('id_day')
@@ -41,7 +41,7 @@ class NewVisitorTest(FunctionalTest):
         # Getting elements again as page refreshed and old elements are now stale
         self.add_dob(day='01', month='12', year='1995')
         self.assertEqual(
-            self.browser.find_element_by_tag_name('h2').text,
+            self.browser.find_element_by_css_selector('.container__heading--left').text,
             'Your Life Calendar'
         )
         self.assertEqual(
@@ -108,8 +108,8 @@ class NewVisitorTest(FunctionalTest):
         self.assertEqual(len(all_weeks), 52*90)
 
         # After viewing their life calendar for a while, they click the page title and it takes them home.
-        header = self.browser.find_element_by_link_text('Time of Your Life')
-        header.click()
+        logo = self.browser.find_element_by_id('home')
+        logo.click()
         self.assertEqual(self.browser.current_url, self.live_server_url + '/')
 
     def test_about_page(self):
@@ -117,5 +117,5 @@ class NewVisitorTest(FunctionalTest):
         self.browser.find_element_by_id('about').click()
 
         # They are taken to the About page, where they can read more information.
-        heading = self.browser.find_element_by_tag_name('h1').text
-        self.assertEqual(heading, 'About')
+        heading = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('Counting the remaining weeks of your life', heading)
