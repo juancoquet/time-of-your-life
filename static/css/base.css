@@ -512,7 +512,8 @@ nav .logo__tyl--small {
         background-color: transparent;
     }
 
-    .nav-links__link {
+    .nav-links__link,
+    .nav__btn {
         display: block;
         margin-top: 0;
         margin-bottom: 0;
@@ -520,7 +521,11 @@ nav .logo__tyl--small {
     }
 
     .nav-links__link.profile {
-        padding-right: 0;
+        padding: 0;
+    }
+
+    .nav__btn {
+        padding: 1.6rem 0;
     }
 
     .nav-links__link--logo {
@@ -1341,6 +1346,10 @@ input[type=number] {
         margin: 0;
     }
 
+    .container--form {
+        margin-bottom: 4.8rem;
+    }
+
     .banner__container-left {
         margin-bottom: 1.6rem;
         text-align: center;
@@ -1385,8 +1394,19 @@ input[type=number] {
         --week-size: 7px;
     }
 
-    .labels--horizontal--preview,
     .labels--horizontal {
+        margin-bottom: 4px;
+
+        /* Safari only */
+        -webkit-margin-start: 1px;
+        -webkit-margin-after: 5px;
+    }
+
+    .labels--vertical {
+        margin-top: 2px;
+    }
+
+    .labels--horizontal--preview {
         margin-left: 4px;
         margin-bottom: 4px;
     }
@@ -1415,8 +1435,7 @@ input[type=number] {
         top: -1px;
     }
 
-    .labels--horizontal--preview,
-    .labels--horizontal {
+    .labels--horizontal--preview {
         margin-left: 6px;
         margin-bottom: 5px;
     }
@@ -1469,6 +1488,10 @@ input[type=number] {
     .labels--horizontal--preview,
     .labels--horizontal {
         margin-bottom: 2px;
+
+        /* Safari only */
+        -webkit-margin-after: 1px;
+        -webkit-margin-start: 0;
     }
 
     .logo-big__logo-of {
@@ -1538,6 +1561,14 @@ input[type=number] {
         border-width: 2.8px 0;
         line-height: 9px;
         margin-top: -3.5px;
+    }
+
+    .labels--horizontal--preview,
+    .labels--horizontal {
+        margin-bottom: 3px;
+
+        /* Safari only */
+        -webkit-margin-after: 2px;
     }
 
 }
