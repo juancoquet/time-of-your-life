@@ -12,6 +12,8 @@ services:
         depends_on:
             - db
             - selenium
+        environment:
+            - 'DJANGO_DEBUG=True'
     db:
         image: postgres:13
         volumes:
