@@ -1,8 +1,9 @@
 from datetime import date
+from timeofyourlife_v1.settings import STATICFILES_STORAGE
 from django.urls.base import resolve
 from countdown.models import UserEvent
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from unittest.case import skip
 
@@ -11,6 +12,7 @@ from accounts.forms import CustomUserChangeForm, FUTURE_DOB_ERROR, PAST_DOB_ERRO
 User = get_user_model()
 
 
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 class SignupViewTest(TestCase):
 
     def test_signup_page_uses_signup_template(self):
@@ -147,6 +149,8 @@ class SignupViewTest(TestCase):
         self.assertEqual(User.objects.first().dob, date(1995, 12, 1))
 
 
+
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 class ProfileViewTest(TestCase):
 
     def setUp(self):

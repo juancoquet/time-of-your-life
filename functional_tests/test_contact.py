@@ -33,13 +33,13 @@ class ContactTest(FunctionalTest):
 
         # They see a message letting them know that their message was sent.
         message = self.browser.find_element_by_css_selector('.banner__message').text
-        self.assertEqual(message, "Sent!")
+        self.assertEqual(message, "Message sent")
 
 
 @patch('contact.models.Contact.send_notification')
-class ContactTest(FunctionalTest):
+class UnauthContactTest(FunctionalTest):
 
-    def test_contact_authenticated(self, mock_notification):
+    def test_contact_unauthenticated(self, mock_notification):
         # A new visitor clicks the contact link in the navbar.
         self.browser.find_element_by_id('contact').click()
 

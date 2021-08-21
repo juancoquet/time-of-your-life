@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django.test import override_settings
 import os
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
@@ -8,6 +9,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.firefox.options import Options
 
 
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 class FunctionalTest(StaticLiveServerTestCase):
     host = 'web'
 

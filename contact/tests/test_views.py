@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from unittest.mock import patch
 
@@ -9,6 +9,7 @@ from contact.models import Contact, Feedback
 User = get_user_model()
 
 
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 @patch('contact.models.Feedback.send_notification')
 class FeedbackViewTest(TestCase):
 
@@ -82,6 +83,8 @@ class FeedbackViewTest(TestCase):
         self.assertEqual(feedback.email, 'my@email.com')
 
 
+
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 @patch('contact.models.Contact.send_notification')
 class ContactViewTest(TestCase):
 

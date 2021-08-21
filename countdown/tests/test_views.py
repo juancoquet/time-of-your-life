@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 from django.http import response
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls.base import reverse
 
 from countdown.forms import (DOBForm, EventForm, INVALID_DATE_ERROR, UserEventForm,
@@ -16,6 +16,7 @@ from countdown.models import UserEvent
 User = get_user_model()
 
 
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 class HomePageTest(TestCase):
 
     def test_extends_base_html(self):
@@ -77,6 +78,7 @@ class HomePageTest(TestCase):
         self.assertRedirects(response, reverse('dashboard'))
 
 
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 class GridViewTest(TestCase):
 
     def test_extends_base_html(self):
@@ -189,6 +191,7 @@ class GridViewTest(TestCase):
         self.assertContains(response, INVALID_DATE_ERROR)
 
 
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 class DashboardViewTest(TestCase):
 
     def setUp(self) -> None:
@@ -336,6 +339,7 @@ class DashboardViewTest(TestCase):
         self.assertContains(response, INVALID_DATE_ERROR)
 
 
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 class EventUpdateViewTest(TestCase):
 
     def setUp(self):
@@ -426,6 +430,7 @@ class EventUpdateViewTest(TestCase):
         self.assertEqual(response.status_code, 302)
 
 
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 class EventDeleteViewTest(TestCase):
 
     def setUp(self):
