@@ -11,6 +11,8 @@ django-allauth = "==0.43.0"
 django-livereload-server = "*"
 django-widget-tweaks = "*"
 environs = {version = "==8.0.0", extras = ["django"]}
+whitenoise = "==5.1.0"
+gunicorn = "==20.0.4"
 
 [dev-packages]
 

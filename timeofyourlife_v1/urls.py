@@ -21,7 +21,7 @@ from countdown import views as countdown_views
 from .views import about
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('toyl-admin/', admin.site.urls),
 
     # djagno-allauth
     path('accounts/', include('allauth.urls')),

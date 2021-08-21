@@ -3,7 +3,8 @@ version: '3.8'
 services:
     web:
         build: .
-        command: python /timeofyourlife_v1/manage.py runserver 0.0.0.0:8000
+        # command: python /timeofyourlife_v1/manage.py runserver 0.0.0.0:8000
+        command: gunicorn timeofyourlife_v1.wsgi -b 0.0.0.0:8000
         volumes:
             - .:/timeofyourlife_v1
         ports:
@@ -14,6 +15,12 @@ services:
             - selenium
         environment:
             - 'DJANGO_DEBUG=True'
+            - 'DJANGO_SECURE_SSL_REDIRECT=False'
+            - 'DJANGO_SECURE_HSTS_SECONDS=0'
+            - 'DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=False'
+            - 'DJANGO_SECURE_HSTS_PRELOAD=False'
+            - 'DJANGO_SESSION_COOKIE_SECURE=False'
+            - 'DJANGO_CSRF_COOKIE_SECURE=False'
     db:
         image: postgres:13
         volumes:
