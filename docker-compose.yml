@@ -3,8 +3,8 @@ version: '3.8'
 services:
     web:
         build: .
-        command: python /timeofyourlife_v1/manage.py runserver 0.0.0.0:8000
-        # command: gunicorn timeofyourlife_v1.wsgi -b 0.0.0.0:8000
+        # command: python /timeofyourlife_v1/manage.py runserver 0.0.0.0:8000
+        command: gunicorn timeofyourlife_v1.wsgi -b 0.0.0.0:8000
         volumes:
             - .:/timeofyourlife_v1
         ports:
