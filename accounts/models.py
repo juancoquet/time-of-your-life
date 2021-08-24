@@ -45,7 +45,7 @@ class CustomUser(AbstractUser):
         null=False
     )
 
-    REQUIRED_FIELDS = ['dob', 'email']
+    REQUIRED_FIELDS = ['dob', 'email', 'day', 'month', 'year']
 
     ###############
     ### Mehtods ###
