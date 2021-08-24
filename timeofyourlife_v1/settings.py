@@ -10,13 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-from .my_secrets import (
-    DJANGO_SECRET_KEY,
-    MY_EMAIL_HOST,
-    MY_EMAIL_HOST_USER,
-    MY_EMAIL_HOST_PASSWORD,
-    MY_EMAIL_PORT,
-)
 from pathlib import Path
 import os
 
@@ -25,6 +18,19 @@ from environs import Env
 env = Env()
 env.read_env()
 
+try:
+    from .my_secrets import (
+        MY_EMAIL_HOST,
+        MY_EMAIL_HOST_USER,
+        MY_EMAIL_HOST_PASSWORD,
+        MY_EMAIL_PORT,
+    )
+except ModuleNotFoundError:
+    MY_EMAIL_HOST = env('MY_EMAIL_HOST')
+    MY_EMAIL_HOST_USER = env('MY_EMAIL_HOST_USER')
+    MY_EMAIL_HOST_PASSWORD = env('MY_EMAIL_HOST_PASSWORD')
+    MY_EMAIL_PORT = env.int('MY_EMAIL_PORT')
+    
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

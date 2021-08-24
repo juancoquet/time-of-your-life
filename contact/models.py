@@ -4,9 +4,22 @@ import smtplib
 from email.message import EmailMessage
 
 from accounts.models import CustomUser
-from timeofyourlife_v1.my_secrets import (GMAIL, GMAIL_PASS, MY_EMAIL_HOST,
-                                          MY_EMAIL_HOST, MY_EMAIL_HOST_USER,
-                                          MY_EMAIL_HOST_PASSWORD, MY_EMAIL_PORT)
+
+from environs import Env
+
+env = Env()
+env.read_env()
+
+try:
+    from timeofyourlife_v1.my_secrets import (GMAIL, MY_EMAIL_HOST, MY_EMAIL_HOST_USER,
+                                            MY_EMAIL_HOST_PASSWORD, MY_EMAIL_PORT)
+except ModuleNotFoundError:
+    MY_EMAIL_HOST = env('MY_EMAIL_HOST')
+    MY_EMAIL_HOST_USER = env('MY_EMAIL_HOST_USER')
+    MY_EMAIL_HOST_PASSWORD = env('MY_EMAIL_HOST_PASSWORD')
+    MY_EMAIL_PORT = env.int('MY_EMAIL_PORT')
+    GMAIL = env('GMAIL')
+    
 
 
 class Feedback(models.Model):
