@@ -4,7 +4,7 @@ const calendar = document.querySelector('.calendar');
 
 window.addEventListener('DOMContentLoaded', contentPosition);
 window.addEventListener('resize', contentPosition);
-window.addEventListener('DOMContentLoaded', buildModal);
+// window.addEventListener('DOMContentLoaded', buildModal);
 window.addEventListener('DOMContentLoaded', tapPresentWeek);
 
 
@@ -47,20 +47,20 @@ function contentPosition(){
 const eventWeeks = document.querySelectorAll('.week.event');
 const closeBtns = document.querySelectorAll('.close-button');
 
-function buildModal() {
-    eventWeeks.forEach(eventWeek => {
-        eventWeek.addEventListener('touchend', function() {
-            var modal = document.querySelector('#modal-bg-' + eventWeek.id);
-            modal.style.display = 'flex';
+// function buildModal() {
+//     eventWeeks.forEach(eventWeek => {
+//         eventWeek.addEventListener('touchend', function() {
+//             var modal = document.querySelector('#modal-bg-' + eventWeek.id);
+//             modal.style.display = 'flex';
             
-            var closeBtn = modal.querySelector('.close-button')
-            closeBtn.addEventListener('touchend', function() {
-                modal.style.display = 'none'
-            })
+//             var closeBtn = modal.querySelector('.close-button')
+//             closeBtn.addEventListener('touchend', function() {
+//                 modal.style.display = 'none'
+//             })
             
-        })
-    })
-}
+//         })
+//     })
+// }
 
 const presentWeek = document.querySelectorAll('.week.present');
 
