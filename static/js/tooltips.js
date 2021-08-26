@@ -3,9 +3,9 @@ const fullDiv = document.querySelector('.calendar');
 const calendar = document.querySelector('.calendar');
 
 window.addEventListener('DOMContentLoaded', contentPosition);
-window.addEventListener('resize', contentPosition);
+// window.addEventListener('resize', contentPosition);
 // window.addEventListener('DOMContentLoaded', buildModal);
-window.addEventListener('DOMContentLoaded', tapPresentWeek);
+// window.addEventListener('DOMContentLoaded', tapPresentWeek);
 window.addEventListener('DOMContentLoaded', calculatePositionOnTap);
 window.addEventListener('DOMContentLoaded', calculatePositionOnHover);
 
