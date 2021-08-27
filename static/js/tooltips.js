@@ -135,38 +135,3 @@ const closeBtns = document.querySelectorAll('.close-button');
 //         })
 //     })
 // }
-
-// const presentWeek = document.querySelectorAll('.week.present');
-
-// function tapPresentWeek() {
-//     presentWeek.forEach(week => {
-//         week.addEventListener('touchend', function tap() {
-//             console.log('tapped');
-
-
-//             week.style.transform = 'scale(2)';
-//             week.classList.add('hide-pulse');
-//             weekNum = week.querySelector('.week__number');
-//             weekNum.style.fontSize = '0.4rem';
-//             weekNum.style.visibility = 'visible';
-
-
-
-//             setTimeout(function (){
-//                 week.removeEventListener('touchend', tap);
-//                 document.addEventListener('touchend', function remove() {
-//                     console.log('scale down');
-
-
-//                     week.style.transform = 'scale(1)';
-//                     week.classList.remove('hide-pulse')
-//                     weekNum.style.fontSize = '0.1rem';
-//                     weekNum.style.visibility = 'hidden';
-
-
-//                     document.removeEventListener('touchend', remove);
-//                     week.addEventListener('touchend', tap);
-//                 })}, 500);
-//         })
-//     })
-// }
