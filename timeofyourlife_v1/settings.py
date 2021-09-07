@@ -46,7 +46,7 @@ SECRET_KEY = env("DJANGO_SECRET_KEY", default=False)
 DEBUG = env.bool('DJANGO_DEBUG', default=False)
 
 ALLOWED_HOSTS = ['.herokuapp.com', 'localhost', '127.0.0.1',
-                 'timeofyourlife.herokuapp.com', 'timeofyourlife.io']
+                 'timeofyourlife.herokuapp.com', 'timeofyourlife.io', 'www.timeofyourlife.io',]
 # ALLOWED_HOSTS = ['*']
 
 
