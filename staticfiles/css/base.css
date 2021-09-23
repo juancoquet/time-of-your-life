@@ -1520,7 +1520,11 @@ input[type=number] {
 
         /* Safari only */
         -webkit-margin-after: 1px;
-        -webkit-margin-start: 0;
+        -webkit-margin-start: 0px;
+    }
+
+    .labels--horizontal--preview {
+        -webkit-margin-start: 6px;
     }
 
     .logo-big__logo-of {
