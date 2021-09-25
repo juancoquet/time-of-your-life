@@ -1496,8 +1496,8 @@ input[type=number] {
     }
 
     .week__number {
-        top: -1px;
-        left: -0.5px;
+        top: -2px;
+        left: 1px;
     }
 
     .labels--horizontal--preview,
