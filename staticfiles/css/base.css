@@ -1492,6 +1492,7 @@ input[type=number] {
 
     .week.event {
         /* z-index: 3; */
+        font-size: 0;
     }
 
     .week__number {
