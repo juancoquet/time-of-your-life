@@ -5,9 +5,10 @@
 <div class="container--col container--width">
   <form class="container--col container--form neumorphism neumorphism--bg card card--margin-top" method="post">
     
+    <input type="text" autofocus="autofocus" style="display:none" /> <!-- to prevent username autofocus -->
+
     <h2 class="card__heading--margin-bottom">Create an account</h2>
     {% csrf_token %}
-
     {{ form.username }}
     {{ form.email }}
     {{ form.first_name }}
