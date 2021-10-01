@@ -6,3 +6,8 @@ my_secrets.py
 my_notes/
 docker-compose-prod.yml
 mysite.log
+
+### Python ###
+# Byte-compiled / optimized
+__pycache__/
+*.py[co]
