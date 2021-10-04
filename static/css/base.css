@@ -1404,6 +1404,13 @@ input[type=number] {
         font-size: 0;
     }
 
+    .banner__container-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-right: 0;
+    }
+
 }
 
 @media only screen and (max-width: 675px) {
