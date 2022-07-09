@@ -5,7 +5,6 @@ error_capture
 my_secrets.py
 _my_secrets.py
 my_notes/
-docker-compose-prod.yml
 mysite.log
 postgres_data/
 *.dump
