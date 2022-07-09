@@ -26,10 +26,10 @@ try:
         MY_EMAIL_PORT,
     )
 except ModuleNotFoundError:
-    MY_EMAIL_HOST = env('MY_EMAIL_HOST')
-    MY_EMAIL_HOST_USER = env('MY_EMAIL_HOST_USER')
-    MY_EMAIL_HOST_PASSWORD = env('MY_EMAIL_HOST_PASSWORD')
-    MY_EMAIL_PORT = env.int('MY_EMAIL_PORT')
+    MY_EMAIL_HOST = os.environ.get('MY_EMAIL_HOST')
+    MY_EMAIL_HOST_USER = os.environ.get('MY_EMAIL_HOST_USER')
+    MY_EMAIL_HOST_PASSWORD = os.environ.get('MY_EMAIL_HOST_PASSWORD')
+    MY_EMAIL_PORT = int(os.environ.get('MY_EMAIL_PORT'))
     
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

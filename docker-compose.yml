@@ -20,6 +20,12 @@ services:
             - selenium
         environment:
             - 'DJANGO_SECRET_KEY=devsecretkey'
+            - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+            - MY_EMAIL_HOST=${MY_EMAIL_HOST}
+            - MY_EMAIL_HOST_PASSWORD=${MY_EMAIL_HOST_PASSWORD}
+            - MY_EMAIL_HOST_USER=${MY_EMAIL_HOST_USER}
+            - MY_EMAIL_PORT=${MY_EMAIL_PORT}
+            - GMAIL=${GMAIL}
             - 'DJANGO_DEBUG=1'
             - 'DJANGO_SECURE_SSL_REDIRECT=False'
             - 'DJANGO_SECURE_HSTS_SECONDS=0'
