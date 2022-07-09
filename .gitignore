@@ -6,6 +6,9 @@ my_secrets.py
 my_notes/
 docker-compose-prod.yml
 mysite.log
+postgres_data/
+*.dump
+staticfiles_test/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

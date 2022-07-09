@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 
-from environs import Env
+from environs import Env # type: ignore
 
 env = Env()
 env.read_env()
@@ -43,12 +43,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env("DJANGO_SECRET_KEY", default=False)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool('DJANGO_DEBUG', default=False)
+DEBUG = bool(int(os.environ.get("DJANGO_DEBUG", default=0)))
 
 ALLOWED_HOSTS = ['.herokuapp.com', 'localhost', '127.0.0.1',
                  'timeofyourlife.herokuapp.com', 'timeofyourlife.io', 'www.timeofyourlife.io',]
-# ALLOWED_HOSTS = ['*']
-
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS.extend(
+    filter(
+        None,
+        os.environ.get('ALLOWED_HOSTS', '').split(','),
+    )
+)
 
 # Application definition
 
@@ -68,6 +73,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'widget_tweaks',
 
+    'wait_for_db',
     'accounts',
     'contact',
 ]
@@ -130,8 +136,14 @@ WSGI_APPLICATION = 'timeofyourlife_v1.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': env.dj_db_url("DATABASE_URL",
-                             default="postgres://postgres@db/postgres")
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': 'db',
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'PORT': 5432,
+    }
 }
 
 
@@ -172,16 +184,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (str(BASE_DIR.joinpath('static')),)
-STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+STATIC_ROOT = '/vol/web/static_prod/'
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
