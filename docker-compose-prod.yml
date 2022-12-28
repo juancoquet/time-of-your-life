@@ -25,6 +25,7 @@ services:
       - "DB_NAME=postgres"
       - "DB_USER=postgres"
       - "DB_PASSWORD=postgres"
+      - "DB_PORT=${DB_PORT}"
   db:
     image: postgres:13
     restart: always
@@ -36,7 +37,7 @@ services:
       - "POSTGRES_USER=postgres"
       - "POSTGRES_PASSWORD=postgres"
     ports:
-      - "5432:5432"
+      - ${DB_PORT}:5432
   proxy:
     build:
       context: ./nginx

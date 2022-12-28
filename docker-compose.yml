@@ -1,54 +1,57 @@
-version: '3.8'
+version: "3.8"
 
 services:
-    web:
-        build: .
-        # command: python /timeofyourlife_v1/manage.py runserver 0.0.0.0:8000
-        # command: gunicorn timeofyourlife_v1.wsgi -b 0.0.0.0:8000
-        command: >
-            sh -c "python manage.py wait_for_db &&
-                   python manage.py migrate &&
-                   python manage.py runserver 0.0.0.0:8000"
-        volumes:
-            - .:/timeofyourlife_v1
-            - ./staticfiles_test:/vol/web/static_prod
-        ports:
-            - 8000:8000
-            - 35729:35729
-        depends_on:
-            - db
-            - selenium
-        environment:
-            - 'DJANGO_SECRET_KEY=devsecretkey'
-            - ALLOWED_HOSTS=${ALLOWED_HOSTS}
-            - MY_EMAIL_HOST=${MY_EMAIL_HOST}
-            - MY_EMAIL_HOST_PASSWORD=${MY_EMAIL_HOST_PASSWORD}
-            - MY_EMAIL_HOST_USER=${MY_EMAIL_HOST_USER}
-            - MY_EMAIL_PORT=${MY_EMAIL_PORT}
-            - GMAIL=${GMAIL}
-            - 'DJANGO_DEBUG=1'
-            - 'DJANGO_SECURE_SSL_REDIRECT=False'
-            - 'DJANGO_SECURE_HSTS_SECONDS=0'
-            - 'DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=False'
-            - 'DJANGO_SECURE_HSTS_PRELOAD=False'
-            - 'DJANGO_SESSION_COOKIE_SECURE=False'
-            - 'DJANGO_CSRF_COOKIE_SECURE=False'
-            - 'DB_NAME=postgres'
-            - 'DB_USER=postgres'
-            - 'DB_PASSWORD=postgres'
-    db:
-        image: postgres:13
-        volumes:
-            - ./postgres_data:/var/lib/postgresql/data/
-        environment:
-            - 'POSTGRES_HOST_AUTH_METHOD=trust'
-            - 'POSTGRES_DB=postgres'
-            - 'POSTGRES_USER=postgres'
-            - 'POSTGRES_PASSWORD=postgres'
-    selenium:
-        image: selenium/standalone-firefox
-        ports: 
-            - 4444:4444
+  web:
+    build: .
+    # command: python /timeofyourlife_v1/manage.py runserver 0.0.0.0:8000
+    # command: gunicorn timeofyourlife_v1.wsgi -b 0.0.0.0:8000
+    command: >
+      sh -c "python manage.py wait_for_db &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/timeofyourlife_v1
+      - ./staticfiles_test:/vol/web/static_prod
+    ports:
+      - 8000:8000
+      - 35729:35729
+    depends_on:
+      - db
+      - selenium
+    environment:
+      - "DJANGO_SECRET_KEY=devsecretkey"
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - MY_EMAIL_HOST=${MY_EMAIL_HOST}
+      - MY_EMAIL_HOST_PASSWORD=${MY_EMAIL_HOST_PASSWORD}
+      - MY_EMAIL_HOST_USER=${MY_EMAIL_HOST_USER}
+      - MY_EMAIL_PORT=${MY_EMAIL_PORT}
+      - GMAIL=${GMAIL}
+      - "DJANGO_DEBUG=1"
+      - "DJANGO_SECURE_SSL_REDIRECT=False"
+      - "DJANGO_SECURE_HSTS_SECONDS=0"
+      - "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=False"
+      - "DJANGO_SECURE_HSTS_PRELOAD=False"
+      - "DJANGO_SESSION_COOKIE_SECURE=False"
+      - "DJANGO_CSRF_COOKIE_SECURE=False"
+      - "DB_NAME=postgres"
+      - "DB_USER=postgres"
+      - "DB_PASSWORD=postgres"
+      - "DB_PORT=${DB_PORT}"
+  db:
+    image: postgres:13
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data/
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+      - "POSTGRES_DB=postgres"
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_PASSWORD=postgres"
+    ports:
+      - ${DB_PORT}:5432
+  selenium:
+    image: selenium/standalone-firefox
+    ports:
+      - 4444:4444
 
 volumes:
-    postgres_data:
+  postgres_data:
