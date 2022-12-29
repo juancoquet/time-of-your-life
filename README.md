@@ -4,6 +4,6 @@ Time of Your Life takes a user’s date of birth and generates an interactive li
 
 Built using Python, Django, Docker, JavaScript, HTML/CSS.
 
-View live at [https://www.timeofyourlife.io/](https://www.timeofyourlife.io/){:target="\_blank"}
+View live at [https://www.timeofyourlife.io/](https://www.timeofyourlife.io/)
 
 ![Time of Your Life Screenshot](https://s3.amazonaws.com/poly-screenshots.angel.co/Project/44/1352909/9e5050f7bf73d64091c371353438e47e-original.png)
